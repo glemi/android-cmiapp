@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout 
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center_horizontal" xmlns:android="http://schemas.android.com/apk/res/android">
+
+<!--     <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:background="@color/listHeaderBackground"
+        android:gravity="center_horizontal"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        android:text="Day"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/listHeaderForeground"
+        android:textColorLink="@color/listHeaderForeground" /> -->
+
+ 	<TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/buttonsLayout"
+        android:background="@color/listHeaderBackground"
+        android:gravity="center_horizontal"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        android:text="Upcoming Reservations"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/listHeaderForeground"
+        android:textColorLink="@color/listHeaderForeground" />
+    
+	 <View
+        android:id="@+id/dropshadow"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:layout_below="@id/buttonsLayout"
+        android:background="@drawable/drop_shadow" />
+	 
+	 <View
+        android:id="@+id/separator"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/title"
+        android:background="@drawable/separator" />
+
+    <ListView
+        android:id="@+id/reservationList"
+        android:layout_below="@id/separator"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true" >
+
+    </ListView>
+    
+    <TextView
+         android:id="@+id/emptyNoSlots"
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+         android:gravity="center_vertical|center_horizontal"
+         android:text="No Slots available on this day"
+         android:textAppearance="?android:attr/textAppearanceSmall"
+         android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/emptyLoading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/scheduleList"
+        android:layout_centerVertical="true"
+        android:gravity="center_vertical|center_horizontal"
+        android:orientation="vertical"
+        android:paddingLeft="5dp" >
+       
+		<TextView
+		    android:id="@+id/loadingText"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:gravity="center_vertical|center_horizontal"
+		    android:text="    loading ..."
+		    android:textAppearance="?android:attr/textAppearanceSmall" />
+
+		<ProgressBar
+		    android:id="@+id/emptyProgress"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+</RelativeLayout>

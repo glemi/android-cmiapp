@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="ZonePhoneNumbers">
+        <item >+41 21 69 3644 1</item>
+        <item >+41 21 69 3644 2</item>
+        <item >+41 21 69 3644 3</item>
+        <item >+41 21 69 3644 4</item>
+        <item >+41 21 69 3644 5</item>
+        <item >+41 21 69 3644 6</item>
+        <item >+41 21 69 3644 7</item>
+        <item >+41 21 69 3644 8</item>
+        <item >+41 21 69 3644 9</item>
+        <item >+41 21 69 36726</item>
+        <item >+41 21 69 310 11</item>
+        <item >+41 21 69 310 12</item>
+        <item >+41 21 69 310 13</item>
+        <item >+41 21 69 310 14</item>
+        <item >+41 21 69 310 15</item>
+    </string-array>
+    
+</resources>

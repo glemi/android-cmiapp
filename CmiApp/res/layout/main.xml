@@ -1,0 +1,83 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="top"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/buttonsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp" >
+
+        <ImageButton
+            android:id="@+id/userListButton"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/hoverbutton"
+            android:onClick="showUserList"
+            android:scaleType="center"
+            android:src="@drawable/ic_users" />
+
+        <ImageButton
+            android:id="@+id/equipmentListButton"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/hoverbutton"
+            android:onClick="showEquipmentList"
+            android:src="@drawable/ic_equipment" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/buttonsLayout"
+        android:background="@color/listHeaderBackground"
+        android:gravity="center_horizontal"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        android:text="Upcoming Reservations"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/listHeaderForeground"
+        android:textColorLink="@color/listHeaderForeground" />
+    
+	 <View
+        android:id="@+id/dropshadow"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:layout_below="@id/buttonsLayout"
+        android:background="@drawable/drop_shadow" />
+	 
+	 <View
+        android:id="@+id/separator"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/title"
+        android:background="@drawable/separator" />
+	 
+    <fragment
+        android:id="@+id/reservationsFragment"
+        android:name="ch.epfl.cmiapp.fragments.ReservationsFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_below="@id/separator"
+        android:layout_gravity="top"
+        android:background="@color/listHeaderBackground"
+        tools:layout="@layout/schedule_fragment" />
+
+</RelativeLayout>

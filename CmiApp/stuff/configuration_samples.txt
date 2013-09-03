@@ -1,0 +1,118 @@
+
+<!-- LAB600H -->
+
+<table border="0" cellspacing="0" cellpadding="3" style="font-size:8pt">
+	<tr style="font-weight:bold">
+		<td width="90">&nbsp;</td>
+		<td width="80">&nbsp;</td>
+		<td width="80" onmouseover="this.style.cursor='pointer';return escape('<b>Category : </b><br><b>HRN & n-st.</b> : Higher position / Room T� / No ion source & Nanostencil<br><b>HHN</b> : Higher position / High T� / No ion source<br><b>LRN</b> : Lower position / Room T� / No ion source<br><b>LRI</b> : Lower position / Room T� / Ion source assisted deposition<br><b>LRI+N</b> : Lower position / Room T� / Ion source assisted deposition<br>');">Category</td>
+		<td width="80" onmouseover="this.style.cursor='pointer';return escape('<b>E-beam #1 : Crucible #1 - E-beam</b><br><b>Al</b> : Al [99.999%]<br><b>SiO2</b> : SiO2 [99.99%]<br><b>SiO</b> : SiO [99.9%]<br>');">E-beam #1</td>
+		<td width="80" onmouseover="this.style.cursor='pointer';return escape('<b>E-beam #2 : Crucible #2 - E-beam</b><br><b>Cr</b> : Cr [99.6%]<br><b>Ge</b> : Ge [99.999%]<br>');">E-beam #2</td>
+		<td width="80" onmouseover="this.style.cursor='pointer';return escape('<b>E-beam #3 : Crucible #3 - E-beam</b><br><b>Au</b> : Au [99.99%]<br><b>Ag</b> : Ag [99.99%]<br>');">E-beam #3</td>
+		<td width="80" onmouseover="this.style.cursor='pointer';return escape('<b>E-beam #4 : Crucible #4 - E-beam</b><br><b>Ag</b> : Ag [99.99%]<br><b>Ge</b> : Ge [99.999%]<br><b>In</b> : In [99.999%]<br><b>Mo</b> : Mo [99.95%]<br><b>Pd</b> : Pd [99.95%]<br><b>Nb</b> : Nb (+Ta) [99.9%]<br><b>Al2O3</b> : Al2O3 [99.99%]<br><b>ITO</b> : In2O3-SnO2 90:10 wt% [99.99%]<br><b>La2O3</b> : La2O3 [99.99%]<br><b>MgO</b> : MgO [99.5%]<br><b>Ni</b> : Ni [99.95%]<br><b>Ti2O3</b> : Ti2O3 [99.5%]<br><b>Ti3O5</b> : Ti3O5 [99.5%]<br><b>Y</b> : Y [99.9%]<br><b>Y2O3</b> : Y2O3 [99.99%]<br><b>ZrO2</b> : ZrO2 [99.3%]<br>');">E-beam #4</td>
+		<td width="80" onmouseover="this.style.cursor='pointer';return escape('<b>E-beam #5 : Crucible #5 - E-beam</b><br><b>Ti</b> : Ti [99.9%]<br><b>Ta</b> : Ta [99.9%]<br>');">E-beam #5</td>
+		<td width="80" onmouseover="this.style.cursor='pointer';return escape('<b>E-beam #6 : Crucible #6 - E-beam</b><br><b>Pt</b> : Pt [99.95%]<br>');">E-beam #6</td>
+	</tr>
+	<tr>
+		<td colspan="2" style="font-size:11pt;color:red">Set up your configuration</td>
+		<td>
+			<select name="list0" id="list0"  style="font-size:9px;width:91.5px">
+				<option value="0">N/A
+				<option  style="color:#0000FF;background:#FFFFFF" value="523" >HRN & n-st.
+				<option  style="color:#FF0000;background:#FFFFFF" value="524" >HHN
+				<option  style="color:#00CCFF;background:#FFFFFF" value="210" >LRN
+				<option  style="color:#FF9900;background:#FFFFFF" value="209" >LRI
+				<option  style="color:#339966;background:#FFFFFF" value="575" >LRI+N
+			</select>
+		</td>
+		<td>
+			<select name="list1" id="list1"  style="font-size:9px;width:60px">
+				<option value="0">N/A
+				<option  style="color:#000000;background:#CCFFFF" value="180" >Al
+				<option  style="color:#000000;background:#FFFF99" value="181" >SiO2
+				<option  style="color:#000000;background:#FFCC99" value="534" >SiO
+			</select>
+		</td>
+		<td>
+			<select name="list2" id="list2"  style="font-size:9px;width:60px">
+				<option value="0">N/A
+				<option  style="color:#000000;background:#CCFFCC" value="182" >Cr
+				<option  style="color:#000000;background:#33CCCC" value="568" >Ge
+			</select>
+		</td>
+		<td>
+			<select name="list3" id="list3"  style="font-size:9px;width:60px">
+				<option value="0">N/A
+				<option  style="color:#000000;background:#FFCC00" value="184" >Au
+				<option  style="color:#000000;background:#C0C0C0" value="475" >Ag
+			</select>
+		</td>
+		<td>
+			<select name="list4" id="list4"  style="font-size:9px;width:60px">
+				<option value="0">N/A
+				<option  style="color:#000000;background:#C0C0C0" value="185" >Ag
+				<option  style="color:#000000;background:#33CCCC" value="186" >Ge
+				<option  style="color:#000000;background:#00FF00" value="404" >In
+				<option  style="color:#000000;background:#FF6600" value="433" >Mo
+				<option  style="color:#000000;background:#99CC00" value="187" >Pd
+				<option  style="color:#000000;background:#99CCFF" value="461" >Nb
+				<option  style="color:#000000;background:#FFCC99" value="188" >Al2O3
+				<option  style="color:#000000;background:#008000" value="518" >ITO
+				<option  style="color:#000000;background:#008080" value="519" >La2O3
+				<option  style="color:#000000;background:#CC99FF" value="189" >MgO
+				<option  style="color:#000000;background:#33CCCC" value="617" >Ni
+				<option  style="color:#FFFFFF;background:#993366" value="520" >Ti2O3
+				<option  style="color:#FFFFFF;background:#800080" value="481" >Ti3O5
+				<option  style="color:#000000;background:#00FF00" value="616" >Y
+				<option  style="color:#000000;background:#808000" value="521" >Y2O3
+				<option  style="color:#000000;background:#FF9900" value="487" >ZrO2
+			</select>
+		</td>
+		<td>
+			<select name="list5" id="list5"  style="font-size:9px;width:60px">
+			<option value="0">N/A
+			<option  style="color:#000000;background:#00CCFF" value="192" >Ti
+			<option  style="color:#000000;background:#00FFFF" value="434" >Ta
+			</select>
+		</td>
+		<td>
+			<select name="list6" id="list6"  style="font-size:9px;width:60px">
+				<option value="0">N/A
+				<option  style="color:#000000;background:#FF99CC" value="194" >Pt
+			</select>
+		</td>
+	</tr>		
+</table>
+
+
+
+
+<table border="0" cellspacing="0" cellpadding="3" style="font-size:8pt">
+	<tr style="font-weight:bold">
+		<td width="90">&nbsp;</td>
+		<td width="80">&nbsp;</td>
+	<td width="80" onmouseover="this.style.cursor='pointer';return escape('<b>Substrate size : Default are 100 and 150 mm wafer size</b><br><b>4 or 6 inch</b> : Default configuration<br>');">Substrate size</td>
+	<td width="80" onmouseover="this.style.cursor='pointer';return escape('<b>Dispense system : Default are cybor 1 or 2</b><br><b>Cybor 1 or 2</b> : For AZ9260 and AZ1512 + Develop<br><b>Syringe LOR</b> : For AZ1512HS on LOR (DL lift-off) + develop<br><b>Syringe TI35ES</b> : For reversal image lift-off (fridge stored) + develop<br><b>Syr nLoF  1um3</b> : Image reversal 1.3 to 3.5mu<br><b>4:8:90 Spray Coating</b> : Use Spray Caoting Arm. Standard or precise PR please<br><b>4:11:90 Spray Coating</b> : Use Spray Caoting Arm. Planar<br><b>Syr nLoF  0um8</b> : Image reversal 400 to 800nm<br><b>Develope</b> : Temporaire pour maintenance<br>');">Dispense system</td>
+	</tr>
+	<tr>
+		<td colspan="2" style="font-size:11pt;color:red">Set up your configuration</td><td>
+			<select name="list0" id="list0"  style="font-size:9px;width:91.5px">
+				<option value="0">N/A
+				<option  style="color:#000000;background:#CCFFCC" value="331" >4 or 6 inch
+			</select>
+		</td>
+		<td>
+			<select name="list1" id="list1"  style="font-size:9px;width:156.5px">
+				<option value="0">N/A
+				<option  style="color:#000000;background:#CCFFCC" value="336" >Cybor 1 or 2
+				<option  style="color:#000000;background:#FFCC00" value="338" >Syringe LOR
+				<option  style="color:#000000;background:#FF99CC" value="339" >Syringe TI35ES
+				<option  style="color:#FFFFFF;background:#993300" value="341" >Syr nLoF  1um3
+				<option  style="color:#FFFFFF;background:#FF0000" value="476" >4:8:90 Spray Coating
+				<option  style="color:#FF6600;background:#99CC00" value="569" >4:11:90 Spray Coating
+				<option  style="color:#FFFFFF;background:#993300" value="573" >Syr nLoF  0um8
+				<option  style="color:#3366FF;background:#FFFFFF" value="621" >Develope
+			</select>
+		</td>
+	</tr>		
+</table>

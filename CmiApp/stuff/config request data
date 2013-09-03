@@ -1,0 +1,268 @@
+
+ login=cnyffeler
+&password=clemens
+&privilege=simple
+&myresnl=0
+&sdays=22
+&ID_Machine=mach126
+&detper=1364333214
+&list0=0
+&list1=0
+&resaddbut=Reservation+and+config.+request
+&mode=calendar
+
+
+
+ login=cnyffeler
+&password=clemens
+&privilege=simple
+&myresnl=0
+&sdays=22
+&ID_Machine=mach126
+&detper=1364333248
+&list0=331
+&list1=338
+&resaddbut=Reservation+and+config.+request
+&mode=calendar
+
+*** Click on an available item (use given configuration) *** 
+ login=cnyffeler
+&password=clemens
+&privilege=simple
+&myaction=R
+&myresnl=0
+&mt_resdat=
+&myresdat=2013-04-24+08%3A30%3A00
+&mycreatedat=
+&sdays=22
+&ID_Machine=mach126
+&Lots=
+&Blocks=
+&detper=1364333383
+&list0=331
+&list1=338
+&mode=calendar
+
+*** Delete the reserved item (use given configuration) *** 
+login=cnyffeler
+&password=clemens
+&privilege=simple
+&myaction=D
+&myresnl=0
+&mt_resdat=
+&myresdat=2013-04-24+08%3A30%3A00
+&mycreatedat=
+&sdays=22
+&ID_Machine=mach126
+&Lots=
+&Blocks=
+&detper=1364333565
+&list0=331
+&list1=338
+&mode=calendar
+
+
+*** make config request on single slot ****
+login=cnyffeler
+&password=clemens
+&privilege=simple
+&myaction=
+&myresnl=0
+&mt_resdat=
+&myresdat=
+&mycreatedat=
+&sdays=22
+&ID_Machine=mach126
+&Lots=
+&Blocks=
+&detper=1364333575
+&list0=331
+&list1=338
+&configbut=Submit+the+config.+request
+&conf_date%5B%5D=2013-04-24+10%3A30%3A00
+&mode=calendar
+
+
+*** displays a form to cancel or continue ***
+
+	<b>Configuration request</b><br>
+	<b>User : </b>cnyffeler<br>
+	<b>Email : </b>clemens.nyffeler@epfl.ch<br>
+	<b>Equipment : </b>Z06 EVG150 - Coater and developer system for positive resist<br>
+	<b>Requested configuration :</b><br>
+	Substrate size : 4 or 6 inch<br>
+	Dispense system : Syringe LOR<br>
+	<b>Slots :</b><br>
+	2013-04-24 10:30:00<br>
+
+	<input name="confrequest" type="hidden" value="Substrate size : 4 or 6 inch Dispense system : Syringe LOR">
+	<input name="daterequest" type="hidden" value="2013-04-24 10:30:00">
+	<input name="request" type="hidden" 
+		 value="<b>Configuration request</b>
+			<b>User : </b>cnyffeler
+			<b>Email : </b>clemens.nyffeler@epfl.ch
+			<b>Equipment : </b>Z06 EVG150 - Coater and developer system for positive resist
+			<b>Requested configuration :</b>
+			   Substrate size : 4 or 6 inch
+			   Dispense system : Syringe LOR
+			<b>Slots :</b>	2013-04-24 10:30:00">
+
+	<input type="submit" name="confokbut" value="Continue" style="width:100px;font-size:9pt;">
+	<input type="submit" name="confcancelbut" value="Cancel" style="width:100px;font-size:9pt;">
+	<input name="mode" type="hidden" value="calendar">
+</form>
+
+
+*** if cancel is pressed ***
+login=cnyffeler
+&password=clemens
+&privilege=simple
+&myaction=
+&myresnl=0
+&mt_resdat=
+&myresdat=
+&mycreatedat=
+&sdays=22
+&ID_Machine=mach126
+&Lots=
+&Blocks=
+&detper=1364333691
+&list0=331
+&list1=338
+&confdate%5B%5D=2013-04-24+10%3A30%3A00
+&confrequest=Substrate+size+%3A+4+or+6+inch%0D%0ADispense+system+%3A+Syringe+LOR%0D%0A
+&daterequest=2013-04-24+10%3A30%3A00%0D%0A
+&request=%3Cb%3EConfiguration+request%3C%2Fb%3E%0D%0A%3Cb%3EUser+%3A+%3C%2Fb%3Ecnyffeler%0D%0A%3Cb%3EEmail+%3A+%3C%2Fb%3Eclemens.nyffeler%40epfl.ch%0D%0A%3Cb%3EEquipment+%3A+%3C%2Fb%3EZ06+EVG150+-+Coater+and+developer+system+for+positive+resist%0D%0A%3Cb%3ERequested+configuration+%3A%3C%2Fb%3E%0D%0ASubstrate+size+%3A+4+or+6+inch%0D%0ADispense+system+%3A+Syringe+LOR%0D%0A%3Cb%3ESlots+%3A%3C%2Fb%3E%0D%0A2013-04-24+10%3A30%3A00%0D%0A
+&confcancelbut=Cancel
+&mode=calendar
+
+
+
+*** if continue is pressed ***
+login=cnyffeler
+&password=clemens
+&privilege=simple
+&myaction=
+&myresnl=0
+&mt_resdat=
+&myresdat=
+&mycreatedat=
+&sdays=22
+&ID_Machine=mach126
+&Lots=
+&Blocks=
+&detper=1364334293
+&list0=331
+&list1=338
+&confdate%5B%5D=2013-04-23+08%3A30%3A00
+&confrequest=Substrate+size+%3A+4+or+6+inch%0D%0ADispense+system+%3A+Syringe+LOR%0D%0A
+&daterequest=2013-04-23+08%3A30%3A00%0D%0A
+&request=%3Cb%3EConfiguration+request%3C%2Fb%3E%0D%0A%3Cb%3EUser+%3A+%3C%2Fb%3Ecnyffeler%0D%0A%3Cb%3EEmail+%3A+%3C%2Fb%3Eclemens.nyffeler%40epfl.ch%0D%0A%3Cb%3EEquipment+%3A+%3C%2Fb%3EZ06+EVG150+-+Coater+and+developer+system+for+positive+resist%0D%0A%3Cb%3ERequested+configuration+%3A%3C%2Fb%3E%0D%0ASubstrate+size+%3A+4+or+6+inch%0D%0ADispense+system+%3A+Syringe+LOR%0D%0A%3Cb%3ESlots+%3A%3C%2Fb%3E%0D%0A2013-04-23+08%3A30%3A00%0D%0A
+&confokbut=Continue
+&mode=calendar
+
+
+
+*** the element in the schedule table now has a question mark ***
+
+<td 
+	width="70" 
+	id="2013-04-23 08:30:00" 
+	style="background-color:FFFFFF" 
+	onmouseover="this.style.cursor='pointer';return escape('Substrate size: 4 or 6 inch<br>Dispense system: Syringe LOR <b>?</b><br>');">
+		<a href="javascript:GoAction('D','2013-04-23 08:30:00');">cnyffeler ?</a>
+</td>
+
+
+*** if the element with the question mark is clicked again (deleted) ***
+login=cnyffeler
+&password=clemens
+&privilege=simple
+&myaction=D
+&myresnl=0
+&mt_resdat=
+&myresdat=2013-04-23+08%3A30%3A00
+&mycreatedat=
+&sdays=22
+&ID_Machine=mach126
+&Lots=
+&Blocks=
+&detper=1364334299
+&list0=331
+&list1=338
+&mode=calendar
+
+
+
+
+
+
+*** three states are possible if in configuration request mode ***
+**** available (configuration is compatible) ****
+<td width="70" id="2013-04-19 08:30:00" style="background-color:FFFFFF" onmouseover="this.style.cursor='pointer';return escape('Substrate size: 4 or 6 inch<br>Dispense system: Syringe LOR<br>');"><span class="available"><a href="javascript:GoAction('R','2013-04-19 08:30:00');">Available</a></span></td>
+
+**** impossible (configuration not compatible) ****
+<td width="70" id="2013-04-26 08:00:00" style="background-color:CCCCCC" onmouseover="this.style.cursor='pointer';return escape('Substrate size: Syringe install<br>Dispense system: Syringe LOR<br>');"><span style="color:red">Impossible</span></td>
+
+**** checkbox (can choose a configuration) ****
+<td width="70" id="2013-04-18 09:30:00" style="background-color:FFFFFF" onmouseover="this.style.cursor='pointer';return escape('Substrate size: 4 or 6 inch<br>');"><input type="checkbox" name="conf_date[]" value="2013-04-18 09:30:00" onclick="toggle()"></td>
+
+
+
+
+*** if three checkboxes are selected and config request is submitted ***
+login=cnyffeler
+&password=clemens
+&privilege=simple
+&myaction=
+&myresnl=0
+&mt_resdat=
+&myresdat=
+&mycreatedat=
+&sdays=22
+&ID_Machine=mach126
+&Lots=
+&Blocks=
+&detper=1364334544
+&list0=331
+&list1=338
+&configbut=Submit+the+config.+request
+&conf_date%5B%5D=2013-04-23+08%3A30%3A00
+&conf_date%5B%5D=2013-04-23+09%3A00%3A00
+&conf_date%5B%5D=2013-04-23+09%3A30%3A00
+&mode=calendar
+
+*** confirmation dialog has additional hidden input fields ***
+
+<input name="confdate[]" type="hidden" value="2013-04-23 08:30:00">
+<input name="confdate[]" type="hidden" value="2013-04-23 09:00:00">
+<input name="confdate[]" type="hidden" value="2013-04-23 09:30:00">
+
+
+*** if you click continue ***
+
+login=cnyffeler
+&password=clemens
+&privilege=simple
+&myaction=
+&myresnl=0
+&mt_resdat=
+&myresdat=
+&mycreatedat=
+&sdays=22
+&ID_Machine=mach126
+&Lots=
+&Blocks=
+&detper=1364334875
+&list0=331
+&list1=338
+&confdate%5B%5D=2013-04-23+08%3A30%3A00
+&confdate%5B%5D=2013-04-23+09%3A00%3A00
+&confdate%5B%5D=2013-04-23+09%3A30%3A00
+&confrequest=Substrate+size+%3A+4+or+6+inch%0D%0ADispense+system+%3A+Syringe+LOR%0D%0A
+&daterequest=2013-04-23+08%3A30%3A00%0D%0A2013-04-23+09%3A00%3A00%0D%0A2013-04-23+09%3A30%3A00%0D%0A
+&request=%3Cb%3EConfiguration+request%3C%2Fb%3E%0D%0A%3Cb%3EUser+%3A+%3C%2Fb%3Ecnyffeler%0D%0A%3Cb%3EEmail+%3A+%3C%2Fb%3Eclemens.nyffeler%40epfl.ch%0D%0A%3Cb%3EEquipment+%3A+%3C%2Fb%3EZ06+EVG150+-+Coater+and+developer+system+for+positive+resist%0D%0A%3Cb%3ERequested+configuration+%3A%3C%2Fb%3E%0D%0ASubstrate+size+%3A+4+or+6+inch%0D%0ADispense+system+%3A+Syringe+LOR%0D%0A%3Cb%3ESlots+%3A%3C%2Fb%3E%0D%0A2013-04-23+08%3A30%3A00%0D%0A2013-04-23+09%3A00%3A00%0D%0A2013-04-23+09%3A30%3A00%0D%0A
+&confokbut=Continue
+&mode=calendar
+
+

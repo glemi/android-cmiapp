@@ -1,0 +1,11 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item 
+        android:id="@+id/switchUser" 
+        android:showAsAction="ifRoom|withText" 
+        android:title="switch User"></item>
+    <item 
+        android:id="@+id/reloadButton" 
+        android:showAsAction="always" 
+        android:icon="@drawable/navigation_refresh"
+        ></item>
+</menu>

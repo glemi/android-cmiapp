@@ -1,0 +1,72 @@
+<form name ="resform" action="/reservation/reserv.php" method="post">
+	<input name="login" type="hidden" value="cnyffeler">
+	<input name="password" type="hidden" value="clemens">
+	<input name="privilege" type="hidden" value="simple">
+	<input name="myaction" type="hidden">
+	<input name="myresnl" type="hidden" value="0" >
+	<input name="mt_resdat" type="hidden">
+	<input name="myresdat" type="hidden">
+	<input name="mycreatedat" type="hidden" value="" style="width:800px">
+	<input name="sdays" type="hidden" value="0"><table style="font-size:12px">
+	<input type="button" name="tolivbut" value="Consumables" onclick="document.resform.action='userliv.php';document.resform.submit();" style="font-size:9pt;width:140px">
+	<input type="submit" name="updvbut" value="Refresh" style="font-size:9pt;font-weight:bold;width:140px">
+	<input type="button" name="quitbut" value="Exit" onclick="document.location.href='http://cmi.epfl.ch'" style="font-size:9pt;width:140px">
+
+	<select name="ID_Machine" onchange="document.resform.mode.value='preview';document.resform.submit();" size="8" style="width:300px;font-size:12px">
+		<option  Value="mach116" >Z01 Heidelberg DWL200 - Laser lithography system<br>
+		<option  Value="mach144" >Z01 Krypton Light Source Extension for DWL200<br>
+		<option  Value="mach003" >Z01 Suess DV10 - Developer for mask and thick positive resist<br>
+		<option selected Value="mach048" >Z01 Zeiss LEO 1550 - Scaning Electron Microscope<br>
+		<option  Value="mach135" >Z02 Alcatel AMS200 DSE - Plasma etcher - Fluorine chemistry<br>
+		<option  Value="mach163" >Z02 Tepla GigaBatch - Microwave plasma stripper<br>
+		<option  Value="mach141" >Z03 Sopra GES 5E - Spectroscopic Ellipsometer<br>
+		<option  Value="mach155" >Z04 Beneq TFS200 - ALD<br>
+		<option  Value="mach167" >Z04 Bruker DektakXT - Mechanical profilometer<br>
+		<option  Value="mach136" >Z04 Leybold-Optics LAB600 H - Evaporator Lift-off<br>
+		<option  Value="mach028" >Z05 Tepla 300 - Microwave plasma stripper<br>
+		<option  Value="mach034" >Z06 Coillard Etching- Wet bench for oxide and metal etch<br>
+		<option  Value="mach033" >Z06 Coillard Photo - Wet bench for resist develop and strip<br>
+		<option  Value="mach030" >Z06 Suess RC8 THP - Manual Coater (entrance zone)<br>
+		<option  Value="mach039" >Z06 Suess RC8 THP - Manual Coater (mid-zone)<br>
+		<option  Value="mach140" >Z07 Vistec EPBG5000ES - Ebeam<br>
+		<option  Value="mach160" >Z13 Ceram Hotplate for high Temperature<br>
+		<option  Value="mach161" >Z13 SussMicroTec MJB4- Single side mask aligner<br>
+		<option  Value="mach157" >Z14 Wet Bench Acid<br>
+		<option  Value="mach165" >Z15 Zeiss Merlin - Scaning Electron Microscope<br>
+	</select>
+
+	<select name="detper" style="width:85px;font-size:9pt">
+		<option value="1354838731">Dec 2012</option>
+		<option value="1352246731">Nov 2012</option>
+		<option value="1349564731">Oct 2012</option>
+		<option value="1346972731">Sep 2012</option>
+		<option value="1344294331">Aug 2012</option>
+		<option value="1341615931">Jul 2012</option>
+		<option value="1339023931">Jun 2012</option>
+		<option value="1336345531">May 2012</option>
+		<option value="1333753531">Apr 2012</option>
+		<option value="1331078731">Mar 2012</option>
+		<option value="1328573131">Feb 2012</option>
+		<option value="1325894731">Jan 2012</option>
+	</select>
+	
+	<input type="button" name="myfacbut" 	value="My bill" onclick="document.myfacform.datper.value=document.resform.detper.value;document.myfacform.submit()" style="width:50px;font-size:9pt">
+	<input type="button" name="myresbut" 	value="My reservations" onclick="document.myfacform.action='myreserv.php';document.myfacform.submit();" style="width:140px;font-size:9pt">
+	<input type="button" name="todayresbut" value="Today's reservations" onclick="window.open('todayreserv.php')" style="width:140px;font-size:9pt">
+	<input type="button" name="allresbut" 	value="All reservations" onclick="window.open('allreserv.php')" style="width:140px;font-size:9pt">
+	<input type="button" name="mailingbut" 	value="Mailing" onclick="document.myfacform.action='user_mail.php';document.myfacform.submit();" style="width:140px;font-size:9pt">
+	<input type="submit" name="chpassbut" 	value="Password" onclick="document.resform.action='chpass.php';document.resform.submit();" style="width:140px;font-size:9pt">
+	<input type="submit" name="visitbut" 	value="Visit authorization" onclick="document.visitform.submit();" style="width:140px;font-size:9pt">
+	<input type="submit" name="rcabut" 	value="RCA request" onclick="document.rcaform.submit();" style="color:red;width:140px;font-size:9pt">
+	<input type="submit" name="tarifbut" 	value="Rates" onclick="document.tarifform.submit();" style="width:140px;font-size:9pt">
+	<input type="submit" name="camiprobut" 	value="Who's in the zones?" onclick="document.camiproform.submit();" style="width:140px;font-size:9pt">
+	<input type="button" name="eaebut" 	value="Who's working?" onclick="document.eaeuserform.submit();" style="width:140px;font-size:9pt">
+	<input type="submit" name="forumbut" 	value="CMI forum" onclick="document.forumform.submit();" style="width:140px;font-size:9pt">
+
+	<a href=mailto:zdenek.benes@epfl.ch>Contact the responsable</a>
+	<a href="remarques/mach048.html" target="_blank" name="remarque">Guideline for online reservation</a>
+
+	<input type="image" src="prev.gif" name="resaddbut" onclick="last10day();">&nbsp
+	<input type="image" src="next.gif" name="resaddbut" onclick="next10day();">
+	<input name="mode" type="hidden" value="reserve">
+</form>

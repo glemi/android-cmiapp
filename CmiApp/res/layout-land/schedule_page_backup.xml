@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal" >
+
+    <FrameLayout
+        android:id="@+id/frameLeft"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1" >
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/frameRight"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1" >
+    </FrameLayout>
+
+    <!--
+    <fragment
+        android:id="@+id/slotListLeft"
+        android:name="ch.epfl.cmiapp.SlotListFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" 
+        android:tag="SLOT_LIST_RIGHT" />
+
+    <fragment
+        android:id="@+id/slotListRight"
+        android:name="ch.epfl.cmiapp.SlotListFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:tag="SLOT_LIST_LEFT" />
+    -->
+
+    <TextView
+        android:id="@+id/debugText"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical|center_horizontal"
+        android:text="1"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/bookingRestricted"
+        android:textSize="150sp"
+        android:visibility="gone" />
+
+</LinearLayout>

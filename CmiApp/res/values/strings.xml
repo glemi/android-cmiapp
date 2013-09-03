@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">CMI-Droid</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_settings">Settings</string>
+    <string name="title_activity_main">CMI-Droid</string>
+    <string name="title_activity_user_list">UserList</string>
+    <string name="users">Users</string>
+    <string name="title_activity_equipment_list">EquipmentList</string>
+    <string name="title_activity_list">List of Stuff</string>
+    <string name="title_activity_cmi_schedule">CmiScheduleActivity</string>
+    <string name="title_activity_fragment">FragmentActivity</string>
+    <string name="title_section3">Section 3</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section1">Section 1</string>
+    <string name="title_activity_swipey_test">SwipeyTest</string>
+
+</resources>

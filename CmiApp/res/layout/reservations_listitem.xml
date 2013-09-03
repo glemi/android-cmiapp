@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/RelativeLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/listitem_background_normal"
+    android:orientation="horizontal"
+    android:paddingBottom="0dp"
+    android:paddingTop="6dp" >
+
+    <TextView
+        android:id="@+id/equipment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/timeEnd"
+        android:layout_alignParentTop="true"
+        android:layout_alignRight="@+id/zone"
+        android:gravity="left|center_vertical"
+        android:text="Vistec EPBG5000ES"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textSize="18sp" />
+    
+    <TextView
+        android:id="@+id/timeStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/timeEnd"
+        android:layout_alignBottom="@id/timeEnd"
+        android:layout_alignParentLeft="true"
+        android:paddingLeft="20dp"
+        android:paddingRight="2dp"
+        android:text="07:00"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textSize="16sp" />
+    
+    <Space
+        android:id="@+id/space"
+        android:layout_width="match_parent"
+        android:layout_height="6dp"
+        android:layout_below="@id/zone"
+         />
+    
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/space"
+        android:background="@color/lightShadow" />
+
+    <TextView
+        android:id="@+id/zone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/timeEnd"
+        android:layout_alignBottom="@+id/timeEnd"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="16dp"
+        android:gravity="right|center_vertical"
+        android:text="Zone 1"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/dash"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/space"
+        android:layout_toRightOf="@+id/timeStart"
+        android:text=" – "
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/timeEnd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/equipment"
+        android:layout_toRightOf="@+id/dash"
+        android:paddingRight="12dp"
+        android:text="07:00 (2 slots)"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textSize="14sp" />
+
+</RelativeLayout>

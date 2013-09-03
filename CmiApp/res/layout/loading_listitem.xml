@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/RelativeLayout1"
+    android:layout_width="fill_parent"
+    android:layout_height="120dp"
+    android:orientation="horizontal"
+    android:background="@drawable/listitem_background_normal"
+    android:paddingBottom="6dp" >
+
+    <View
+	    android:layout_width="match_parent"
+	    android:layout_height="12dp"
+	    android:layout_alignParentLeft="true"
+	    android:layout_alignParentTop="true"
+	    android:background="@color/listHeaderBackground" />
+    
+    <TextView
+        android:id="@+id/loadingText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"
+        android:text="loading..."
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/loadingText"
+        android:layout_centerHorizontal="true"
+        android:layout_alignLeft="@+id/loadingText" />
+    
+</RelativeLayout>

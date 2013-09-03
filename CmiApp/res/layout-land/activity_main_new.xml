@@ -1,0 +1,94 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="top"
+    android:orientation="horizontal" >
+
+    <LinearLayout
+        android:id="@+id/buttonsLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingBottom="8dp"
+        android:paddingLeft="4dp"
+        android:paddingTop="8dp" >
+
+        <ImageButton
+            android:id="@+id/userListButton"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+			android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/hoverbutton"
+            android:contentDescription="Go to User List"
+            android:onClick="showUserList"
+            android:paddingLeft="25dp"
+            android:paddingRight="20dp"
+            android:scaleType="center"
+            android:src="@drawable/ic_users" />
+
+        <ImageButton
+            android:id="@+id/equipmentListButton"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+			android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/hoverbutton"
+            android:contentDescription="Go to Equipment List"
+            android:onClick="showEquipmentList"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp"
+            android:src="@drawable/ic_equipment" />
+        
+    </LinearLayout>
+    
+    <!-- <LinearLayout
+        android:id="@+id/buttonsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:paddingBottom="16dp"
+        android:paddingTop="16dp" >
+
+        <ImageButton
+            android:id="@+id/userListButton"
+            android:contentDescription="User List"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="40dp"
+            android:background="@drawable/ic_users"
+            android:onClick="showUserList" />
+
+        <ImageButton
+            android:id="@+id/equipmentListButton"
+            android:contentDescription="Equipment List"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="40dp"
+            android:background="@drawable/ic_equipment"
+            android:onClick="showEquipmentList" />
+    </LinearLayout> -->
+   
+    <fragment
+        android:id="@+id/multiFragment"
+        android:name="ch.epfl.cmiapp.fragments.CompositeListFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@id/buttonsLayout"
+        android:layout_alignParentBottom="true"
+        android:layout_alignTop="@id/dropshadow"
+        tools:layout="@layout/simple_list_layout" />
+     
+    <View
+        android:id="@+id/dropshadow"
+        android:layout_toRightOf="@id/buttonsLayout"
+        android:layout_width="5dp"
+        android:layout_height="match_parent"
+        android:background="@drawable/drop_shadow_vert" />
+    
+</RelativeLayout>

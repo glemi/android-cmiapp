@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/bookingCommit"
+        android:showAsAction="always|withText"
+        android:title="Confirm"
+        android:titleCondensed="Confirm">
+    </item>
+    <item
+        android:id="@+id/bookingCancel"
+        android:showAsAction="always|withText"
+        android:title="Cancel"
+        android:titleCondensed="Cancel" android:visible="true">
+    </item>
+
+</menu>

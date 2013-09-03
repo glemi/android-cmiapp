@@ -1,0 +1,114 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="top"
+    android:orientation="horizontal" >
+
+    <LinearLayout
+        android:id="@+id/buttonsLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:orientation="vertical"
+        android:paddingBottom="16dp"
+        android:paddingTop="16dp" >
+
+       <ImageButton
+            android:id="@+id/userListButton"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/hoverbutton"
+            android:onClick="showUserList"
+            android:scaleType="center"
+            android:src="@drawable/ic_users" />
+
+       
+        <ImageButton
+            android:id="@+id/equipmentListButton"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/hoverbutton"
+            android:onClick="showEquipmentList"
+            android:src="@drawable/ic_equipment" />
+
+      
+    </LinearLayout>
+    
+   	<!-- <View
+        android:id="@+id/separator"
+        android:layout_width="20dp"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/buttonsLayout"
+        android:background="@color/listHeaderBackground" 
+    /> -->
+        
+    <!--
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="0.85"
+        android:background="@color/listHeaderBackground"
+        android:rotation="270"
+        android:text="Upcoming Reservations"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/listHeaderForeground"
+        android:textColorLink="@color/listHeaderForeground" />
+    -->
+
+
+    <!--
+         <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@id/buttonsLayout"
+        android:orientation="vertical" >
+
+        
+             <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:background="@color/listHeaderBackground"
+            android:paddingLeft="20dp"
+            android:paddingTop="4dp"
+            android:text="Upcoming Reservations"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/listHeaderForeground"
+            android:textColorLink="@color/listHeaderForeground" />
+       
+
+
+
+    </LinearLayout>
+    -->
+
+    <fragment
+        android:id="@+id/reservationsFragment"
+        android:name="ch.epfl.cmiapp.ReservationsFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="top"
+        android:layout_toRightOf="@id/buttonsLayout"
+        tools:layout="@layout/schedule_fragment" />
+
+    <View
+        android:id="@+id/dropshadow"
+        android:layout_width="5dp"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/buttonsLayout"
+        android:background="@drawable/drop_shadow_vert" />
+
+</RelativeLayout>

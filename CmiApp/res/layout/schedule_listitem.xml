@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="36dp"
+    android:background="@drawable/highlight"
+    android:gravity="center_vertical" >
+
+    <TextView
+        android:id="@+id/slotTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_weight="2"
+        android:paddingBottom="5dp"
+        android:paddingLeft="12dp"
+        android:paddingTop="6dp"
+        android:text="07:00"
+        
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="16dp" />
+
+    <TextView
+        android:id="@+id/slotStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/progressBar"
+        android:layout_toRightOf="@+id/slotTime"
+        android:layout_weight="6"
+        android:gravity="center_horizontal"
+        android:maxLines="1"
+        android:paddingBottom="6dp"
+        android:paddingLeft="20dp"
+        android:paddingTop="6dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="16dp" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignBottom="@+id/slotTime"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_weight="2"
+        android:minWidth="32dp"
+        android:paddingBottom="2dp"
+        android:paddingRight="8dp"
+        android:paddingTop="2dp" />
+
+</RelativeLayout>

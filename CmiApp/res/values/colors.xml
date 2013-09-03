@@ -1,0 +1,24 @@
+<resources>
+    <color name="bookingRestricted">#8C8C8C</color>
+    <color name="bookingAvailable">#20C030</color>
+    <color name="bookingMaintenance">#C03020</color>
+    <color name="bookingBooked">#C09030</color>
+    <color name="listHeaderBackground">#606060</color>
+    <color name="listHeaderForeground">#D0D0D0</color>
+    <color name="bookingSelf">#4020B0</color>
+    <color name="bookAction">#20D040</color>
+    <color name="unbookAction">#C09030</color>
+    <color name="badNews">#C03020</color>
+    <color name="shadow">#00202020</color>
+    <color name="transparent">#FF000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="lightShadow">#40404040</color>
+    <color name="transparentWhite">#FFFFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="veryLightShadow">#A0A0A0</color>
+    <color name="tintedBackground">#D0D0D0</color>
+    <color name="cmi_red_std">#C9252B</color>
+    <color name="cmi_red_light">#F97C80</color>
+    <color name="background_default">#F3F3F3</color>
+    <color name="background_dimmed">#D6CACA</color>
+</resources>

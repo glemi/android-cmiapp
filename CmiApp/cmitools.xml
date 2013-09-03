@@ -1,0 +1,910 @@
+<resources>
+	<cmitool
+		machId="mach002"
+		zone="13"
+		slotLength="60"
+		fullString="Sawatec Coater &amp; Hotplate for SU8"
+		category=""
+		name="Sawatec Coater/Hotplate for SU8"
+		description=""
+	/>
+	<cmitool
+		machId="mach003"
+		zone="1"
+		slotLength="60"
+		fullString="Suess DV10 - Developer for mask and thick positive resist"
+		category="Litho Preparation"
+		name="Süss DV10"
+		description="Developer for Mask and Thick Positive Resist"
+	/>
+	<cmitool
+		machId="mach004"
+		zone="1"
+		slotLength="30"
+		fullString="Suess MA150 - Double side mask aligner"
+		category="Lithography"
+		name="Süss MA150"
+		description="Double Side Mask Aligner"
+	/>
+	<cmitool
+		machId="mach005"
+		zone="2"
+		slotLength="60"
+		fullString="Alcatel 601E - Plasma etcher - Fluorine chemistry"
+		category="Plasma Etching"
+		name="Alcatel 601E"
+		description="Fluorine Chemistry Plasma Etcher"
+	/>
+	<cmitool
+		machId="mach006"
+		zone="2"
+		slotLength="60"
+		fullString="STS Multiplex ICP - Plasma etcher - Chlorine chemistry"
+		category="Plasma Etching"
+		name="STS Multiplex ICP"
+		description="Chlorine Chemistry Plasma Etcher"
+	/>
+	<cmitool
+		machId="mach007"
+		zone="2"
+		slotLength="60"
+		fullString="Oxford PRS900 - RF and microwave plasma asher"
+		category="Plasma Etching"
+		name="Oxford PRS900"
+		description="RF and Microwave Plasma Asher"
+	/>
+	<cmitool
+		machId="mach008"
+		zone="2"
+		slotLength="60"
+		fullString="Plade Oxide - Wet bench for oxide etch"
+		category="Wet Benches"
+		name="Plade Oxide"
+		description="Wet Bench for Oxide Etch"
+	/>
+	<cmitool
+		machId="mach009"
+		zone="2"
+		slotLength="60"
+		fullString="Plade Metal - Wet bench for metal etch"
+		category="Wet Benches"
+		name="Plade Metal"
+		description="Wet Bench for Metal Etch"
+	/>
+	<cmitool
+		machId="mach010"
+		zone="2"
+		slotLength="60"
+		fullString="UFT Piranha - Wet bench for Resist Stripping"
+		category="Wet Benches"
+		name="UFT Piranha"
+		description="Wet Bench for Resist Stripping"
+	/>
+	<cmitool
+		machId="mach011"
+		zone="3"
+		slotLength="300"
+		fullString="EPFL1-1 Centrotherm - LPCVD Poly"
+		category="Furnaces"
+		name="Centrotherm Tube  1-1"
+		description="Furnace for Lpcvd Poly"
+	/>
+	<cmitool
+		machId="mach012"
+		zone="3"
+		slotLength="300"
+		fullString="EPFL1-2 Centrotherm - LPCVD Nitride"
+		category="Furnaces"
+		name="Centrotherm Tube  1-2"
+		description="Furnace for Lpcvd Nitride"
+	/>
+	<cmitool
+		machId="mach013"
+		zone="3"
+		slotLength="300"
+		fullString="EPFL1-3 Centrotherm - Alloy"
+		category="Furnaces"
+		name="Centrotherm Tube  1-3"
+		description="Furnace for Alloys"
+	/>
+	<cmitool
+		machId="mach014"
+		zone="3"
+		slotLength="300"
+		fullString="EPFL1-4 Centrotherm - POCl3"
+		category="Furnaces"
+		name="Centrotherm Tube  1-4"
+		description="Furnace for Pocl3"
+	/>
+	<cmitool
+		machId="mach015"
+		zone="3"
+		slotLength="300"
+		fullString="EPFL2-1 Centrotherm - Densification"
+		category="Furnaces"
+		name="Centrotherm Tube  2-1"
+		description="Furnace for Densification"
+	/>
+	<cmitool
+		machId="mach017"
+		zone="3"
+		slotLength="300"
+		fullString="EPFL2-3 Centrotherm - Gate Oxide"
+		category="Furnaces"
+		name="Centrotherm Tube  2-3"
+		description="Furnace for Gate Oxides"
+	/>
+	<cmitool
+		machId="mach018"
+		zone="3"
+		slotLength="300"
+		fullString="EPFL2-4 Centrotherm - Diffusion"
+		category="Furnaces"
+		name="Centrotherm Tube  2-4"
+		description="Furnace for Diffusion"
+	/>
+	<cmitool
+		machId="mach019"
+		zone="3"
+		slotLength="1440"
+		fullString="Plade - Wet Bench RCA"
+		category="Wet Benches"
+		name="Plade Wet Bench"
+		description="Wet Bench RCA"
+	/>
+	<cmitool
+		machId="mach020"
+		zone="3"
+		slotLength="60"
+		fullString="Plade - Wet bench Reclaim"
+		category="Wet Benches"
+		name="Plade Wet Bench"
+		description="Wet Bench Reclaim"
+	/>
+	<cmitool
+		machId="mach022"
+		zone="4"
+		slotLength="300"
+		fullString="Balzers BAS450 - Sputter single chamber multi-target"
+		category="Thin Films"
+		name="Balzers BAS450"
+		description="Single-Chamber Sputter Tool Multi-Target"
+	/>
+	<cmitool
+		machId="mach023"
+		zone="4"
+		slotLength="300"
+		fullString="Alcatel EVA600 - Evaporator"
+		category="Thin Films"
+		name="Alcatel EVA600"
+		description="Evaporator">
+		<configuration>
+			<setting name="e-Beam Crucible 1" id="list0" default="0" display="1">
+				<option title="Not Used" short="N/A" value="0"/>
+				<option title="Aluminum" short="Al" value="219"/>
+			</setting>
+			<setting name="e-Beam Crucible 2" id="list1" default="0" display="1">
+				<option title="Not Used" short="N/A" value="0"/>
+				<option title="Chromium" short="Cr" value="220"/>
+			</setting>
+			<setting name="e-Beam Crucible 3" id="list2" default="0" display="1">
+				<option title="Not Used" short="N/A" value="0"/>
+				<option title="Titanium" short="Ti"  value="223"/>
+				<option title="Cobalt"   short="Co"  value="570"/>
+			</setting>
+			<setting name="e-Beam Crucible 4" id="list3" default="0" display="1">
+				<option title="Not Used" short="N/A" value="0"/>
+				<option title="Cobalt"   short="Co"  value="228"/>
+				<option title="Nickel"   short="Ni"  value="226"/>
+				<option title="Nickel-Iron (81:19)" short="Ni-Fe 19"  value="227"/>
+				<option title="Nickel-Chromium-Iron (75:20:4)" short="Ni-Cr 19" value="471"/>
+			</setting>
+			<setting name="Joule Crucible 1" id="list4" default="0" display="1">
+				<option title="Not Used" short="N/A" value="0" />
+				<option title="Silver"   short="Ag"  value="232" />
+				<option title="Copper"   short="Cu"  value="233" />
+				<option title="Bismuth"  short="Bi"  value="234" />
+				<option title="Iron"     short="Fe"  value="462" />
+				<option title="Tin"      short="Sn"  value="479" />
+				<option title="Yttrium"  short="Y"   value="480" />
+			</setting>
+			<setting name="Joule Crucible 2" id="list5" default="0" display="1">
+				<option title="Not Used" short="N/A" value="0" />
+				<option title="Gold"     short="Au"  value="231" />
+			</setting>
+		</configuration>
+	</cmitool>
+	<cmitool
+		machId="mach024"
+		zone="5"
+		slotLength="120"
+		fullString="Plade - Silicon etching KOH 23% - 90°C max"
+		category="Wet Benches"
+		name="Plade Wet Bench"
+		description="Silicon Etching KOH 23% - 90°C Max"
+	/>
+	<cmitool
+		machId="mach025"
+		zone="5"
+		slotLength="360"
+		fullString="Desaules - Wet bench for electroplating Cu, Ni"
+		category="Wet Benches"
+		name="Desaules"
+		description="Wet Bench for Electroplating Cu, Ni"
+	/>
+	<cmitool
+		machId="mach026"
+		zone="5"
+		slotLength="60"
+		fullString="Prettl - Porous silicon etching wet bench"
+		category="Wet Benches"
+		name="Prettl"
+		description="Porous Silicon Etching Wet Bench"
+	/>
+	<cmitool
+		machId="mach027"
+		zone="5"
+		slotLength="60"
+		fullString="Prettl - Miscellaneous applications wet bench"
+		category="Wet Benches"
+		name="Prettl"
+		description="Miscellaneous Applications Wet Bench"
+	/>
+	<cmitool
+		machId="mach028"
+		zone="5"
+		slotLength="30"
+		fullString="Tepla 300 - Microwave plasma stripper"
+		category=""
+		name="Tepla 300"
+		description="Microwave Plasma Stripper"
+	/>
+	<cmitool
+		machId="mach029"
+		zone="5"
+		slotLength="60"
+		fullString="Lambda - Laser excimer"
+		category="Thin Films"
+		name="Lambda Physics Laser Excimer"
+		description="Pulsed Laser Deposition (PLD)"
+	/>
+	<cmitool
+		machId="mach030"
+		zone="6"
+		slotLength="30"
+		fullString="Suess RC8 THP - Manual Coater (entrance zone)"
+		category="Litho Preparation"
+		name="Süss RC8 THP"
+		description="Manual Coater (Entrance Zone)"
+	/>
+	<cmitool
+		machId="mach031"
+		zone="6"
+		slotLength="30"
+		fullString="Suess MA&amp;BA6 - Double side mask aligner and bond aligner"
+		category="Lithography"
+		name="Süss MA6/BA6"
+		description="Double Side Mask Aligner and Bond Aligner"
+	/>
+	<cmitool
+		machId="mach033"
+		zone="6"
+		slotLength="30"
+		fullString="Coillard Photo - Wet bench for resist develop and strip"
+		category="Wet Benches"
+		name="Coillard Photo"
+		description="Wet Bench for Resist Develop and Strip"
+	/>
+	<cmitool
+		machId="mach034"
+		zone="6"
+		slotLength="30"
+		fullString="Coillard Etching- Wet bench for oxide and metal etch"
+		category="Wet Benches"
+		name="Coillard Etching"
+		description="Wet Bench for Oxide and Metal Etch"
+	/>
+	<cmitool
+		machId="mach035"
+		zone="6"
+		slotLength="30"
+		fullString="Plade miscellaneous - Wet Bench for misc. applications"
+		category="Wet Benches"
+		name="Plade Wet Bench"
+		description="Miscellaneous Applications"
+	/>
+	<cmitool
+		machId="mach036"
+		zone="6"
+		slotLength="360"
+		fullString="Vacotec - Basic Joule effect evaporator"
+		category="Thin Films"
+		name="Vacotec"
+		description="Basic Joule Effect Evaporator"
+	/>
+	<cmitool
+		machId="mach039"
+		zone="6"
+		slotLength="30"
+		fullString="Suess RC8 THP - Manual Coater (mid-zone)"
+		category="Litho Preparation"
+		name="Süss RC8 THP"
+		description="Manual Coater (Mid-Zone)"
+	/>
+	<cmitool
+		machId="mach040"
+		zone="3"
+		slotLength="300"
+		fullString="EPFL2-2 Centrotherm - Wet Oxide"
+		category="Furnaces"
+		name="Centrotherm Tube  2-2"
+		description="Furnace for Wet Oxides"
+	/>
+	<cmitool
+		machId="mach044"
+		zone="6"
+		slotLength="180"
+		fullString="Suess SB6 - Vacuum anodic bonder"
+		category=""
+		name="Süss SB6"
+		description="Vacuum Anodic Bonder"
+	/>
+	<cmitool
+		machId="mach045"
+		zone="5"
+		slotLength="60"
+		fullString="Mecapol - Chemical-mechanical polishing"
+		category=""
+		name="Mecapol"
+		description="Chemical-Mechanical Polishing (CMP)"
+	/>
+	<cmitool
+		machId="mach046"
+		zone="9"
+		slotLength="60"
+		fullString="DAD 321 - Scie a wafers"
+		category=""
+		name="DAD 321"
+		description="Automatic Dicing Saw"
+	/>
+	<cmitool
+		machId="mach047"
+		zone="15"
+		slotLength="60"
+		fullString="Süss PM8 - Manual prober"
+		category=""
+		name="Süss PM8"
+		description="Manual Prober"
+	/>
+	<cmitool
+		machId="mach048"
+		zone="1"
+		slotLength="30"
+		fullString="Zeiss LEO 1550 - Scaning Electron Microscope"
+		category="Metrology"
+		name="Zeiss LEO 1550"
+		description="Scanning Electron Microscope"
+	/>
+	<cmitool
+		machId="mach053"
+		zone="1"
+		slotLength="60"
+		fullString="Plade Solvent - Photolithography wet bench"
+		category="Wet Benches"
+		name="Plade Solvent"
+		description="Photolithography Wet Bench"
+	/>
+	<cmitool
+		machId="mach054"
+		zone="1"
+		slotLength="30"
+		fullString="RiteTrack Coater - Coater track for positive resist"
+		category="Litho Preparation"
+		name="RiteTrack Coater"
+		description="Coater Track for Positive Resist"
+	/>
+	<cmitool
+		machId="mach055"
+		zone="1"
+		slotLength="30"
+		fullString="RiteTrack Developer - Developer track for positive resist"
+		category="Litho Preparation"
+		name="RiteTrack Developer"
+		description="Developer Track for Positive Resist"
+	/>
+	<cmitool
+		machId="mach058"
+		zone="2"
+		slotLength="60"
+		fullString="UFT Remover - Wet bench for Resist Stripping"
+		category="Wet Benches"
+		name="UFT Remover"
+		description="Wet Bench for Resist Stripping"
+	/>
+	<cmitool
+		machId="mach116"
+		zone="1"
+		slotLength="60"
+		fullString="Heidelberg DWL200 - Laser lithography system"
+		category="Lithography"
+		name="Heidelberg DWL200"
+		description="Laser Lithography System"
+	/>
+	<cmitool
+		machId="mach118"
+		zone="4"
+		slotLength="60"
+		fullString="Pfeiffer-Vacuum SPIDER600 - Sputter multi-chamber"
+		category="Thin Films"
+		name="Pfeiffer-Vacuum SPIDER600"
+		description="Sputter Multi-Chamber"
+	/>
+	<cmitool
+		machId="mach119"
+		zone="3"
+		slotLength="300"
+		fullString="EPFL3-1 Centrotherm - LPCVD LTO"
+		category="Furnaces"
+		name="Centrotherm Tube  3-1"
+		description="Furnace for Lpcvd Lto"
+	/>
+	<cmitool
+		machId="mach121"
+		zone="3"
+		slotLength="300"
+		fullString="EPFL3-4 Centrotherm - MEMS - Oxide"
+		category="Furnaces"
+		name="Centrotherm Tube  3-4"
+		description="Furnace for Mems Oxides"
+	/>
+	<cmitool
+		machId="mach124"
+		zone="8"
+		slotLength="60"
+		fullString="FEI Nova 600 NanoLab - DualBeam (SEM/FIB)"
+		category="Metrology"
+		name="FEI Nova 600 NanoLab"
+		description="Dualbeam (SEM/FIB)"
+	/>
+	<cmitool
+		machId="mach125"
+		zone="5"
+		slotLength="300"
+		fullString="Plade - Silicon etching KOH 40% - 60°C max"
+		category="Wet Benches"
+		name="Plade Wet Bench"
+		description="Silicon Etching KOH 40% - 60°C Max"
+	/>
+	<cmitool
+		machId="mach126"
+		zone="6"
+		slotLength="30"
+		fullString="EVG150 - Coater and developer system for positive resist"
+		category="Litho Preparation"
+		name="EVG150"
+		description="Coater and Developer System for Positive Resist"
+	/>
+	<cmitool
+		machId="mach127"
+		zone="5"
+		slotLength="60"
+		fullString="Coillard - Wet bench for HF release"
+		category="Wet Benches"
+		name="Coillard"
+		description="Wet Bench for HF Release"
+	/>
+	<cmitool
+		machId="mach128"
+		zone="9"
+		slotLength="60"
+		fullString="Outil-Perceuse"
+		category="Mechanical Tools"
+		name="Drilling Machine"
+		description=""
+	/>
+	<cmitool
+		machId="mach129"
+		zone="9"
+		slotLength="60"
+		fullString="Outil-Fraiseuse"
+		category="Mechanical Tools"
+		name="Milling Machine"
+		description=""
+	/>
+	<cmitool
+		machId="mach130"
+		zone="9"
+		slotLength="60"
+		fullString="Outil-Tour"
+		category="Mechanical Tools"
+		name="Lathe"
+		description=""
+	/>
+	<cmitool
+		machId="mach131"
+		zone="9"
+		slotLength="60"
+		fullString="Outil-Sableuse"
+		category="Mechanical Tools"
+		name="Sanding Machine"
+		description=""
+	/>
+	<cmitool
+		machId="mach132"
+		zone="15"
+		slotLength="30"
+		fullString="Veeco Wyko NT1100 - Optical profiler"
+		category=""
+		name="Veeco Wyko NT1100"
+		description="Optical Profiler"
+	/>
+	<cmitool
+		machId="mach133"
+		zone="1"
+		slotLength="60"
+		fullString="DataPlate - Programable Hotplate"
+		category=""
+		name="DataPlate"
+		description="Programable Hotplate"
+	/>
+	<cmitool
+		machId="mach134"
+		zone="1"
+		slotLength="60"
+		fullString="Accu - Plate"
+		category=""
+		name="Accu"
+		description="Plate"
+	/>
+	<cmitool
+		machId="mach135"
+		zone="2"
+		slotLength="30"
+		fullString="Alcatel AMS200 DSE - Plasma etcher - Fluorine chemistry"
+		category="Plasma Etching"
+		name="Alcatel AMS200 DSE"
+		description="Fluorine Chemistry Plasma Etcher"
+	/>
+	<cmitool
+		machId="mach136"
+		zone="4"
+		slotLength="150"
+		fullString="Leybold-Optics LAB600 H - Evaporator Lift-off"
+		category="Thin Films"
+		name="Leybold-Optics LAB600 H"
+		description="Evaporator Lift-Off"
+	/>
+	<cmitool
+		machId="mach137"
+		zone="2"
+		slotLength="60"
+		fullString="Heraeus T6060 - Multipurpose Oven"
+		category="Ovens"
+		name="Heraeus T6060"
+		description="Multipurpose Oven"
+	/>
+	<cmitool
+		machId="mach138"
+		zone="1"
+		slotLength="60"
+		fullString="Sawatec LSM200 Coater for negative resist"
+		category="Litho Preparation"
+		name="Sawatec LSM200"
+		description="Coater for Negative Resist"
+	/>
+	<cmitool
+		machId="mach139"
+		zone="1"
+		slotLength="60"
+		fullString="Sawatec HP401Z Hotplate for Soft-bake"
+		category="Litho Preparation"
+		name="Sawatec HP401Z"
+		description="Hotplate for Soft-Bake"
+	/>
+	<cmitool
+		machId="mach140"
+		zone="7"
+		slotLength="60"
+		fullString="Vistec EPBG5000ES - Ebeam"
+		category="Lithography"
+		name="Vistec EPBG5000ES"
+		description="E-Beam Lithography Tool"
+	/>
+	<cmitool
+		machId="mach141"
+		zone="3"
+		slotLength="30"
+		fullString="Sopra GES 5E - Spectroscopic Ellipsometer"
+		category="Metrology"
+		name="Sopra GES 5E"
+		description="Spectroscopic Ellipsometer"
+	/>
+	<cmitool
+		machId="mach142"
+		zone="5"
+		slotLength="150"
+		fullString="Idonus - HF vapor"
+		category="Wet Benches"
+		name="Idonus HF VPE-100"
+		description="HF Vapor"
+	/>
+	<cmitool
+		machId="mach143"
+		zone="10"
+		slotLength="180"
+		fullString="Comelec C-30-S  Parylene deposition system"
+		category="Parylene"
+		name="Comelec C-30-S"
+		description="Comelec C-30-S  Parylene Deposition System"
+	/>
+	<cmitool
+		machId="mach144"
+		zone="1"
+		slotLength="60"
+		fullString="Krypton Light Source Extension for DWL200"
+		category="Lithography"
+		name="Krypton Light Source"
+		description="Extension for DWL200"
+	/>
+	<cmitool
+		machId="mach145"
+		zone="11"
+		slotLength="60"
+		fullString="VACO 250"
+		category=""
+		name="VACO 250"
+		description=""
+	/>
+	<cmitool
+		machId="mach146"
+		zone="13"
+		slotLength="60"
+		fullString="P-PDMS Coater-Developer-Hot_Plate"
+		category=""
+		name="P-PDMS Coater-Developer-Hot-Plate"
+		description=""
+	/>
+	<cmitool
+		machId="mach147"
+		zone="11"
+		slotLength="30"
+		fullString="Thermal NanoImprinter EHN-3250"
+		category=""
+		name="Thermal NanoImprinter EHN-3250"
+		description=""
+	/>
+	<cmitool
+		machId="mach148"
+		zone="11"
+		slotLength="30"
+		fullString="Disco Grinder DAG810"
+		category=""
+		name="Disco Grinder DAG810"
+		description=""
+	/>
+	<cmitool
+		machId="mach149"
+		zone="11"
+		slotLength="60"
+		fullString="Graphtec CE-5000-40-CRP Plotter-Cutter"
+		category=""
+		name="Graphtec CE-5000-40-CRP"
+		description="Plotter-Cutter"
+	/>
+	<cmitool
+		machId="mach150"
+		zone="12"
+		slotLength="30"
+		fullString="Mixer THINKY "
+		category=""
+		name="Mixer THINKY "
+		description=""
+	/>
+	<cmitool
+		machId="mach151"
+		zone="12"
+		slotLength="30"
+		fullString="Wet Bench Dessicators"
+		category=""
+		name="Wet Bench Dessicators"
+		description=""
+	/>
+	<cmitool
+		machId="mach152"
+		zone="12"
+		slotLength="30"
+		fullString="Wet Bench Bioprep"
+		category=""
+		name="Wet Bench Bioprep"
+		description=""
+	/>
+	<cmitool
+		machId="mach153"
+		zone="12"
+		slotLength="30"
+		fullString="SCS6800 Coater PDMS"
+		category=""
+		name="SCS6800 Coater PDMS"
+		description=""
+	/>
+	<cmitool
+		machId="mach154"
+		zone="12"
+		slotLength="30"
+		fullString="Plasma HARRICK"
+		category=""
+		name="Plasma HARRICK"
+		description=""
+	/>
+	<cmitool
+		machId="mach155"
+		zone="4"
+		slotLength="180"
+		fullString="Beneq TFS200 - ALD"
+		category="Thin Films"
+		name="Beneq TFS200"
+		description="Atomic Layer Deposition"
+	/>
+	<cmitool
+		machId="mach156"
+		zone="14"
+		slotLength="30"
+		fullString="Wet Bench Solvent"
+		category=""
+		name="Wet Bench Solvent"
+		description=""
+	/>
+	<cmitool
+		machId="mach157"
+		zone="14"
+		slotLength="30"
+		fullString="Wet Bench Acid"
+		category=""
+		name="Wet Bench Acid"
+		description=""
+	/>
+	<cmitool
+		machId="mach158"
+		zone="14"
+		slotLength="30"
+		fullString="Wet Bench Base"
+		category=""
+		name="Wet Bench Base"
+		description=""
+	/>
+	<cmitool
+		machId="mach159"
+		zone="13"
+		slotLength="60"
+		fullString="SSE Manual Coater line for Positive Photoresist"
+		category=""
+		name="SSE Manual Coater line for Positive Photoresist"
+		description=""
+	/>
+	<cmitool
+		machId="mach160"
+		zone="13"
+		slotLength="60"
+		fullString="Ceram Hotplate for high Temperature"
+		category=""
+		name="Ceran Hotplate"
+		description="...for high Temperature"
+	/>
+	<cmitool
+		machId="mach161"
+		zone="13"
+		slotLength="30"
+		fullString="SussMicroTec MJB4- Single side mask aligner"
+		category=""
+		name="Süss MJB4"
+		description="Single Side Mask Aligner"
+	/>
+	<cmitool
+		machId="mach162"
+		zone="11"
+		slotLength="60"
+		fullString="Dimatix Inkjet Printer"
+		category="Weird Stuff"
+		name="Dimatix Inkjet Printer"
+		description=""
+	/>
+	<cmitool
+		machId="mach163"
+		zone="2"
+		slotLength="30"
+		fullString="Tepla GigaBatch - Microwave plasma stripper"
+		category=""
+		name="Tepla GigaBatch"
+		description="Microwave Plasma Stripper"
+	/>
+	<cmitool
+		machId="mach164"
+		zone="15"
+		slotLength="120"
+		fullString="Bruker FastScan - AFM"
+		category=""
+		name="Bruker FastScan"
+		description="Atomic Force Microscope"
+	/>
+	<cmitool
+		machId="mach165"
+		zone="15"
+		slotLength="30"
+		fullString="Zeiss Merlin - Scaning Electron Microscope"
+		category=""
+		name="Zeiss Merlin"
+		description="Scanning Electron Microscope"
+	/>
+	<cmitool
+		machId="mach166"
+		zone="15"
+		slotLength="30"
+		fullString="FilMetrics F20 UV - Reflectometer Spectroscopic"
+		category=""
+		name="FilMetrics F20 UV"
+		description="Spectroscopic Reflectometer"
+	/>
+	<cmitool
+		machId="mach167"
+		zone="4"
+		slotLength="30"
+		fullString="Bruker DektakXT - Mechanical profilometer"
+		category="Metrology"
+		name="Bruker DektakXT"
+		description="Mechanical Profilometer"
+	/>
+	<cmitool
+		machId="mach168"
+		zone="3"
+		slotLength="60"
+		fullString="Surfx - Atmospheric plasma"
+		category=""
+		name="Surfx"
+		description="Atmospheric Plasma"
+	/>
+	<cmitool
+		machId="mach169"
+		zone="11"
+		slotLength="60"
+		fullString="Alliance-Concept DP650  - Sputter single chamber multi-target"
+		category="Thin Films"
+		name="Alliance-Concept DP650 "
+		description="Single-Chamber Multi-Target Sputterer"
+	/>
+	<cmitool
+		machId="mach170"
+		zone="11"
+		slotLength="60"
+		fullString="Neytech Qex - Oven 50°C-1200°C"
+		category=""
+		name="Neytech Qex"
+		description="Oven 50°C-1200°C"
+	/>
+	<cmitool
+		machId="mach171"
+		zone="15"
+		slotLength="60"
+		fullString="Toho Technology FLX 2320-S - Thin Film Stress Meas. tool"
+		category=""
+		name="Toho Technology FLX 2320-S"
+		description="Thin Film Stress Measurement Tool"
+	/>
+	<cmitool
+		machId="mach172"
+		zone="11"
+		slotLength="60"
+		fullString="Despatch Industries LCD1-16N-3  - Oven 350°C"
+		category="Ovens"
+		name="Despatch Industries LCD1-16N-3 "
+		description="Oven 350°C"
+	/>
+	<cmitool
+		machId="mach173"
+		zone="13"
+		slotLength="60"
+		fullString="Sawatec 2nd Hotplate "
+		category=""
+		name="Sawatec 2nd Hotplate "
+		description=""
+	/>
+</resources>

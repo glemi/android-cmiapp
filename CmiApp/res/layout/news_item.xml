@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="@drawable/listitem_background_normal" >
+
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/listHeaderBackground"
+        android:gravity="center_vertical|center_horizontal"
+        android:height="30dp"
+        android:paddingBottom="3dp"
+        android:paddingLeft="10dp"
+        android:paddingTop="3dp"
+        android:text="11.11.2011"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@color/listHeaderForeground" />
+
+     <TextView
+         android:id="@+id/title"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_alignBottom="@+id/date"
+         android:layout_alignParentTop="true"
+         android:layout_toRightOf="@id/date"
+         android:background="@color/listHeaderBackground"
+         android:ellipsize="end"
+         android:gravity="left|center_vertical"
+         android:height="30dp"
+         android:lines="1"
+         android:maxLines="1"
+         android:paddingBottom="3dp"
+         android:paddingLeft="20dp"
+         android:paddingRight="12dp"
+         android:paddingTop="3dp"
+         android:singleLine="true"
+         android:text="New Ion Beam Etcher ordered blah blah blah blah"
+         android:textAppearance="?android:attr/textAppearanceSmall"
+         android:textColor="@color/listHeaderForeground" />
+     
+    <TextView
+        android:id="@+id/content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="6dp"
+        android:textSize="15sp"
+        android:text="A new Ion Beam Etcher NEXUS IBE350Si from VEECO was ordered in December 2012 and will be delivered in March 2013."
+        android:typeface="normal" />
+
+</RelativeLayout>
