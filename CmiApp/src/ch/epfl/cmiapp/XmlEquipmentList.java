@@ -21,7 +21,7 @@ public class XmlEquipmentList
 	private List<CmiEquipment> list = null;
 	
 	
-	public class ResourceNotLoadedException extends Exception
+	public class ResourceNotLoadedException extends RuntimeException
 	{
 		ResourceNotLoadedException()
 		{
@@ -52,8 +52,7 @@ public class XmlEquipmentList
 	public CmiEquipment findByString(String fullString) // throws ResourceNotLoadedException
 	{
 		if (list == null)
-			return null;
-			//throw new ResourceNotLoadedException();
+			throw new ResourceNotLoadedException();
 		
 		for(CmiEquipment eqpt : list)
 		{
