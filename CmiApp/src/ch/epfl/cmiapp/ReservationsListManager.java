@@ -125,7 +125,7 @@ public class ReservationsListManager extends ListManager
 	public void unbookItem(int position)
 	{
 		CmiReservation reservation = adapter.getItem(position);
-		
+
 		SharedPreferences preferences = context.getSharedPreferences("CMI_CREDENTIALS", Context.MODE_PRIVATE);
 		String username = preferences.getString("CMI_USERNAME", null);
 		String password = preferences.getString("CMI_PASSWORD", null);
@@ -142,7 +142,6 @@ public class ReservationsListManager extends ListManager
 			Toast toast = Toast.makeText(context, message, Toast.LENGTH_LONG);
 			toast.show();
 		}
-		
 		//getActivity().setProgressBarVisibility(true);
 		//getActivity().setProgressBarIndeterminateVisibility(true);
 	}
@@ -178,6 +177,7 @@ public class ReservationsListManager extends ListManager
 
 	public void onBookingComplete()
 	{
+		Log.d("ReservationsListManager.onBookingComplete", "Reservations unbooking complete.");
 		wrapper.notifyDataSetChanged();
 	}
 	

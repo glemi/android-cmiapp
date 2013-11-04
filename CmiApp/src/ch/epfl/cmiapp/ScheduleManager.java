@@ -273,8 +273,6 @@ public class ScheduleManager
 	{
 		this.state = newState;
 		Log.d("ScheduleManager.changeState", "new state: " + newState.toString() + "\t listeners: " + onStateChangedListeners.count());
-		for (onStateChangedListener listener : onStateChangedListeners)
-			listener.onStateChanged(newState);
 		
 		for (SlotListAdapter adapter : adapters) switch (newState)
 		{
@@ -284,6 +282,7 @@ public class ScheduleManager
 			adapter.setActionHightlightEnabled(false);
 			adapter.setDisplayProgressIndicators(false);
 			adapter.notifyDataSetChanged();
+			Log.d("ScheduleManager.changeState", "back to idle.");
 			break;
 		case BOOKING_MODE:
 			adapter.setActionHightlightEnabled(true);
@@ -297,6 +296,9 @@ public class ScheduleManager
 		case WAITING_FOR_RELOAD:
 			
 		}
+		
+		for (onStateChangedListener listener : onStateChangedListeners)
+			listener.onStateChanged(newState);
 	}
 	
 	public Loader<Document> onCreateLoader(int id, Bundle args)
@@ -346,7 +348,7 @@ public class ScheduleManager
 			case LOADER_ID_TABLE: // the standard page with reservations table
 				schedule.parseDocument(document, PageType.MAIN_PAGE_RES);
 				changeState(State.IDLE);
-				// huh ? the followin line seems to have worked up to now, 
+				// huh ? the following line seems to have worked up to now, 
 				// suddenly starts giving illegalstateexceptions
 				// TODO find out why IllegalStateException thrown here
 				//loaderManager.getLoader(LOADER_ID_TODAYRES).onContentChanged();

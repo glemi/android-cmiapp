@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <transition 
     xmlns:android="http://schemas.android.com/apk/res/android">
-    
+	<!-- This is the default drawable for all list items;
+		When an animation is drawn, run this transition backwards.
+	 -->
     <!-- The drawables used here can be solid colors, gradients, shapes, images, etc. -->
     <item android:drawable="@drawable/listitem_background_normal" />
     <item android:drawable="@drawable/slector_focused" />

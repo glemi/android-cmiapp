@@ -20,8 +20,6 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.TranslateAnimation;
 import android.widget.BaseAdapter;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -71,6 +69,17 @@ public class SlotListAdapter extends BaseAdapter
 		dimNow_bg	= res.getDrawable(R.drawable.nowslot_dimmed);
 	}
 	
+	
+	
+	@Override
+	public void notifyDataSetChanged()
+	{
+		super.notifyDataSetChanged();
+		Log.d("SlotListAdapter.notifyDatasetChanged", "whoa! dataset changed!!");
+	}
+
+
+
 	private Drawable getBackground(Resources res, int type, boolean reload)
 	{
 		Drawable background = null;
@@ -354,10 +363,9 @@ public class SlotListAdapter extends BaseAdapter
 				background = getBackground(res, getSlotType(slot), true);
 				row.setBackgroundDrawable(background);
 				break;
-			case BOOK:	
+			case BOOK:	// fall thru
 			case REQUEST:
 				row.setBackgroundColor(res.getColor(R.color.bookAction));	
-				Log.d("slotListAdapter.setRowBackground", "setting background to 'book'");
 				break;
 			case UNBOOK: 
 				row.setBackgroundColor(res.getColor(R.color.unbookAction));		
@@ -365,26 +373,36 @@ public class SlotListAdapter extends BaseAdapter
 			}
 			loadBackgrounds(res);
 		}
-		else 
-		{	
-			if (highlightList.contains(slot.getStartTime()))
-			{
-				Log.d("SlotListAdapter.setRowBackground", "slot is being highlighted!!");
-				// TransitionDrawable highlight = (TransitionDrawable) res.getDrawable(R.drawable.highlight);
-				// row.setBackgroundColor(res.getColor(android.R.color.holo_purple));
-				// row.setBackgroundResource(R.drawable.highlight);
-				TransitionDrawable highlight = (TransitionDrawable) row.getBackground();
-				//row.setBackgroundDrawable(highlight);
-				highlight.resetTransition();
-				highlight.startTransition(0);
-				highlight.reverseTransition(600);
-				highlightList.remove(slot.getStartTime());
-			}
-			/*else
-			{
-				background = getBackground(res, getSlotType(slot), false);
-				row.setBackgroundDrawable(background);
-			}*/
+		else if (highlightList.contains(slot.getStartTime()))
+		{
+			Log.d("SlotListAdapter.setRowBackground", "slot is being highlighted!!");
+			// TransitionDrawable highlight = (TransitionDrawable) res.getDrawable(R.drawable.highlight);
+			// row.setBackgroundColor(res.getColor(android.R.color.holo_purple));
+			// row.setBackgroundResource(R.drawable.highlight);
+			TransitionDrawable highlight = (TransitionDrawable) row.getBackground();
+			//row.setBackgroundDrawable(highlight);
+			highlight.resetTransition();
+			highlight.startTransition(0);
+			highlight.reverseTransition(600);
+			highlightList.remove(slot.getStartTime());
+		}
+		else
+		{
+			// this entire else-branch was outcommented for some good reason as I recall
+			// but why? The code does *not* work this way eiter: when a slot geets booked or 
+			// unbooked and the schedule manager goes out of booking mode then the slots 
+			// are stil displayed with that green or orange background color. 
+			
+			/* TODO: ok check out the getBackground method - everything here is very messy
+			 *  If the background get set anew each time this here code executes it is 
+			 *  too inefficient. 
+			 *  There are also these artefacts: if you click on an item (simple, no long
+			 *  press...) then all elements become transparent. not gerd. 
+			 *  Scrolling is slower too...
+			 *  Careful with static resource objects. 
+			 */
+			background = getBackground(res, getSlotType(slot), false);
+			row.setBackgroundDrawable(background);
 		}
 		
 		

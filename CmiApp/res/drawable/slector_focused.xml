@@ -2,7 +2,7 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android" >
      <gradient 
          android:startColor="@color/cmi_red_light"
-         android:centerColor="@color/white"
+         android:centerColor="@color/cmi_red_light"
          android:endColor="@color/cmi_red_light"
          android:type="linear"
      />
