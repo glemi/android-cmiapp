@@ -103,6 +103,8 @@ public class ReservationListAdapter extends CmiPageAdapter
 			String userString = tdUser.text();
 			String dateTimeString = tdDate.text().substring(0, 19);
 			String machId = CmiEquipment.findMachId(tdEqpt.text());
+			if (machId.isEmpty())
+				continue;
 			
 			Log.d("ReservationListAdapter.onParseData", tdEqpt.text());
 

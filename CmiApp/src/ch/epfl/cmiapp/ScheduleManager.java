@@ -214,7 +214,7 @@ public class ScheduleManager
 			
 			CmiSlot slot = adapter.getSlot(position);
 			CmiSlot.BookingAction action = reservation.toogleBooking(slot);
-			Log.d("ScheduleManager.onItemClick", "BOOKING MODE ON: Booking 1 slot - " + slot.getStartTime().toString("EEEE, hh:mm"));
+			Log.d("ScheduleManager.onItemClick", "BOOKING MODE ON: [" + action.toString() +  "] on " + slot.getStartTime().toString("EEEE, hh:mm"));
 			
 			adapter.setActionPending(position, action);
 			adapter.notifyDataSetChanged();

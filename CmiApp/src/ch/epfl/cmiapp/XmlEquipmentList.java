@@ -59,6 +59,8 @@ public class XmlEquipmentList
 			if (fullString.contains(eqpt.fullString))
 				return eqpt;
 		}
+		
+		Log.d("CmiEquipment.findByString", fullString + " not found; Size of EqptList = " + list.size());
 		// try fuzzy search?
 		return null;
 	}

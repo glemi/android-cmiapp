@@ -143,7 +143,8 @@ public class CmiEquipment
 	{
 		CmiEquipment eqpt = staticList.findByString(string);
 		if (eqpt == null)
-			throw new RuntimeException("Machine not found: " + string);
+			return "";
+		//	throw new RuntimeException("Machine not found: " + string);
 		return eqpt.machId;
 	}
 	

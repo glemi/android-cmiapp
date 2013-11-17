@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="36dp"
-    android:background="@drawable/highlight"
+    android:background="@drawable/slot_item_background"
     android:gravity="center_vertical" >
 
     <TextView

@@ -156,15 +156,6 @@ public class SlotListFragment extends Fragment
 			getActivity().setProgressBarIndeterminate(false);
 			
 			//startScrollUpdate();
-			listView.post(new Runnable()
-			{
-				public void run()
-				{
-					adapter.notifyDataSetChanged();
-					Log.d("SlotListFragment.onStateChanged.Runnable", "Runnable executing");
-					
-				}
-			});
 			//listView.post(new ScrollPositionSetter());
 			//adapter.setActionHightlightEnabled(false);
 			//adapter.setDisplayProgressIndicators(false);

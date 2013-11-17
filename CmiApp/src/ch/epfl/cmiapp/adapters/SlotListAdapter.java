@@ -56,6 +56,15 @@ public class SlotListAdapter extends BaseAdapter
 	private static final int STANDARD_SLOT_NOW = 2;
 	private static final int MARGINAL_SLOT_NOW = 3;
 	
+	private static final int BG_NORMAL = 0;
+	private static final int BG_DIMMED = 1;
+	private static final int BG_NORMAL_NOW = 2; 
+	private static final int BG_DIMMED_NOW = 3;
+	private static final int BG_ACTION_BOOK = 4;
+	private static final int BG_ACTION_UNBOOK = 5;
+	private static final int BG_HIGHLIGHT_NORMAL = 6;
+	private static final int BG_HIGHLIGHT_DIMMED = 6;
+	
 	private static Drawable standard_bg = null;  
 	private static Drawable dimmed_bg 	= null;   
 	private static Drawable stdNow_bg   = null;   
@@ -280,13 +289,16 @@ public class SlotListAdapter extends BaseAdapter
 		if (row == null)
 		{
 			row = inflater.inflate(R.layout.schedule_listitem, parent, false);
-			Drawable background = getBackground(res, getItemViewType(position), true);
-			row.setBackgroundDrawable(background);
+			//Drawable background = getBackground(res, getItemViewType(position), true);
+			//row.setBackgroundDrawable(background);
 		}
 		
 		setRowText(row, slot, res);
 		setRowBackground(row, slot, res);
 		setRowHeight(row, slot, res);
+		
+		if (slot.isPast()) row.setEnabled(false);
+		
 		row.setTag(slot);
 		return row;
 	}
@@ -353,66 +365,43 @@ public class SlotListAdapter extends BaseAdapter
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 	void setRowBackground(View row, CmiSlot slot, Resources res)
 	{
-		Drawable background = null; 
+		Drawable background = row.getBackground();
 		
-		if (enableActionHighlights)
+		switch (getSlotType(slot))
 		{
-			switch (slot.action)
-			{
-			case NONE:	 
-				background = getBackground(res, getSlotType(slot), true);
-				row.setBackgroundDrawable(background);
-				break;
-			case BOOK:	// fall thru
-			case REQUEST:
-				row.setBackgroundColor(res.getColor(R.color.bookAction));	
-				break;
-			case UNBOOK: 
-				row.setBackgroundColor(res.getColor(R.color.unbookAction));		
-				break;
-			}
-			loadBackgrounds(res);
+			case STANDARD_SLOT:		 background.setLevel(BG_NORMAL);     break;
+			case STANDARD_SLOT_NOW:  background.setLevel(BG_NORMAL_NOW); break;
+			case MARGINAL_SLOT:      background.setLevel(BG_DIMMED); 	 break;
+			case MARGINAL_SLOT_NOW:  background.setLevel(BG_DIMMED_NOW); break;
+		}
+		
+		if (enableActionHighlights) switch (slot.action)
+		{
+			case REQUEST: 	background.setLevel(BG_ACTION_BOOK); break;
+			case UNBOOK:    background.setLevel(BG_ACTION_UNBOOK); break; 
 		}
 		else if (highlightList.contains(slot.getStartTime()))
 		{
-			Log.d("SlotListAdapter.setRowBackground", "slot is being highlighted!!");
-			// TransitionDrawable highlight = (TransitionDrawable) res.getDrawable(R.drawable.highlight);
-			// row.setBackgroundColor(res.getColor(android.R.color.holo_purple));
-			// row.setBackgroundResource(R.drawable.highlight);
-			TransitionDrawable highlight = (TransitionDrawable) row.getBackground();
+			if (!slot.isMarginal())
+				background.setLevel(BG_HIGHLIGHT_NORMAL);
+			else
+				background.setLevel(BG_HIGHLIGHT_DIMMED);
+			
+			TransitionDrawable highlight = (TransitionDrawable) res.getDrawable(R.drawable.highlight_normal);
+			row.setBackgroundDrawable(highlight);
+			
+			//TransitionDrawable highlight = (TransitionDrawable) row.getBackground();
 			//row.setBackgroundDrawable(highlight);
 			highlight.resetTransition();
 			highlight.startTransition(0);
 			highlight.reverseTransition(600);
 			highlightList.remove(slot.getStartTime());
 		}
-		else
-		{
-			// this entire else-branch was outcommented for some good reason as I recall
-			// but why? The code does *not* work this way eiter: when a slot geets booked or 
-			// unbooked and the schedule manager goes out of booking mode then the slots 
-			// are stil displayed with that green or orange background color. 
-			
-			/* TODO: ok check out the getBackground method - everything here is very messy
-			 *  If the background get set anew each time this here code executes it is 
-			 *  too inefficient. 
-			 *  There are also these artefacts: if you click on an item (simple, no long
-			 *  press...) then all elements become transparent. not gerd. 
-			 *  Scrolling is slower too...
-			 *  Careful with static resource objects. 
-			 */
-			background = getBackground(res, getSlotType(slot), false);
-			row.setBackgroundDrawable(background);
-		}
 		
-		
+		Log.d("SlotListAdapter.setRowBackground", "Level=" + background.getLevel());
 		
 		ProgressBar progressBar = (ProgressBar) row.findViewById(R.id.progressBar);
-		if (slot.isPast())
-		{
-			row.setEnabled(false);
-			// TODO add formatting past slot
-		}
+		
 
 		if (enableProgressIndicators && slot.action != CmiSlot.BookingAction.NONE)
 			progressBar.setVisibility(View.VISIBLE);
@@ -434,19 +423,7 @@ public class SlotListAdapter extends BaseAdapter
 	}
 	
 	
-	/*
-		int availableColor  = res.getColor(R.color.bookingAvailable);
-		int restrictedColor   = res.getColor(R.color.bookingRestricted);
-		int maintenanceColor  = res.getColor(R.color.bookingMaintenance);
-		int bookedSelfColor   = res.getColor(R.color.bookingSelf);
-		int bookedColor       = res.getColor(R.color.bookingBooked);
-		
-		int bookActionColor   = res.getColor(R.color.bookAction);
-		int unbookActionColor = res.getColor(R.color.unbookAction);
-		
-		
-		
-		if(slot.status == CmiSlot.BookingStatus.NOT_BOOKABLE)
+	/*  if(slot.status == CmiSlot.BookingStatus.NOT_BOOKABLE)
 		{	// NO SLOT HAVING status = NOT_BOOKABLE MAY EXIST!
 			// THIS CODE SHOULD NEVER BE EXECUTED!
 			ListView listView = (ListView) parent.findViewById(R.id.scheduleList);
