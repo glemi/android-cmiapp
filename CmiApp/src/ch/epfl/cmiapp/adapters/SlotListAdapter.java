@@ -26,6 +26,7 @@ import android.widget.TextView;
 import ch.epfl.cmiapp.CmiSchedule;
 import ch.epfl.cmiapp.CmiSlot;
 import ch.epfl.cmiapp.R;
+import ch.epfl.cmiapp.R.id;
 
 // http://cyrilmottier.com/2011/08/08/listview-tips-tricks-3-create-fancy-listviews/
 
@@ -367,42 +368,46 @@ public class SlotListAdapter extends BaseAdapter
 	{
 		Drawable background = row.getBackground();
 		
-		switch (getSlotType(slot))
-		{
-			case STANDARD_SLOT:		 background.setLevel(BG_NORMAL);     break;
-			case STANDARD_SLOT_NOW:  background.setLevel(BG_NORMAL_NOW); break;
-			case MARGINAL_SLOT:      background.setLevel(BG_DIMMED); 	 break;
-			case MARGINAL_SLOT_NOW:  background.setLevel(BG_DIMMED_NOW); break;
-		}
-		
 		if (enableActionHighlights) switch (slot.action)
 		{
+			case BOOK:      // fall through
 			case REQUEST: 	background.setLevel(BG_ACTION_BOOK); break;
 			case UNBOOK:    background.setLevel(BG_ACTION_UNBOOK); break; 
 		}
 		else if (highlightList.contains(slot.getStartTime()))
 		{
+			TransitionDrawable highlight = null;
+			
 			if (!slot.isMarginal())
-				background.setLevel(BG_HIGHLIGHT_NORMAL);
+				highlight = (TransitionDrawable) res.getDrawable(R.drawable.highlight_normal);
 			else
-				background.setLevel(BG_HIGHLIGHT_DIMMED);
+				highlight = (TransitionDrawable) res.getDrawable(R.drawable.highlight_dimmed);
 			
-			TransitionDrawable highlight = (TransitionDrawable) res.getDrawable(R.drawable.highlight_normal);
 			row.setBackgroundDrawable(highlight);
-			
-			//TransitionDrawable highlight = (TransitionDrawable) row.getBackground();
-			//row.setBackgroundDrawable(highlight);
+			row.setBackground(highlight);
 			highlight.resetTransition();
 			highlight.startTransition(0);
 			highlight.reverseTransition(600);
 			highlightList.remove(slot.getStartTime());
 		}
-		
-		Log.d("SlotListAdapter.setRowBackground", "Level=" + background.getLevel());
+		else
+		{
+			if (background instanceof TransitionDrawable)
+			{	
+				background = res.getDrawable(R.drawable.slot_item_background);
+				row.setBackgroundDrawable(background);
+			}
+			switch (getSlotType(slot))
+			{
+				case STANDARD_SLOT:		 background.setLevel(BG_NORMAL);     break;
+				case STANDARD_SLOT_NOW:  background.setLevel(BG_NORMAL_NOW); break;
+				case MARGINAL_SLOT:      background.setLevel(BG_DIMMED); 	 break;
+				case MARGINAL_SLOT_NOW:  background.setLevel(BG_DIMMED_NOW); break;
+			}
+		}
 		
 		ProgressBar progressBar = (ProgressBar) row.findViewById(R.id.progressBar);
 		
-
 		if (enableProgressIndicators && slot.action != CmiSlot.BookingAction.NONE)
 			progressBar.setVisibility(View.VISIBLE);
 		else

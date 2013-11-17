@@ -29,7 +29,6 @@ public class CmiUser
 		company   = "";
 		zone      = 0;
 		sinceTime = "unknown";
-		
 	}
 	
 	public CmiUser(String firstName, String lastName, int zone, String since)
