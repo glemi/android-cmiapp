@@ -15,6 +15,7 @@
 			<attribute name="javadoc_location" value="jar:file:/home/glemi/Workspaces/Java/libraries/joda-time-2.1/joda-time-2.1-javadoc.jar!/"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="libs/acra-4.5.0.jar"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
