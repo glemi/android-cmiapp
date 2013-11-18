@@ -71,15 +71,6 @@ public class SlotListAdapter extends BaseAdapter
 	private static Drawable stdNow_bg   = null;   
 	private static Drawable dimNow_bg	= null; 
 	
-	private static void loadBackgrounds(Resources res)
-	{
-		standard_bg = res.getDrawable(R.drawable.highlight);
-		dimmed_bg   = res.getDrawable(R.drawable.highlight_dimmed);
-		stdNow_bg   = res.getDrawable(R.drawable.nowslot_default);
-		dimNow_bg	= res.getDrawable(R.drawable.nowslot_dimmed);
-	}
-	
-	
 	
 	@Override
 	public void notifyDataSetChanged()
@@ -87,37 +78,6 @@ public class SlotListAdapter extends BaseAdapter
 		super.notifyDataSetChanged();
 		Log.d("SlotListAdapter.notifyDatasetChanged", "whoa! dataset changed!!");
 	}
-
-
-
-	private Drawable getBackground(Resources res, int type, boolean reload)
-	{
-		Drawable background = null;
-		if (standard_bg == null)
-		{
-			loadBackgrounds(res);
-			reload = false;
-		}
-		
-		if (reload)
-			switch (type)
-			{
-				case MARGINAL_SLOT_NOW: background = res.getDrawable(R.drawable.nowslot_dimmed); break;
-				case STANDARD_SLOT_NOW: background = res.getDrawable(R.drawable.nowslot_default); break;
-				case MARGINAL_SLOT:     background = res.getDrawable(R.drawable.highlight_dimmed); break;
-				case STANDARD_SLOT:     background = res.getDrawable(R.drawable.highlight); break;
-			}
-		else
-			switch (type)
-			{
-				case MARGINAL_SLOT_NOW: background = dimNow_bg; break;
-				case STANDARD_SLOT_NOW: background = stdNow_bg; break;
-				case MARGINAL_SLOT:     background = dimmed_bg; break;
-				case STANDARD_SLOT:     background = standard_bg; break;
-			}
-		return background;
-	}
-	
 	
 	public void setContent(CmiSchedule schedule, LocalDateTime start, LocalDateTime end)
 	{
@@ -368,42 +328,53 @@ public class SlotListAdapter extends BaseAdapter
 	{
 		Drawable background = row.getBackground();
 		
-		if (enableActionHighlights) switch (slot.action)
+		if (highlightList.contains(slot.getStartTime()))
 		{
-			case BOOK:      // fall through
-			case REQUEST: 	background.setLevel(BG_ACTION_BOOK); break;
-			case UNBOOK:    background.setLevel(BG_ACTION_UNBOOK); break; 
-		}
-		else if (highlightList.contains(slot.getStartTime()))
-		{
-			TransitionDrawable highlight = null;
+			/* not working:
+			 *  erratic behavior. Some items would be highlighted and others not. 
+			 *  once the animation has played, the default background drawable 
+			 *  should be put back in place - otherwise changing the background 
+			 *  by using setLevel won't work anymore because it's applied to a 
+			 *  TransitionDrawable now and no more to a LevelListDrawable
+			 * */
 			
+			//Log.d("SlotListAdapter.setRowBackground", "Animating: " + slot.getStartTime().toString("HH:mm") + " " + timeView.getText());
+			
+			TransitionDrawable highlight = null;
 			if (!slot.isMarginal())
 				highlight = (TransitionDrawable) res.getDrawable(R.drawable.highlight_normal);
 			else
 				highlight = (TransitionDrawable) res.getDrawable(R.drawable.highlight_dimmed);
 			
-			row.setBackgroundDrawable(highlight);
 			row.setBackground(highlight);
 			highlight.resetTransition();
 			highlight.startTransition(0);
 			highlight.reverseTransition(600);
-			highlightList.remove(slot.getStartTime());
-		}
-		else
+			
+			row.postDelayed(new Runnable() { public void run() { highlightList.clear(); } }, 800);
+			// here is the culprit! if the item is removed immediately then for some reason some 
+			// of the highlights will not be drawn!
+			//highlightList.remove(slot.getStartTime());
+		} 
+		else if (background instanceof TransitionDrawable)
 		{
-			if (background instanceof TransitionDrawable)
-			{	
-				background = res.getDrawable(R.drawable.slot_item_background);
-				row.setBackgroundDrawable(background);
-			}
-			switch (getSlotType(slot))
-			{
-				case STANDARD_SLOT:		 background.setLevel(BG_NORMAL);     break;
-				case STANDARD_SLOT_NOW:  background.setLevel(BG_NORMAL_NOW); break;
-				case MARGINAL_SLOT:      background.setLevel(BG_DIMMED); 	 break;
-				case MARGINAL_SLOT_NOW:  background.setLevel(BG_DIMMED_NOW); break;
-			}
+			background = res.getDrawable(R.drawable.slot_item_background);
+			row.setBackground(background);
+		}
+
+		switch (getSlotType(slot))
+		{
+			case STANDARD_SLOT:		 background.setLevel(BG_NORMAL);     break;
+			case STANDARD_SLOT_NOW:  background.setLevel(BG_NORMAL_NOW); break;
+			case MARGINAL_SLOT:      background.setLevel(BG_DIMMED); 	 break;
+			case MARGINAL_SLOT_NOW:  background.setLevel(BG_DIMMED_NOW); break;
+		}
+		
+		if (enableActionHighlights) switch (slot.action)
+		{
+			case BOOK:      // fall through
+			case REQUEST: 	background.setLevel(BG_ACTION_BOOK); break;
+			case UNBOOK:    background.setLevel(BG_ACTION_UNBOOK); break; 
 		}
 		
 		ProgressBar progressBar = (ProgressBar) row.findViewById(R.id.progressBar);
