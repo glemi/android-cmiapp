@@ -64,47 +64,51 @@ public class NewsAdapter extends CmiPageAdapter
 	}
 	
 	@Override
-	protected void onParseData(Document page)
+	protected boolean onParseData(Document page)
 	{
-		if(page == null) return;
-		
-		Elements newsDivs = page.getElementsByClass("newsDiv");
-		
-		for (Element newsDiv : newsDivs)
+		try
 		{
-			Element header1Div 	= newsDiv.select("div[class=newsHeader]").get(0);
-			Element header2Div 	= newsDiv.select("div[class=newsHeader]").get(1);
-			Element contentDiv 	= newsDiv.select("div[class=content]").first(); 
+			Elements newsDivs = page.getElementsByClass("newsDiv");
 			
-			String idString     = newsDiv.attr("newsId");
-			String dateString 	= header1Div.select("em").first().text();
-			String title	  	= header2Div.select("strong").first().text();
-			String allContent 	= contentDiv.html();
-			String content 	  	= "";
-			
-			DateTimeFormatter formatter = DateTimeFormat.forPattern("dd/mm/yy");
-			LocalDate date = formatter.parseLocalDate(dateString.trim());
-			
-			String[] lines = allContent.split("<br\\s?/>");
-			
-			for (int k = 0; k < lines.length; k++)
-				if (lines[k].length() > content.length())
-					content = lines[k];
-			
-			CmiNewsItem newsItem = new CmiNewsItem();
-			newsItem.newsId = Integer.parseInt(idString);
-			newsItem.date = date;
-			newsItem.title = title;
-			newsItem.content = content;
-			Log.d("NewsAdapter.onParseData", newsItem.content.substring(0, 25) + "...");
-			newsItems.add(newsItem);
-		}	
-		
-		newsList.addAll(newsItems);
-		
-		Log.d("NewsAdapter.onParseData", "Parsing News Data: " + newsItems.size() + " items.");
-		
-		notifyDataSetChanged();
+			for (Element newsDiv : newsDivs)
+			{
+				Element header1Div 	= newsDiv.select("div[class=newsHeader]").get(0);
+				Element header2Div 	= newsDiv.select("div[class=newsHeader]").get(1);
+				Element contentDiv 	= newsDiv.select("div[class=content]").first(); 
+				
+				String idString     = newsDiv.attr("newsId");
+				String dateString 	= header1Div.select("em").first().text();
+				String title	  	= header2Div.select("strong").first().text();
+				String allContent 	= contentDiv.html();
+				String content 	  	= "";
+				
+				DateTimeFormatter formatter = DateTimeFormat.forPattern("dd/mm/yy");
+				LocalDate date = formatter.parseLocalDate(dateString.trim());
+				
+				String[] lines = allContent.split("<br\\s?/>");
+				
+				for (int k = 0; k < lines.length; k++)
+					if (lines[k].length() > content.length())
+						content = lines[k];
+				
+				CmiNewsItem newsItem = new CmiNewsItem();
+				newsItem.newsId = Integer.parseInt(idString);
+				newsItem.date = date;
+				newsItem.title = title;
+				newsItem.content = content;
+				Log.d("NewsAdapter.onParseData", newsItem.content.substring(0, 25) + "...");
+				newsItems.add(newsItem);
+			}	
+			newsList.addAll(newsItems);
+			Log.d("NewsAdapter.onParseData", "Parsing News Data: " + newsItems.size() + " items.");
+			return true;
+		}
+		catch (RuntimeException exception)
+		{
+			Log.d("EqptListAdapter.onParseData", "ERROR CAUGHT: MALFORMED CMI PAGE?");
+			Log.d("EqptListAdapter.onParseData", exception.getStackTrace().toString());
+			return false;
+		}
 	}
 	
 	/*

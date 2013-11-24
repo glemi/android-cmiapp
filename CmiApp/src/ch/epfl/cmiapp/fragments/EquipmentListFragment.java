@@ -71,11 +71,8 @@ public class EquipmentListFragment extends Fragment
 
 	public void onLoadFinished(Loader<Document> loader, Document document)
 	{
-		if (document != null)
-		{
-			adapter.setPage(document);
+		if (adapter.setPage(document))
 			changeStatus(Status.NORMAL);	
-		}
 		else
 			changeStatus(Status.FAILED_LOADING);
 	}

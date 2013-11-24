@@ -1,5 +1,6 @@
 package ch.epfl.cmiapp.adapters;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import org.jsoup.nodes.*;
@@ -9,13 +10,17 @@ public abstract class CmiPageAdapter extends SectionedListAdapter
 	implements AdapterView.OnItemClickListener
 {
 	
-	public void setPage(Document page)
+	public boolean setPage(Document page)
 	{
-		onParseData(page);	// done by subclass
-		notifyDataSetChanged(); // done by superclass
+		boolean success = false;
+		if (page != null)
+			success = onParseData(page); // done by subclass
+		notifyDataSetChanged();	 // done by superclass
+		Log.d("CmiPageAdaper.setPage", "setPage: " + success);
+		return success;		
 	}
 	
-	protected abstract void onParseData(Document page);
+	protected abstract boolean onParseData(Document page);
 
 	public abstract String getEmptyText();
 

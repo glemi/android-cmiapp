@@ -45,15 +45,14 @@ public class ReservationListAdapter extends CmiPageAdapter
 	}
 	
 	@Override
-	protected void onParseData(Document page)
+	protected boolean onParseData(Document page)
 	{
-		if (page == null)
-			return;
-		
-		parseSlots(page);
+		boolean success = parseSlots(page);
 		
 		if (!slots.isEmpty())
 			buildReservations();
+		
+		return success;
 	}
 	
 	private void buildReservations()
@@ -80,48 +79,58 @@ public class ReservationListAdapter extends CmiPageAdapter
 		java.util.Collections.sort(reservations);
 	}
 	
-	private void parseSlots(Document page)
+	private boolean parseSlots(Document page)
 	{
-		Element restable = page.select("table").first();
-		Elements rows = restable.select("tr");
-		
-		if (rows.size() > 0)
+		try 
 		{
-			slots.clear();
-			reservations.clear();
+			Element restable = page.select("table").first();
+			Elements rows = restable.select("tr");
+			
+			if (rows.size() > 0)
+			{
+				slots.clear();
+				reservations.clear();
+			}
+			
+			for (int rowIndex = 1; rowIndex < rows.size(); rowIndex++)
+			{
+				Element row = rows.get(rowIndex);
+				Element tdUser = row.child(0);
+				Element tdEqpt = row.child(1);
+				Element tdDate = row.child(2);
+				Element tdCmt1 = row.child(3);
+				Element tdCmt3 = row.child(4);
+				
+				String userString = tdUser.text();
+				String dateTimeString = tdDate.text().substring(0, 19);
+				String machId = CmiEquipment.findMachId(tdEqpt.text());
+				if (machId.isEmpty())
+					continue;
+				
+				Log.d("ReservationListAdapter.onParseData", tdEqpt.text());
+	
+				CmiSlot slot = CmiSlot.instantiate(machId, dateTimeString);
+				if (slot == null)
+					continue;
+				
+				slot.status = CmiSlot.BookingStatus.BOOKED_SELF;
+				
+				if (!slot.isPast() && slot.getDateOffset() < 10)
+					slots.add(slot);
+			}
+			
+			if (slots.isEmpty() && rows.size() > 0)
+			{
+				// data has been received but no slots have been added
+				noReservations = true;
+			}
+			return true;
 		}
-		
-		for (int rowIndex = 1; rowIndex < rows.size(); rowIndex++)
+		catch (RuntimeException exception)
 		{
-			Element row = rows.get(rowIndex);
-			Element tdUser = row.child(0);
-			Element tdEqpt = row.child(1);
-			Element tdDate = row.child(2);
-			Element tdCmt1 = row.child(3);
-			Element tdCmt3 = row.child(4);
-			
-			String userString = tdUser.text();
-			String dateTimeString = tdDate.text().substring(0, 19);
-			String machId = CmiEquipment.findMachId(tdEqpt.text());
-			if (machId.isEmpty())
-				continue;
-			
-			Log.d("ReservationListAdapter.onParseData", tdEqpt.text());
-
-			CmiSlot slot = CmiSlot.instantiate(machId, dateTimeString);
-			if (slot == null)
-				continue;
-			
-			slot.status = CmiSlot.BookingStatus.BOOKED_SELF;
-			
-			if (!slot.isPast() && slot.getDateOffset() < 10)
-				slots.add(slot);
-		}
-		
-		if (slots.isEmpty() && rows.size() > 0)
-		{
-			// data has been received but no slots have been added
-			noReservations = true;
+			Log.d("EqptListAdapter.onParseData", "ERROR CAUGHT: MALFORMED CMI PAGE?");
+			Log.d("EqptListAdapter.onParseData", exception.getStackTrace().toString());
+			return false;
 		}
 	}
 	
@@ -203,7 +212,7 @@ public class ReservationListAdapter extends CmiPageAdapter
 		if (reservation.isNow())
 		{
 			Resources res = context.getResources();
-			Drawable background = res.getDrawable(R.drawable.nowslot);
+			Drawable background = res.getDrawable(R.drawable.nowslot_default);
 			row.setBackgroundDrawable(background);
 		}
 		Log.d("ReservationListAdapter.getItemView", "\t\t\t\tView Text = " + eqpt.name);

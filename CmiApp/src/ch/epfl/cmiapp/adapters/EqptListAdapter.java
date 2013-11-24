@@ -59,34 +59,44 @@ public class EqptListAdapter extends CmiPageAdapter
 	}
 	
 	@Override
-	protected void onParseData(Document page)
+	protected boolean onParseData(Document page)
 	{
-		// to do: first check if page is what we expected...
-		Log.d("EqptListAdapter", "onParseData");
-		Elements elements = page.select("option[value^=mach]");
-		
-		if (elements.size() > 0)
-			eqptList.clear();
-
-		for(Element element : elements)
+		try 
 		{
-			String machId = element.attr("Value");
-			CmiEquipment equipment = CmiEquipment.getEquipmentByMachId(machId);
+			// to do: first check if page is what we expected...
+			Log.d("EqptListAdapter", "onParseData");
+			Elements elements = page.select("option[value^=mach]");
 			
-			if (equipment != null)
-				eqptList.add(equipment);
-			else
+			if (elements.size() > 0)
+				eqptList.clear();
+	
+			for(Element element : elements)
 			{
-				Log.d("EqptListAdapter.onParseData", "Equipment lookup failed. Using the old-fashioned parsing method.");
+				String machId = element.attr("Value");
+				CmiEquipment equipment = CmiEquipment.getEquipmentByMachId(machId);
 				
-				equipment = new CmiEquipment();
-				if (equipment.parseString(element.text()))
-			    {
-			    	equipment.machId = machId;
-			    	eqptList.add(equipment);
-			    	Log.d("EqptListAdapter.onParseData", equipment.name);
-			    }
+				if (equipment != null)
+					eqptList.add(equipment);
+				else
+				{
+					Log.d("EqptListAdapter.onParseData", "Equipment lookup failed. Using the old-fashioned parsing method.");
+					
+					equipment = new CmiEquipment();
+					if (equipment.parseString(element.text()))
+				    {
+				    	equipment.machId = machId;
+				    	eqptList.add(equipment);
+				    	Log.d("EqptListAdapter.onParseData", equipment.name);
+				    }
+				}
 			}
+			return true;
+			
+		} catch (RuntimeException exception)
+		{
+			Log.d("EqptListAdapter.onParseData", "ERROR CAUGHT: MALFORMED CMI PAGE?");
+			Log.d("EqptListAdapter.onParseData", exception.getStackTrace().toString());
+			return false;
 		}
 	}
 

@@ -57,80 +57,90 @@ public class UserListAdapter extends CmiPageAdapter
 	}
 
 	@Override
-	protected void onParseData(Document page)
+	protected boolean onParseData(Document page)
 	{
-		Elements elements = page.select("td");
-		
-		if(elements.size() >= 3)
+		try
 		{
-			users.clear();
+			Elements elements = page.select("td");
 			
-			Iterator<Element> iter = elements.iterator();
-			while (iter.hasNext()) 
+			if(elements.size() >= 3)
 			{
-				CmiUser user = new CmiUser();
+				users.clear();
 				
-				//Log.d("GetUsers()", iter.toString());
-				
-				String nameString = iter.next().text();
-				String zoneString = iter.next().text();
-				String timeString = iter.next().text();
-				
-				String company = "";
-			    String firstName = "";
-			    String lastName = "";
+				Iterator<Element> iter = elements.iterator();
+				while (iter.hasNext()) 
+				{
+					CmiUser user = new CmiUser();
 					
-				String[] userParts = nameString.split("\\s-\\s");
-				
-				if (userParts.length == 2)
-					company = userParts[1];
-				nameString = userParts[0];
-				
-			    String[] nameParts = nameString.split("\\s");
-			    
-			    for(String namePart : nameParts)
-			    {
-			    	if (namePart == namePart.toUpperCase() && namePart.length() > 1)
-			    	{
-			    		lastName += namePart.charAt(0);
-			    		lastName += namePart.substring(1).toLowerCase();
-			    		lastName += " ";
-			    	}
-			    	else
-			    	{
-			    		firstName += namePart + " ";
-			    	}
-			    }
-			    
-			    user.firstName = firstName.trim();
-			    user.lastName  = lastName.trim(); 
-			    user.company   = company.trim();
+					//Log.d("GetUsers()", iter.toString());
+					
+					String nameString = iter.next().text();
+					String zoneString = iter.next().text();
+					String timeString = iter.next().text();
+					
+					String company = "";
+				    String firstName = "";
+				    String lastName = "";
+						
+					String[] userParts = nameString.split("\\s-\\s");
+					
+					if (userParts.length == 2)
+						company = userParts[1];
+					nameString = userParts[0];
+					
+				    String[] nameParts = nameString.split("\\s");
+				    
+				    for(String namePart : nameParts)
+				    {
+				    	if (namePart == namePart.toUpperCase() && namePart.length() > 1)
+				    	{
+				    		lastName += namePart.charAt(0);
+				    		lastName += namePart.substring(1).toLowerCase();
+				    		lastName += " ";
+				    	}
+				    	else
+				    	{
+				    		firstName += namePart + " ";
+				    	}
+				    }
+				    
+				    user.firstName = firstName.trim();
+				    user.lastName  = lastName.trim(); 
+				    user.company   = company.trim();
 
-			    user.zoneString = zoneString;
-			    
-				Pattern pattern = Pattern.compile("Zone (\\d+)");
-				Matcher matcher = pattern.matcher(zoneString);
-				
-				if (matcher.matches())
-				{
-					String zoneNumber = matcher.group(1);
-					user.zone = Integer.parseInt(zoneNumber); 
+				    user.zoneString = zoneString;
+				    
+					Pattern pattern = Pattern.compile("Zone (\\d+)");
+					Matcher matcher = pattern.matcher(zoneString);
+					
+					if (matcher.matches())
+					{
+						String zoneNumber = matcher.group(1);
+						user.zone = Integer.parseInt(zoneNumber); 
+					}
+					else if (zoneString.contains("Couloir +1"))
+					{
+						user.zoneString = "BM +1";
+						user.zone = -1;
+					}
+					else if (zoneString.contains("Couloir -1"))
+					{
+						user.zoneString = "BM -1";
+						user.zone = -2;
+					}
+					
+					user.sinceTime = timeString;
+				    
+				    users.add(user);
 				}
-				else if (zoneString.contains("Couloir +1"))
-				{
-					user.zoneString = "BM +1";
-					user.zone = -1;
-				}
-				else if (zoneString.contains("Couloir -1"))
-				{
-					user.zoneString = "BM -1";
-					user.zone = -2;
-				}
-				
-				user.sinceTime = timeString;
-			    
-			    users.add(user);
 			}
+			return true;
+		}
+		catch (RuntimeException exception)
+		{
+			Log.d("EqptListAdapter.onParseData", "ERROR CAUGHT: MALFORMED CMI PAGE?");
+			Log.d("EqptListAdapter.onParseData", exception.getStackTrace().toString());
+			return false;
 		}		
 	}
 

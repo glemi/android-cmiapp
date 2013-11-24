@@ -160,12 +160,10 @@ public class ReservationsListManager extends ListManager
 			CmiEquipment.loadEquipmentList(context);
 		Log.d("ReservationsListManager.onLoadFinished", "Reservations Finished Loading.");
 		
-		if (page != null)
+		if (adapter.setPage(page))
 			wrapper.setMode(TransientAdapter.TransientMode.EMPTY);
 		else
 			wrapper.setMode(TransientAdapter.TransientMode.FAILED);
-		
-		adapter.setPage(page);
 	}
 
 	@Override

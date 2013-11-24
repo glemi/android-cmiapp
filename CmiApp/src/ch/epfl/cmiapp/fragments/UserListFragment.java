@@ -82,13 +82,10 @@ public class UserListFragment extends Fragment
 
 	public void onLoadFinished(Loader<Document> id, Document document)
 	{
-		if (document != null)
+		if (adapter.setPage(document))
 		{
-			adapter.setPage(document);
 			setEmptyText(adapter.getEmptyText());
-			
 			String time = org.joda.time.LocalDateTime.now().toString("HH:mm:ss");
-			
 			lastUpdateView.setText("last updated " + time);
 		}
 		else

@@ -45,11 +45,12 @@ public class CmiLoader extends AsyncTaskLoader<Document>
 		}
 	}
 	
-	static private String mainPageUrl = "http://cmisrv1.epfl.ch/reservation/reserv.php";
-	static private String userListUrl = "http://cmisrv1.epfl.ch/spc/utilSB/include/tabUtilLimit.php?hauteur=800";
-	static private String allReservPageUrl = "http://cmisrv1.epfl.ch/reservation/allreserv.php";
-	static private String userReservPageUrl = "http://cmisrv1.epfl.ch/reservation/myreserv.php";
-	static private String newsPageUrl = "http://cmisrv1.epfl.ch/reservation/news/displayNews.php";
+	static private String baseUrl = "http://cmisrvm1.epfl.ch";
+	static private String mainPageUrl = baseUrl + "/reservation/reserv.php";
+	static private String userListUrl = baseUrl + "/spc/utilSB/include/tabUtilLimit.php?hauteur=800";
+	static private String allReservPageUrl = baseUrl + "/reservation/allreserv.php";
+	static private String userReservPageUrl = baseUrl + "/reservation/myreserv.php";
+	static private String newsPageUrl = baseUrl + "/reservation/news/displayNews.php";
 	
 	private Document cmiPage = null;
 	private PageType dedication;
@@ -365,6 +366,7 @@ public class CmiLoader extends AsyncTaskLoader<Document>
 		catch (IOException ioException) 
 		{
 			lastException = ioException;
+			Log.d("CmiLoader.loadPage", "IOException loading CMI page: " + ioException.getMessage());
 		}
 		
 		return document;

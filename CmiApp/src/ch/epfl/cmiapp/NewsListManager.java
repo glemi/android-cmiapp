@@ -68,8 +68,7 @@ public class NewsListManager extends ListManager
 	@Override
 	public void onLoadFinished(Loader<Document> loader, Document page)
 	{
-		adapter.setPage(page);
-		if (page != null)
+		if (adapter.setPage(page))
 			wrapper.setMode(TransientAdapter.TransientMode.EMPTY);
 		else
 			wrapper.setMode(TransientAdapter.TransientMode.FAILED);
