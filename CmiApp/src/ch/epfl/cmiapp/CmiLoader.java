@@ -47,7 +47,7 @@ public class CmiLoader extends AsyncTaskLoader<Document>
 	
 	static private String baseUrl = "http://cmisrvm1.epfl.ch";
 	static private String mainPageUrl = baseUrl + "/reservation/reserv.php";
-	static private String userListUrl = baseUrl + "/spc/utilSB/include/tabUtilLimit.php?hauteur=800";
+	static private String userListUrl = "http://cmisrv1.epfl.ch/spc/utilSB/include/tabUtilLimit.php?hauteur=800";
 	static private String allReservPageUrl = baseUrl + "/reservation/allreserv.php";
 	static private String userReservPageUrl = baseUrl + "/reservation/myreserv.php";
 	static private String newsPageUrl = baseUrl + "/reservation/news/displayNews.php";
