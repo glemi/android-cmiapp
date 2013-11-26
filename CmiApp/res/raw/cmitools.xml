@@ -640,21 +640,32 @@
 		name="EVG150"
 		description="Coater and Developer System for Positive Resist">
 		<configuration>
-			<setting title="Substrate Size" id="list0" name="Substrate size" default="331" display="0">
+			<setting title="Substrate Size" id="list0" name="Substrate size" default="630" display="1">
 				<option title="Not Used" name="N/A" value="0"/>
-				<option title="4 or 6 inch" name="4 or 6 inch" value="331"/>
+				<option title="100mm" name="100mm" value="630"/>
+				<option title="150mm" name="150mm Si" value="629" />
 			</setting>
-			<setting title="Dispense system" id="list1" name="Dispense system" default="0" display="1">
-			<option title="Not Used" 					name="N/A" 					value="0" 		description="null"/>
-			<option title="AZ9260 / AZ1512 (Cybor)"		name="Cybor 1 or 2" 		value="336" 	description="For AZ9260 and AZ1512 + Develop"/>
-			<option title="AZ1512HS on LOR (Syringe)" 	name="Syringe LOR" 			value="338" 	description="For AZ1512HS on LOR (DL lift-off) + develop"/>
-			<option title="TI35ES (Syringe)" 			name="Syringe TI35ES" 		value="339" 	description="For reversal image lift-off (fridge stored) + develop"/>
-			<option title="nLoF 0.8µm (Syringe)" 		name="Syr nLoF  0um8" 		value="573" 	description="Image reversal 400 to 800nm"/>
-			<option title="nLoF 1.3µm (Syringe)" 		name="Syr nLoF  1um3" 		value="341" 	description="Image reversal 1.3 to 3.5mu"/>
-			<option title="4:8:90 Spray Coating" 		name="4:8:90 Spray Coating" value="476" 	description="Use Spray Caoting Arm. Standard or precise PR please"/>
-			<option title="4:11:90 Spray Coating" 		name="4:11:90 Spray Coating" value="569" 	description="Use Spray Caoting Arm. Planar"/>
-			<option title="Developer" 					name="Develope" 			value="621" 	description="Temporaire pour maintenance"/>
-		</setting>
+			<setting title="Syringe and Spray" id="list1" name="Dispense system" default="0" display="1">
+				<option title="Not Used" 				name="N/A" 					value="0" 	description="null"/>
+				<option title="LOR (use with AZ1512)"	name="LOR" 					value="639" 	description=""/>
+				<option title="nLoF 1 (400nm – 800nm)"	name="nLoF 1 (400-800)" 	value="640" 	description=""/>
+				<option title="nLoF 2  (1.3μm – 3.5μm)"	name="nLoF 2 (1.3-3.5)" 	value="641" 	description=""/>
+				<option title="TI35ES"					name="TI35ES" 				value="642" 	description=""/>
+				<option title="Spray 4:8:90"			name="Spray 4:8:90" 		value="643" 	description=""/>
+				<option title="Spray 4:11:90"			name="Spray 4:11:90" 		value="644" 	description=""/>
+			</setting>
+			<setting title="Developer lines" id="list2" name="Developer" default="0" display="1">
+			    <option title="Not Used"				name="N/A" 					value="0" 		description=""/>
+			    <option title="Developer" 				name="Developer"			value="645"		description=""/>
+			</setting>
+			<setting title="Resist Line 1" id="list3" name="Resist 1 in line" default="0"  display="1">
+			    <option title="Not Used"				name="N/A" 					value="0"		description=""/>
+			    <option title="AZ 1512"					name="AZ1512" 				value="646"		description=""/>
+			</setting>
+			<setting title="Resist Line 2" id="list4" name="Resist 2 in line" default="0"  display="1">
+			    <option title="Not Used"				name="N/A" 					value="0"		description=""/>
+			    <option title="AZ 9260"					name="AZ9260" 				value="647"		description=""/>
+			</setting>
 		</configuration>
 	</cmitool>
 	<cmitool
