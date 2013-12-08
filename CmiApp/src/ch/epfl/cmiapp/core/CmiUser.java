@@ -1,4 +1,4 @@
-package ch.epfl.cmiapp;
+package ch.epfl.cmiapp.core;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

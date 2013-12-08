@@ -9,8 +9,8 @@ import org.joda.time.Days;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 
-import ch.epfl.cmiapp.CmiSchedule;
 import ch.epfl.cmiapp.ScheduleManager;
+import ch.epfl.cmiapp.core.CmiSchedule;
 import ch.epfl.cmiapp.fragments.SlotListFragment;
 
 

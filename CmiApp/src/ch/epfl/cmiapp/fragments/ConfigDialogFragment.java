@@ -13,10 +13,10 @@ import android.view.View;
 import android.widget.*;
 import android.widget.LinearLayout.*;
 
-import ch.epfl.cmiapp.CmiEquipment;
-import ch.epfl.cmiapp.CmiEquipment.Configuration;
-import ch.epfl.cmiapp.CmiEquipment.Configuration.Setting;
-import ch.epfl.cmiapp.CmiEquipment.Configuration.Option;
+import ch.epfl.cmiapp.core.CmiEquipment;
+import ch.epfl.cmiapp.core.CmiEquipment.Configuration;
+import ch.epfl.cmiapp.core.CmiEquipment.Configuration.Option;
+import ch.epfl.cmiapp.core.CmiEquipment.Configuration.Setting;
 
 public class ConfigDialogFragment extends DialogFragment
 	implements DialogInterface.OnClickListener

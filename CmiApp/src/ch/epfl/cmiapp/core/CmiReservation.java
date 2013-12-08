@@ -1,17 +1,15 @@
-package ch.epfl.cmiapp;
+package ch.epfl.cmiapp.core;
 
 import java.io.*;
 import java.util.*;
 
 import org.joda.time.LocalDateTime;
 import org.jsoup.*;
-import ch.epfl.cmiapp.CmiSlot.BookingAction;
 
 import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import ch.epfl.cmiapp.CmiEquipment.Configuration;
 
 public class CmiReservation 
 	implements Comparable<CmiReservation>

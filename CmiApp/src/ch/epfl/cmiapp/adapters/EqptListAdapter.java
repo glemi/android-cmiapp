@@ -6,11 +6,11 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import ch.epfl.cmiapp.CmiEquipment;
 import ch.epfl.cmiapp.R;
 import ch.epfl.cmiapp.R.id;
 import ch.epfl.cmiapp.R.layout;
 import ch.epfl.cmiapp.activities.CmiFragmentActivity;
+import ch.epfl.cmiapp.core.CmiEquipment;
 
 import android.content.Context;
 import android.content.Intent;

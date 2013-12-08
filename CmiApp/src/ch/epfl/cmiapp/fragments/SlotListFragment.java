@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.joda.time.*;
 
-import ch.epfl.cmiapp.CmiSlot;
 import ch.epfl.cmiapp.ListScrollSyncer;
 import ch.epfl.cmiapp.R;
 import ch.epfl.cmiapp.ScheduleManager;
@@ -13,6 +12,7 @@ import ch.epfl.cmiapp.R.layout;
 import ch.epfl.cmiapp.ScheduleManager.State;
 import ch.epfl.cmiapp.ScheduleManager.onStateChangedListener;
 import ch.epfl.cmiapp.adapters.SlotListAdapter;
+import ch.epfl.cmiapp.core.CmiSlot;
 
 import android.app.Activity;
 import android.support.v4.app.Fragment;

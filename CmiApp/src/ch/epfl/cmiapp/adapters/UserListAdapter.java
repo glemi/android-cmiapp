@@ -8,10 +8,10 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import ch.epfl.cmiapp.CmiUser;
 import ch.epfl.cmiapp.R;
 import ch.epfl.cmiapp.R.id;
 import ch.epfl.cmiapp.R.layout;
+import ch.epfl.cmiapp.core.CmiUser;
 
 import android.content.Context;
 import android.util.Log;

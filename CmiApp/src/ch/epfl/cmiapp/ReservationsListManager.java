@@ -2,11 +2,13 @@ package ch.epfl.cmiapp;
 
 import org.jsoup.nodes.Document;
 
-import ch.epfl.cmiapp.CmiReservation.BookingCallback;
 import ch.epfl.cmiapp.activities.CmiFragmentActivity;
 import ch.epfl.cmiapp.adapters.ReservationListAdapter;
 import ch.epfl.cmiapp.adapters.TransientAdapter;
 import ch.epfl.cmiapp.adapters.TransientAdapter.TransientMode;
+import ch.epfl.cmiapp.core.CmiEquipment;
+import ch.epfl.cmiapp.core.CmiReservation;
+import ch.epfl.cmiapp.core.CmiReservation.BookingCallback;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;

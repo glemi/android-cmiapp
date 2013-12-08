@@ -23,10 +23,10 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import ch.epfl.cmiapp.CmiSchedule;
-import ch.epfl.cmiapp.CmiSlot;
 import ch.epfl.cmiapp.R;
 import ch.epfl.cmiapp.R.id;
+import ch.epfl.cmiapp.core.CmiSchedule;
+import ch.epfl.cmiapp.core.CmiSlot;
 
 // http://cyrilmottier.com/2011/08/08/listview-tips-tricks-3-create-fancy-listviews/
 

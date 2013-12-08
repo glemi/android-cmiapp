@@ -2,13 +2,13 @@ package ch.epfl.cmiapp.fragments;
 
 import org.jsoup.nodes.Document;
 
-import ch.epfl.cmiapp.CmiEquipment;
 import ch.epfl.cmiapp.CmiLoader;
-import ch.epfl.cmiapp.CmiReservation;
 import ch.epfl.cmiapp.R;
-import ch.epfl.cmiapp.CmiReservation.BookingCallback;
 import ch.epfl.cmiapp.activities.CmiFragmentActivity;
 import ch.epfl.cmiapp.adapters.ReservationListAdapter;
+import ch.epfl.cmiapp.core.CmiEquipment;
+import ch.epfl.cmiapp.core.CmiReservation;
+import ch.epfl.cmiapp.core.CmiReservation.BookingCallback;
 
 import android.app.*;
 import android.util.Log;

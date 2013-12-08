@@ -1,4 +1,4 @@
-package ch.epfl.cmiapp;
+package ch.epfl.cmiapp.core;
 
 
 import java.util.*;
@@ -13,7 +13,8 @@ import org.jsoup.select.Elements;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import ch.epfl.cmiapp.CmiSlot.BookingStatus;
+import ch.epfl.cmiapp.CmiLoader;
+import ch.epfl.cmiapp.CmiLoader.PageType;
 
 import android.util.Log;
 

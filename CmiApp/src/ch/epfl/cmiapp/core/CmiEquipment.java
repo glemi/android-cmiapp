@@ -1,4 +1,4 @@
-package ch.epfl.cmiapp;
+package ch.epfl.cmiapp.core;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -7,8 +7,10 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import ch.epfl.cmiapp.CmiEquipment.Configuration.Setting.Required;
-import ch.epfl.cmiapp.CmiEquipment.Configuration.Setting;
+import ch.epfl.cmiapp.R;
+import ch.epfl.cmiapp.R.raw;
+import ch.epfl.cmiapp.core.CmiEquipment.Configuration.Setting;
+import ch.epfl.cmiapp.core.CmiEquipment.Configuration.Setting.Required;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -170,34 +172,6 @@ public class CmiEquipment
 			public String title; // what should be displayed to the user
 			public String name; // how cmi web system refers to it
 			public String toString() { return title; }
-		}
-	
-		public static class SettingValidator
-		{
-		
-			void reset()
-			{
-				
-			}
-			
-			boolean check(Setting setting)
-			{
-				if(setting.required == Required.DISJUNCT)
-				{
-					
-					
-				}
-				
-				
-				return false;
-				
-			}
-			
-			boolean getVerdict()
-			{
-				return false;
-			}
-			
 		}
 
 		public Iterator<Setting> iterator()

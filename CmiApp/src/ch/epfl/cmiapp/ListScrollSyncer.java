@@ -2,6 +2,8 @@ package ch.epfl.cmiapp;
 
 import java.util.*;
 
+import ch.epfl.cmiapp.core.CmiSlot;
+
 import android.graphics.Rect;
 import android.os.AsyncTask;
 import android.os.AsyncTask.Status;

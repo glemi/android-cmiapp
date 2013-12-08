@@ -9,6 +9,10 @@ import org.jsoup.nodes.Document;
 
 import ch.epfl.cmiapp.CmiLoader.PageType;
 import ch.epfl.cmiapp.adapters.SlotListAdapter;
+import ch.epfl.cmiapp.core.CmiEquipment;
+import ch.epfl.cmiapp.core.CmiReservation;
+import ch.epfl.cmiapp.core.CmiSchedule;
+import ch.epfl.cmiapp.core.CmiSlot;
 
 import android.support.v4.app.LoaderManager;
 import android.content.Context;

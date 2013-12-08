@@ -8,13 +8,13 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import ch.epfl.cmiapp.CmiEquipment;
-import ch.epfl.cmiapp.CmiReservation;
-import ch.epfl.cmiapp.CmiSlot;
 import ch.epfl.cmiapp.R;
-import ch.epfl.cmiapp.CmiSlot.BookingStatus;
 import ch.epfl.cmiapp.R.id;
 import ch.epfl.cmiapp.R.layout;
+import ch.epfl.cmiapp.core.CmiEquipment;
+import ch.epfl.cmiapp.core.CmiReservation;
+import ch.epfl.cmiapp.core.CmiSlot;
+import ch.epfl.cmiapp.core.CmiSlot.BookingStatus;
 
 import android.content.Context;
 import android.content.res.Resources;

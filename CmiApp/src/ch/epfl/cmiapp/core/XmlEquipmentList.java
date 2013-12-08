@@ -1,17 +1,15 @@
-package ch.epfl.cmiapp;
+package ch.epfl.cmiapp.core;
 
 import java.io.*;
 import java.util.*;
 import javax.xml.parsers.*;
 
 import org.w3c.dom.*;
-import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
-import ch.epfl.cmiapp.CmiEquipment.Configuration;
-import ch.epfl.cmiapp.CmiEquipment.Configuration.*;
-import ch.epfl.cmiapp.CmiEquipment.Configuration.Node.*;
-import ch.epfl.cmiapp.CmiEquipment.Configuration.Setting.*;
+import ch.epfl.cmiapp.core.CmiEquipment.Configuration.*;
+import ch.epfl.cmiapp.core.CmiEquipment.Configuration.Node.*;
+import ch.epfl.cmiapp.core.CmiEquipment.Configuration.Setting.*;
 
 import android.util.Log;
 

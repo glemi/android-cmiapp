@@ -1,8 +1,8 @@
-package ch.epfl.cmiapp;
+package ch.epfl.cmiapp.core;
 
 import org.joda.time.*;
 import org.joda.time.format.*;
-import ch.epfl.cmiapp.CmiEquipment.Configuration;
+
 
 import android.util.Log;
 
