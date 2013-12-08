@@ -170,19 +170,19 @@
 		name="Balzers BAS450"
 		description="Single-Chamber Sputter Tool Multi-Target">
 	    <configuration>
-			<setting title="Heating Lamps" id="list0" name="Temperature" default="236" display="1">
+			<setting title="Heating Lamps" id="list0" name="Temperature" default="236" >
 				<option title="Room Temperature" 	name="Room T" 	value="236" 	description="No heating : room temperature"/>
 				<option title="High Temperature" 	name="High T" 	value="237" 	description="Heating : high temperature"/>
 			</setting>
-			<setting title="Meissner (Liquid Nitrogen) Trap" id="list1" name="L-N2" default="239" display="1">
+			<setting title="Meissner (Liquid Nitrogen) Trap" id="list1" name="L-N2" default="239" >
 				<option title="Not Used" 	name="No LN2" 	value="239" 	description="Meissner Trap not used"/>
 				<option title="Used" 		name="LN2" 		value="240" 	description="Meissner Trap used"/>
 			</setting>
-			<setting title="Wafer cleaning before deposition" id="list2" name="RF-etch" default="242" display="1">
+			<setting title="Wafer cleaning before deposition" id="list2" name="RF-etch" default="242" >
 				<option title="None" 		name="No RF-etch" value="242" 	description="No wafer cleaning"/>
 				<option title="RF-etch" 	name="RF-etch" 	value="243" 	description="Wafer cleaning"/>
 			</setting>
-			<setting title="Target on RF source" id="list3" name="RF-source" default="0" display="1">
+			<setting title="Target on RF source" id="list3" name="RF-source" >
 				<option title="Not Used" 	name="N/A" 		value="0" 		description=""/>
 				<option title="SiO2" 		name="SiO2" 	value="250" 	description="SiO2"/>
 				<option title="TiO2" 		name="TiO2" 	value="249" 	description="TiO2"/>
@@ -193,7 +193,7 @@
 				<option title="WSi2" 		name="WSi2" 	value="302" 	description="Tungsten Silicide WSi2 [99.5%]"/>
 				<option title="Zr" 			name="Zr" 		value="539" 	description="Zr [99.2% (Zr + Hf)] ; Hf &lt; 4.5%"/>
 			</setting>
-			<setting title="Target on DC source #1" id="list4" name="DC-source #1" default="0" display="1">
+			<setting title="Target on DC source #1" id="list4" name="DC-source #1" >
 				<option title="Not Used" 	name="N/A" 		value="0" 		description=""/>
 				<option title="Cr" 			name="Cr" 		value="257" 	description="Cr"/>
 				<option title="Ti" 			name="Ti" 		value="253" 	description="Ti [99.995%]"/>
@@ -201,7 +201,7 @@
 				<option title="WTi 10%" 	name="WTi 10%" 	value="255"		description="WTi 10%"/>
 				<option title="W" 			name="W" 		value="540" 	description="W [99.95%]"/>
 			</setting>
-			<setting title="Target on DC source #3" id="list5" name="DC-source #3" default="0" display="1">
+			<setting title="Target on DC source #3" id="list5" name="DC-source #3" >
 				<option title="Not Used" 	name="N/A" 		value="0" 		description=""/>
 				<option title="Au" 			name="Au" 		value="258" 	description="Au [99.99%]"/>
 				<option title="Cu" 			name="Cu" 		value="259" 	description="Cu"/>
@@ -232,27 +232,27 @@
 		name="Alcatel EVA600"
 		description="Evaporator">
 		<configuration>
-			<setting title="e-Beam Crucible 1" id="list0" name="E-beam #1" default="0" display="1">
+			<setting title="e-Beam Crucible 1" id="list0" name="E-beam #1"   required="disjunct">
 				<option title="Not Used" name="N/A" value="0"/>
 				<option title="Aluminum" name="Al" value="219"/>
 			</setting>
-			<setting title="e-Beam Crucible 2" id="list1" name="E-beam #2" default="0" display="1">
+			<setting title="e-Beam Crucible 2" id="list1" name="E-beam #2"  required="disjunct">
 				<option title="Not Used" name="N/A" value="0"/>
 				<option title="Chromium" name="Cr" value="220"/>
 			</setting>
-			<setting title="e-Beam Crucible 3" id="list2" name="E-beam #3" default="0" display="1">
+			<setting title="e-Beam Crucible 3" id="list2" name="E-beam #3"  required="disjunct">
 				<option title="Not Used" name="N/A" value="0"/>
 				<option title="Titanium" name="Ti"  value="223"/>
 				<option title="Cobalt"   name="Co"  value="570"/>
 			</setting>
-			<setting title="e-Beam Crucible 4" id="list3" name="E-beam #4" default="0" display="1">
+			<setting title="e-Beam Crucible 4" id="list3" name="E-beam #4"  required="disjunct">
 				<option title="Not Used" name="N/A" value="0"/>
 				<option title="Cobalt"   name="Co"  value="228"/>
 				<option title="Nickel"   name="Ni"  value="226"/>
 				<option title="Nickel-Iron (81:19)" name="Ni-Fe 19"  value="227"/>
 				<option title="Nickel-Chromium-Iron (75:20:4)" name="Ni-Cr 19" value="471"/>
 			</setting>
-			<setting title="Joule Crucible 1" id="list4" name="Th. Evap #1" default="0" display="1">
+			<setting title="Joule Crucible 1" id="list4" name="Th. Evap #1"  required="disjunct">
 				<option title="Not Used" name="N/A" value="0" />
 				<option title="Silver"   name="Ag"  value="232" />
 				<option title="Copper"   name="Cu"  value="233" />
@@ -261,7 +261,7 @@
 				<option title="Tin"      name="Sn"  value="479" />
 				<option title="Yttrium"  name="Y"   value="480" />
 			</setting>
-			<setting title="Joule Crucible 2" id="list5" name="Th. Evap #1" default="0" display="1">
+			<setting title="Joule Crucible 2" id="list5" name="Th. Evap #1"  required="disjunct">
 				<option title="Not Used" name="N/A" value="0" />
 				<option title="Gold"     name="Au"  value="231" />
 			</setting>
@@ -285,7 +285,7 @@
 		name="Desaules"
 		description="Wet Bench for Electroplating Cu, Ni">
 		<configuration>
-		<setting title="Bath type" id="list0" name="Bath" default="0" display="1">
+		<setting title="Bath type" id="list0" name="Bath"   required="imperative">
 			<option title="Not Used" 	name="N/A" 		value="0" 		description=""/>
 			<option title="Cu TSV" 		name="Cu TSV" 	value="423" 	description="Copper For Via Filling"/>
 			<option title="Cu HL" 		name="Cu HL" 	value="424" 	description="Copper for Step Covering – High Lever Effect"/>
@@ -410,14 +410,14 @@
 		name="Süss SB6"
 		description="Vacuum Anodic Bonder">
 		<configuration>
-		<setting title="Fixature Ring for Tuning" id="list0" name="Alignement Mode" default="0" display="1">
+		<setting title="Fixature Ring for Tuning" id="list0" name="Alignement Mode"   required="imperative">
 			<option title="Not Used" 					name="N/A" 			value="0" 		description=""/>
 			<option title="Manual (No Alignment)" 		name="Manual" 		value="384" 	description="Manual wafer loading (No alignment)"/>
 			<option title="FWB" 						name="FWB" 			value="385" 	description="Manual wafer loading and alignement using 220um spacers"/>
 			<option title="with BA6" 					name="with BA6" 	value="386" 	description="BA6 wafer loading and alignement using 100um spacers"/>
 			<option title="Special" 					name="Special" 		value="469" 	description="Graphite foils + Manual wafer loading (No alignment)"/>
 		</setting>
-		<setting title="Process Type" id="list1" name="Process type / temperature" default="0" display="1">
+		<setting title="Process Type" id="list1" name="Process type / temperature"  required="imperative">
 			<option title="Not Used" 				name="N/A" 					value="0" 		description=""/>
 			<option title="Anodic Bonding" 			name="A_T350_480" 			value="395" 	description="Standard anodic bond, Temperature range 350 to 480 C"/>
 			<option title="Glue Bonding (Low T)" 	name="G_T70 _175" 			value="389" 	description="Epoxy or PI bond, Temperature range 70 to 175 C"/>
@@ -519,12 +519,12 @@
 		name="Pfeiffer-Vacuum SPIDER600"
 		description="Sputter Multi-Chamber">
 		<configuration>
-		<setting title="Wafer diameter (mm)" id="list0" name="Wafer size" default="0" display="1">
+		<setting title="Wafer diameter (mm)" id="list0" name="Wafer size"  required="imperative">
 			<option title="Not Used" 		name="N/A" 		value="0" 		description=""/>
 			<option title="100mm" 			name="100mm" 	value="10" 		description="100mm"/>
 			<option title="150mm" 			name="150mm" 	value="11" 		description="150mm"/>
 		</setting>
-		<setting title="RF - Source (PM1)" id="list1" name="PM1 Target" default="0" display="1">
+		<setting title="RF - Source (PM1)" id="list1" name="PM1 Target"  >
 			<option title="Not Used" 		name="N/A" 		value="0" 		description=""/>
 			<option title="SiO2" 			name="SiO2" 	value="35" 		description="SiO2 [99.99%]"/>
 			<option title="TiO2" 			name="TiO2" 	value="57" 		description="TiO2 [99.5%]"/>
@@ -538,27 +538,27 @@
 			<option title="V2O5" 			name="V2O5" 	value="470" 	description="V2O5 [99.9%]"/>
 			<option title="O2-plasma" 		name="O2-plasma" 	value="526" 	description="Process module is only used for an surface activation with O2"/>
 		</setting>
-		<setting title="Substrate Holder Temperature (PM1)" id="list2" name="PM1 T" default="0" display="1">
+		<setting title="Substrate Holder Temperature (PM1)" id="list2" name="PM1 T" >
 			<option title="Not Used" 					 	name="N/A" 			value="0" 		description=""/>
 			<option title="Room Temperature (20°C-60°C)" 	name="Room T�" 		value="12" 		description="Substrate holder at room temperature (20°C - 60°C). No substrate holder heating"/>
 			<option title="Intermediate (60°C - 130°C)"		name="Interm. T�" 	value="13" 		description="Substrate holder at intermediate temperature (60°C � 130°C) ; 90 min for temperature stabilization"/>
 			<option title="High (130°C - 350°C)" 			name="High T�" 		value="14" 		description="Substrate holder at high temperature (130°C  350°C) ; 90 min for temperature stabilization"/>
 			<option title="Cooling down" 					name="Cooling down" value="139" 	description="Available but substrate holder heating is not allowed. Process temperature is not controlled"/>
 		</setting>
-		<setting title="DC - source (PM2)" id="list3" name="PM2 Target" default="0" display="1">
+		<setting title="DC - source (PM2)" id="list3" name="PM2 Target" >
 			<option title="Not Used" 		name="N/A" 				value="0" 		description=""/>
 			<option title="Al(N)" 			name="Al(N)" 			value="53" 		description="AlN by reactive sputtering (N2) - Target :  Al [99.9995%]"/>
 			<option title="AlSc 6.4%(N)" 	name="AlSc  6.4%(N)" 	value="488" 	description="AlN-ScN by reactive sputtering (N2) - Target :  Al-Sc 6.4 at% (10.2%wt)  [99.9%]"/>
 			<option title="AlSc 17.5%(N)" 	name="AlSc17.5%(N)" 	value="566" 	description="AlN-ScN by reactive sputtering (N2) - Target :  Al-Sc17.5 at% (26.1wt%) [99.99%]"/>
 		</setting>
-		<setting title="Substrate Holder Temperature (PM2)" id="list4" name="PM2 T�" default="0" display="1">
+		<setting title="Substrate Holder Temperature (PM2)" id="list4" name="PM2 T�" >
 			<option title="Not Used" 					 	name="N/A" 			value="0" 		description=""/>
 			<option title="Room Temperature (20°C-60°C)" 	name="Room T�" 		value="12" 		description="Substrate holder at room temperature (20°C - 60°C). No substrate holder heating"/>
 			<option title="Intermediate (60°C - 130°C)"		name="Interm. T�" 	value="13" 		description="Substrate holder at intermediate temperature (60°C � 130°C) ; 90 min for temperature stabilization"/>
 			<option title="High (130°C - 350°C)" 			name="High T�" 		value="14" 		description="Substrate holder at high temperature (130°C  350°C) ; 90 min for temperature stabilization"/>
 			<option title="Cooling down" 					name="Cooling down" value="139" 	description="Available but substrate holder heating is not allowed. Process temperature is not controlled"/>
 		</setting>
-		<setting title="DC - source (PM3)" id="list5" name="PM3 Target" default="0" display="1">
+		<setting title="DC - source (PM3)" id="list5" name="PM3 Target" >
 			<option title="Not Used" 		name="N/A" 				value="0" 		description=""/>
 			<option title="Pt" 				name="Pt" 				value="104" 	description="Pt [99.95%]"/>
 			<option title="Si" 				name="Si" 				value="56" 		description="Amorphous silicon - Target : Si [99.9999%] ; Boron doped ; 5 - 30 mOhm.cm ; 2.e19 - 1.e18 at/cm3"/>
@@ -570,14 +570,14 @@
 			<option title="Nb" 				name="Nb" 				value="464" 	description="Nb [99.9%]"/>
 			<option title="RF-etch" 		name="RF-etch" 			value="442" 	description="Process module is used for a wafer cleaning (RF-etch)"/>
 		</setting>
-		<setting title="Substrate Holder Temperature (PM3)" id="list6" name="PM3 T�" default="0" display="1">
+		<setting title="Substrate Holder Temperature (PM3)" id="list6" name="PM3 T�" >
 			<option title="Not Used" 					 	name="N/A" 			value="0" 		description=""/>
 			<option title="Room Temperature (20°C-60°C)" 	name="Room T�" 		value="12" 		description="Substrate holder at room temperature (20°C - 60°C). No substrate holder heating"/>
 			<option title="Intermediate (60°C - 130°C)"		name="Interm. T�" 	value="13" 		description="Substrate holder at intermediate temperature (60°C � 130°C) ; 90 min for temperature stabilization"/>
 			<option title="High (130°C - 350°C)" 			name="High T�" 		value="14" 		description="Substrate holder at high temperature (130°C  350°C) ; 90 min for temperature stabilization"/>
 			<option title="Cooling down" 					name="Cooling down" value="139" 	description="Available but substrate holder heating is not allowed. Process temperature is not controlled"/>
 		</setting>
-		<setting title="DC - source (PM4)" id="list7" name="PM4 Target" default="0" display="1">
+		<setting title="DC - source (PM4)" id="list7" name="PM4 Target" >
 			<option title="Not Used" 		name="N/A" 		value="0" 		description=""/>
 			<option title="Ti" 				name="Ti" 		value="55" 		description="Ti [99.995%]"/>
 			<option title="Ta" 				name="Ta" 		value="111" 	description="Ta [99.98%]"/>
@@ -586,7 +586,7 @@
 			<option title="AlSi 2%" 		name="AlSi 2%" 	value="113" 	description="AlSi 2% [99.9995%] ; Si 1.95 wt% photometry"/>
 			<option title="AlSi 4%" 		name="AlSi 4%" 	value="114" 	description="AlSi 4% [99.9995%] ; Si  3.82 wt% photometry"/>
 		</setting>
-		<setting title="Substrate Holder Temperature (PM4)" id="list8" name="PM4 T�" default="0" display="1">
+		<setting title="Substrate Holder Temperature (PM4)" id="list8" name="PM4 T�" >
 			<option title="Not Used" 					 	name="N/A" 			value="0" 		description="null"/>
 			<option title="Room Temperature (20°C-60°C)" 	name="Room T�" 		value="12" 		description="Substrate holder at room temperature (20°C - 60°C). No substrate holder heating"/>
 			<option title="Intermediate (60°C - 130°C)"		name="Interm. T�" 	value="13" 		description="Substrate holder at intermediate temperature (60°C � 130°C) ; 90 min for temperature stabilization"/>
@@ -640,13 +640,13 @@
 		name="EVG150"
 		description="Coater and Developer System for Positive Resist">
 		<configuration>
-			<setting title="Substrate Size" id="list0" name="Substrate size" default="630" display="1">
+			<setting title="Substrate Size" id="list0" name="Substrate size" default="630"  required="imperative">
 				<option title="Not Used" name="N/A" value="0"/>
 				<option title="100mm" name="100mm" value="630"/>
 				<option title="150mm" name="150mm Si" value="629" />
 			</setting>
-			<setting title="Syringe and Spray" id="list1" name="Dispense system" default="0" display="1">
-				<option title="Not Used" 				name="N/A" 					value="0" 	description="null"/>
+			<setting title="Syringe and Spray" id="list1" name="Dispense system"  required="disjunct">
+				<option title="Not Used" 				name="N/A" 					value="0" 	    description="null" />
 				<option title="LOR (use with AZ1512)"	name="LOR" 					value="639" 	description=""/>
 				<option title="nLoF 1 (400nm – 800nm)"	name="nLoF 1 (400-800)" 	value="640" 	description=""/>
 				<option title="nLoF 2  (1.3μm – 3.5μm)"	name="nLoF 2 (1.3-3.5)" 	value="641" 	description=""/>
@@ -654,15 +654,15 @@
 				<option title="Spray 4:8:90"			name="Spray 4:8:90" 		value="643" 	description=""/>
 				<option title="Spray 4:11:90"			name="Spray 4:11:90" 		value="644" 	description=""/>
 			</setting>
-			<setting title="Developer lines" id="list2" name="Developer" default="0" display="1">
+			<setting title="Developer lines" id="list2" name="Developer"  required="disjunct">
 			    <option title="Not Used"				name="N/A" 					value="0" 		description=""/>
 			    <option title="Developer" 				name="Developer"			value="645"		description=""/>
 			</setting>
-			<setting title="Resist Line 1" id="list3" name="Resist 1 in line" default="0"  display="1">
+			<setting title="Resist Line 1" id="list3" name="Resist 1 in line"   required="disjunct">
 			    <option title="Not Used"				name="N/A" 					value="0"		description=""/>
 			    <option title="AZ 1512"					name="AZ1512" 				value="646"		description=""/>
 			</setting>
-			<setting title="Resist Line 2" id="list4" name="Resist 2 in line" default="0"  display="1">
+			<setting title="Resist Line 2" id="list4" name="Resist 2 in line"   required="disjunct">
 			    <option title="Not Used"				name="N/A" 					value="0"		description=""/>
 			    <option title="AZ 9260"					name="AZ9260" 				value="647"		description=""/>
 			</setting>
@@ -713,7 +713,7 @@
 		name="Sanding Machine"
 		description="">
 		<configuration>
-			<setting title="Quel Sable?" id="list0" name="sable" default="0" display="1">
+			<setting title="Quel Sable?" id="list0" name="sable"  required="imperative">
 				<option title="Aucun" 			name="N/A" 			value="0" 		description=""/>
 				<option title="Sable blanc" 	name="Sable blanc" 	value="562" 	description=""/>
 				<option title="Sable jaune" 	name="Sable jaune" 	value="563" 	description=""/>
@@ -765,7 +765,7 @@
 		name="Leybold-Optics LAB600 H"
 		description="e-Beam Evaporator">
 		<configuration>
-			<setting title="Configuration" id="list0" name="Category" default="0" display="1">
+			<setting title="Configuration" id="list0" name="Category"  required="imperative">
 				<option title="None"	 								name="N/A" 			value="0" 		description="null"/>
 				<option title="HRN: Upper Pos (Nanostencil compatible)" name="HRN &amp; n-st." value="523" 	description="Higher position / Room T / No ion source &amp; Nanostencil"/>
 				<option title="HHN: Upper Pos + Heating" 				name="HHN" 			value="524" 	description="Higher position / High T / No ion source"/>
@@ -773,23 +773,23 @@
 				<option title="LRI: Lower Pos + Ion Source"				name="LRI" 			value="209" 	description="Lower position / Room T / Ion source assisted deposition"/>
 				<option title="LRI+N: Ion clean prior to deposition"	name="LRI+N" 		value="575" 	description="Lower position / Room T / Ion source assisted deposition"/>
 			</setting>
-			<setting title="Crucible 1" id="list1" name="E-beam #1" default="0" display="1">
+			<setting title="Crucible 1" id="list1" name="E-beam #1"  required="disjunct">
 				<option title="Not Used" 		name="N/A" 		value="0" 		description=""/>
 				<option title="Al" 				name="Al" 		value="180" 	description="Al [99.999%]"/>
 				<option title="SiO2" 			name="SiO2" 	value="181" 	description="SiO2 [99.99%]"/>
 				<option title="SiO" 			name="SiO" 		value="534" 	description="SiO [99.9%]"/>
 			</setting>
-			<setting title="Crucible 2" id="list2" name="E-beam #2" default="0" display="1">
+			<setting title="Crucible 2" id="list2" name="E-beam #2"  required="disjunct">
 				<option title="Not Used" 		name="N/A" 		value="0" 		description=""/>
 				<option title="Cr" 				name="Cr" 		value="182" 	description="Cr [99.6%]"/>
 				<option title="Ge" 				name="Ge" 		value="568" 	description="Ge [99.999%]"/>
 			</setting>
-			<setting title="Crucible 3" id="list3" name="E-beam #3" default="0" display="1">
+			<setting title="Crucible 3" id="list3" name="E-beam #3"  required="disjunct">
 				<option title="Not Used" 		name="N/A" 		value="0" 		description=""/>
 				<option title="Au" 				name="Au" 		value="184" 	description="Au [99.99%]"/>
 				<option title="Ag" 				name="Ag" 		value="475" 	description="Ag [99.99%]"/>
 			</setting>
-			<setting title="Crucible 4" id="list4" name="E-beam #4" default="0" display="1">
+			<setting title="Crucible 4" id="list4" name="E-beam #4"  required="disjunct">
 				<option title="Not Used" 	name="N/A" 	value="0" 	description=""/>
 				<option title="Ag" 				name="Ag" 		value="185" 	description="Ag [99.99%]"/>
 				<option title="Ge" 				name="Ge" 		value="186" 	description="Ge [99.999%]"/>
@@ -808,12 +808,12 @@
 				<option title="Y2O3" 			name="Y2O3" 	value="521" 	description="Y2O3 [99.99%]"/>
 				<option title="ZrO2" 			name="ZrO2" 	value="487" 	description="ZrO2 [99.3%]"/>
 			</setting>
-			<setting title="Crucible 5" id="list5" name="E-beam #5" default="0" display="1">
+			<setting title="Crucible 5" id="list5" name="E-beam #5"  required="disjunct">
 				<option title="Not Used" 		name="N/A" 		value="0" 		description=""/>
 				<option title="Ti" 				name="Ti" 		value="192" 	description="Ti [99.9%]"/>
 				<option title="Ta" 				name="Ta" 		value="434" 	description="Ta [99.9%]"/>
 			</setting>
-			<setting title="Crucible 6" id="list6" name="E-beam #6" default="0" display="1">
+			<setting title="Crucible 6" id="list6" name="E-beam #6"  required="disjunct">
 				<option title="Not Used" 		name="N/A" 		value="0" 	description="null"/>
 				<option title="Pt" 				name="Pt" 		value="194" 	description="Pt [99.95%]"/>
 			</setting>
@@ -837,7 +837,7 @@
 		name="Sawatec LSM200"
 		description="Coater for Negative Resist">
 		<configuration>
-			<setting title="Chemical Familly" id="list0" name="Resist Type" default="0" display="1">
+			<setting title="Chemical Familly" id="list0" name="Resist Type"  required="imperative">
 				<option title="Not Used" 	name="N/A" 			value="0" 		description=""/>
 				<option title="SU8" 		name="SU8" 			value="274" 	description="All SU8 type  (MCC or Gersteltec)"/>
 				<option title="Polyimide" 	name="Polyimide" 	value="275" 	description="PI or U-varnish"/>
@@ -997,27 +997,27 @@
 		name="Beneq TFS200"
 		description="Atomic Layer Deposition">
 	    <configuration>
-			<setting title="Run" id="list0" name="Run" default="544" display="0">
+			<setting title="Run" id="list0" name="Run" default="544" display="0" required="imperative">
 				<option title="Not Used" name="N/A" value="0"/>
 				<option title="ALD Run" name="ALD" value="544"/>
 			</setting>
-			<setting title="Liquid Source 1" id="list1" name="LS2" default="0" display="1">
+			<setting title="Liquid Source 1" id="list1" name="LS2"  required="disjunct">
 				<option title="Not Used" name="N/A" value="0"/>
 				<option title="Al2O3 (TMA + H2O)" name="Al2O3" value="542"/>
 			</setting>
-			<setting title="Liquid Source 2" id="list2" name="LS3" default="0" display="1">
+			<setting title="Liquid Source 2" id="list2" name="LS3"  required="disjunct">
 				<option title="Not Used" name="N/A" value="0"/>
 				<option title="TiO2 (TiCl4 + O2)" name="TiO2"  value="548"/>
 			</setting>
-			<setting title="Liquid Source 3" id="list3" name="LS3" default="0" display="1">
+			<setting title="Liquid Source 3" id="list3" name="LS3"  required="disjunct">
 				<option title="Not Used" name="N/A" value="0"/>
 				<option title="TiN (TiCl4 + NH3)"   name="TiN"  value="550"/>
 			</setting>
-			<setting title="Hot Source 1" id="list4" name="HS1" default="0" display="1">
+			<setting title="Hot Source 1" id="list4" name="HS1"  required="disjunct">
 				<option title="Not Used" name="N/A" value="0" />
 				<option title="HfO2 (TEMAH + H2O)"   name="HfO2"  value="552" />
 			</setting>
-			<setting title="Hot Source 2" id="list5" name="HS2" default="0" display="1">
+			<setting title="Hot Source 2" id="list5" name="HS2"  required="disjunct">
 				<option title="Not Used" name="N/A" value="0" />
 				<option title="Platinum (CpMePtMe + O2)"     name="Pt"  value="554" />
 				<option title="Ruthenium (Ru(EtCp)2 + O2)"   name="Ru"  value="555" />

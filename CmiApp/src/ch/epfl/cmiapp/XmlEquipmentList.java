@@ -5,12 +5,13 @@ import java.util.*;
 import javax.xml.parsers.*;
 
 import org.w3c.dom.*;
+import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
-
-import ch.epfl.cmiapp.CmiEquipment.Configuration.Setting.Type;
 
 import ch.epfl.cmiapp.CmiEquipment.Configuration;
 import ch.epfl.cmiapp.CmiEquipment.Configuration.*;
+import ch.epfl.cmiapp.CmiEquipment.Configuration.Node.*;
+import ch.epfl.cmiapp.CmiEquipment.Configuration.Setting.*;
 
 import android.util.Log;
 
@@ -142,25 +143,35 @@ public class XmlEquipmentList
 		
 		for(int index = 0; index < settingNodes.getLength(); index++)
 		{
-			Node settingNode = settingNodes.item(index);
-			if (settingNode.getNodeName().equals("setting"))
+			Node node = settingNodes.item(index);
+			String nodeName = node.getNodeName();
+			
+			if (nodeName.equals("setting"))
 			{
-				Setting setting = parseSettingNode(settingNode);
+				Setting setting = parseSettingNode(node);
 				config.settings.add(setting);
 			}
+			else if (nodeName.equals("group"))
+			{
+				Group group = parseGroupNode(node);
+				config.groups
+				config.settings.addAll(group.settings);
+			}
 		}
-		
 		return config.settings.size() > 0 ? config : null;
 	}
 	
 	private CmiEquipment.Configuration.Setting parseSettingNode(final Node settingNode)
 	{
 		CmiEquipment.Configuration.Setting setting = new CmiEquipment.Configuration.Setting();
-		setting.currentValue 	= getStringAttr(settingNode, "default");
+		setting.currentValue 	= getStringAttr(settingNode, "default", "0");
 		setting.id 				= getStringAttr(settingNode, "id");
 		setting.title 			= getStringAttr(settingNode, "title");
 		setting.name 			= getStringAttr(settingNode, "name");
-		setting.display			= getIntAttr(settingNode, "display");
+		setting.display			= getIntAttr(settingNode, "display", 1);
+		
+		String required   		= getStringAttr(settingNode, "required");
+		setting.required 		= Required.valueOf(required);
 		setting.type  			= Type.MULTIPLE;
 		
 		NodeList optionNodes = settingNode.getChildNodes();
@@ -181,28 +192,73 @@ public class XmlEquipmentList
 
 		return setting;
 	}
+	
+	private CmiEquipment.Configuration.Group parseGroupNode(final Node groupNode)
+	{
+		CmiEquipment.Configuration.Group group = new Group();
+		
+		group.id 		= getStringAttr(groupNode, "id");
+		group.title 	= getStringAttr(groupNode, "title");
+		String required = getStringAttr(groupNode, "required");
+		group.required 	= Configuration.Node.Relevance.valueOf(required);
+		
+		NodeList settingNodes = groupNode.getChildNodes();
+		
+		for(int index = 0; index < settingNodes.getLength(); index++)
+		{
+			Node settingNode = settingNodes.item(index);
+			String nodeName = settingNode.getNodeName();
+			
+			if (nodeName.equals("setting"))
+			{
+				Setting setting = parseSettingNode(settingNode);
+				setting.group = group.id;
+				group.settings.add(setting);
+			}
+		}
+		return group;
+	}
+	
 
 	private int getIntAttr(Node node, String attrName)
 	{
 		String string = getStringAttr(node, attrName);
 		return Integer.parseInt(string);
 	}
+	
+	private int getIntAttr(Node node, String attrName, int defaultValue)
+	{
+		String string = getStringAttr(node, attrName);
+		if (string.isEmpty())
+			return defaultValue;
+		else
+			return Integer.parseInt(string);
+	}
 
+	private String getStringAttr(Node node, String attrName, String defaultValue)
+	{
+		final NamedNodeMap attr = node.getAttributes();
+		return getNodeValue(attr, attrName, defaultValue);
+	}
+	
 	private String getStringAttr(Node node, String attrName)
 	{
 		final NamedNodeMap attr = node.getAttributes();
-		return getNodeValue(attr, attrName);
+		return getNodeValue(attr, attrName, "");
+	}
+	
+	private String getNodeValue(NamedNodeMap map, String key, String defaultValue) 
+	{
+		Node node = map.getNamedItem(key);	
+		if (node != null) 
+			return node.getNodeValue();
+		else
+			return defaultValue;
 	}
 	
 	private String getNodeValue(NamedNodeMap map, String key) 
 	{
-		String nodeValue = null;
-		Node node = map.getNamedItem(key);
-		
-		if (node != null) 
-		{
-			nodeValue = node.getNodeValue();
-		}
-		return nodeValue;
+		return getNodeValue(map, key, "");
 	}
+	
 }

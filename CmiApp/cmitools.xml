@@ -179,27 +179,27 @@
 		name="Alcatel EVA600"
 		description="Evaporator">
 		<configuration>
-			<setting name="e-Beam Crucible 1" id="list0" default="0" display="1">
+			<setting name="e-Beam Crucible 1" id="list0" default="0" display="1" required="disjunct">
 				<option title="Not Used" short="N/A" value="0"/>
 				<option title="Aluminum" short="Al" value="219"/>
 			</setting>
-			<setting name="e-Beam Crucible 2" id="list1" default="0" display="1">
+			<setting name="e-Beam Crucible 2" id="list1" default="0" display="1" required="disjunct">
 				<option title="Not Used" short="N/A" value="0"/>
 				<option title="Chromium" short="Cr" value="220"/>
 			</setting>
-			<setting name="e-Beam Crucible 3" id="list2" default="0" display="1">
+			<setting name="e-Beam Crucible 3" id="list2" default="0" display="1" required="disjunct">
 				<option title="Not Used" short="N/A" value="0"/>
 				<option title="Titanium" short="Ti"  value="223"/>
 				<option title="Cobalt"   short="Co"  value="570"/>
 			</setting>
-			<setting name="e-Beam Crucible 4" id="list3" default="0" display="1">
+			<setting name="e-Beam Crucible 4" id="list3" default="0" display="1" required="disjunct">
 				<option title="Not Used" short="N/A" value="0"/>
 				<option title="Cobalt"   short="Co"  value="228"/>
 				<option title="Nickel"   short="Ni"  value="226"/>
 				<option title="Nickel-Iron (81:19)" short="Ni-Fe 19"  value="227"/>
 				<option title="Nickel-Chromium-Iron (75:20:4)" short="Ni-Cr 19" value="471"/>
 			</setting>
-			<setting name="Joule Crucible 1" id="list4" default="0" display="1">
+			<setting name="Joule Crucible 1" id="list4" default="0" display="1" required="disjunct">
 				<option title="Not Used" short="N/A" value="0" />
 				<option title="Silver"   short="Ag"  value="232" />
 				<option title="Copper"   short="Cu"  value="233" />
@@ -208,7 +208,7 @@
 				<option title="Tin"      short="Sn"  value="479" />
 				<option title="Yttrium"  short="Y"   value="480" />
 			</setting>
-			<setting name="Joule Crucible 2" id="list5" default="0" display="1">
+			<setting name="Joule Crucible 2" id="list5" default="0" display="1" required="disjunct">
 				<option title="Not Used" short="N/A" value="0" />
 				<option title="Gold"     short="Au"  value="231" />
 			</setting>

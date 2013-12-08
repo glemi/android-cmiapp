@@ -2,9 +2,13 @@ package ch.epfl.cmiapp;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import ch.epfl.cmiapp.CmiEquipment.Configuration.Setting.Required;
+import ch.epfl.cmiapp.CmiEquipment.Configuration.Setting;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -27,10 +31,14 @@ public class CmiEquipment
 	
 	private static XmlEquipmentList staticList = new XmlEquipmentList();
 	
-	public static class Configuration implements Serializable
+	public static class Configuration implements Serializable, Iterable<Setting>
 	{
 		private static final long	serialVersionUID	= 1L;
+		
 		public List<Setting> settings = new ArrayList<Setting>();
+		public List<Group> groups = new ArrayList<Group>();
+		
+		private Node root;
 		
 		public static Configuration fromMachId(String machId)
 		{
@@ -50,15 +58,8 @@ public class CmiEquipment
 		
 		public boolean isValid()
 		{
-			if (settings.isEmpty()) 
-				return true;
-			// TODO: Configuration::isValid not very subtle
-			for (Setting setting : settings)
-				if (!setting.currentValue.equals("0") && setting.display != 0) 
-					return true;
-			return false;
+			return root.isValid();
 		}
-		
 		
 		public Setting findSetting(String name)
 		{
@@ -66,17 +67,75 @@ public class CmiEquipment
 			for (Setting setting : settings) if (setting.title == name) return setting;
 			return null;
 		}
-		
-		public static class Setting
+
+		public static abstract class Node implements Iterable<Node>
 		{
+			public final List<Node> children = new ArrayList<Node>();
+			
+			// imperative: for this setting a valid option (non-0) must be selected
+			// disjunct: (c.f. "logical disjunction") out of all settings that have 
+			//  the DISJUNCT requirement at least one must be set to a valid option
+			public enum Relevance {IMPERATIVE, DISJUNCT}
+			
+			public String title;
 			public String id;
-			public String title;  // what should be displayed to the user
+			public Relevance required;
+			
+			public abstract boolean isValid();
+			//public abstract int type();
+		}
+		
+		public static class Group extends Node
+		{
+			public final List<Setting> settings = new ArrayList<Setting>();
+			
+			@Override
+			public boolean isValid()
+			{
+				if (settings.isEmpty()) 
+					return true;
+				
+				boolean imperativeCondition = true;
+				boolean disjunctCondition = false;
+				boolean noneDisjunct = true;
+				
+				for (Setting setting : settings)
+				{	
+					if (setting.required == Required.DISJUNCT)
+					{
+						disjunctCondition |= setting.isValid();
+						noneDisjunct = false;
+					}
+					else if (setting.required == Required.IMPERATIVE)
+					{
+						imperativeCondition &= setting.isValid();
+					}
+				}
+					
+				disjunctCondition |= noneDisjunct;
+				return imperativeCondition && disjunctCondition;
+			}
+
+			
+			public Iterator<Node> iterator()
+			{
+				return settings.iterator();
+			}
+		}
+		
+		public static class Setting extends Node
+		{
 			public String name;   // how cmi web system refers to it
 			public String currentValue;
+			public String group;
 			public int display;
 			
 			public Type type;
 			public enum Type {YESNO, MULTIPLE}
+			// imperative: for this setting a valid option (non-0) must be selected
+			// disjunct: (c.f. "logical disjunction") out of all settings that have 
+			//  the DISJUNCT requirement at least one must be set to a valid option
+			public enum Required {IMPERATIVE, DISJUNCT}
 			
 			public List<Option> options = new ArrayList<Option>();
 			
@@ -93,6 +152,15 @@ public class CmiEquipment
 				for (Option option : options) if (option.title == name) return option;
 				return null;
 			}
+			
+			public boolean isValid()
+			{
+				// find a better name for this method:
+				// something that better reflects that a non-null selection has been made
+				// instead of the setting as a whole being "valid" or "invalid"
+				return currentValue.equals("0");
+			}
+			
 		}
 		
 		public static class Option
@@ -102,6 +170,39 @@ public class CmiEquipment
 			public String title; // what should be displayed to the user
 			public String name; // how cmi web system refers to it
 			public String toString() { return title; }
+		}
+	
+		public static class SettingValidator
+		{
+		
+			void reset()
+			{
+				
+			}
+			
+			boolean check(Setting setting)
+			{
+				if(setting.required == Required.DISJUNCT)
+				{
+					
+					
+				}
+				
+				
+				return false;
+				
+			}
+			
+			boolean getVerdict()
+			{
+				return false;
+			}
+			
+		}
+
+		public Iterator<Setting> iterator()
+		{
+			return settings.iterator();
 		}
 	}
 	
