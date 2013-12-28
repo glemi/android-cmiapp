@@ -11,10 +11,11 @@ import ch.epfl.cmiapp.R;
 import ch.epfl.cmiapp.R.id;
 import ch.epfl.cmiapp.R.menu;
 import ch.epfl.cmiapp.adapters.SlotListAdapter;
-import ch.epfl.cmiapp.core.CmiEquipment;
 import ch.epfl.cmiapp.core.CmiReservation;
 import ch.epfl.cmiapp.core.CmiSchedule;
 import ch.epfl.cmiapp.core.CmiSlot;
+import ch.epfl.cmiapp.core.Configuration;
+import ch.epfl.cmiapp.core.Equipment;
 
 import android.support.v4.app.LoaderManager;
 import android.content.Context;
@@ -45,7 +46,7 @@ public class ScheduleManager
 	private LoaderManager	loaderManager;
 	
 	private String			machId;
-	private CmiEquipment	eqpt;
+	private Equipment		eqpt;
 	
 	private CmiSchedule		schedule;
 	private CmiReservation	reservation;
@@ -115,7 +116,7 @@ public class ScheduleManager
 			adapter.highlightSlots(timeStamps);
 	}
 	
-	public void changeConfiguration(CmiEquipment.Configuration newConfig)
+	public void changeConfiguration(Configuration newConfig)
 	{
 		Log.d("ScheduleManager.changeConfiguration", "new Configuration: " + newConfig.toString());
 		eqpt.config = newConfig;
@@ -129,15 +130,15 @@ public class ScheduleManager
 	
 	public void displayConfiguration()
 	{
-		if (eqpt.isConfigurable)
+		if (eqpt.isConfigurable())
 		{
 				String text = "Current Configuration:\n\n";
 			
-			for (CmiEquipment.Configuration.Setting setting : eqpt.config.settings)
+			for (Configuration.Setting setting : eqpt.getConfig())
 			{
-				if (setting.display == 0) continue;
-				text += setting.title + ":";
-				text += setting.title.length() > 20 ? "\n\t" : "\t";
+				if (setting.getsDisplayed()) continue;
+				text += setting.getTitle() + ":";
+				text += setting.getTitle().length() > 20 ? "\n\t" : "\t";
 				text += setting.getCurrent().title + "\n";			
 			}
 						

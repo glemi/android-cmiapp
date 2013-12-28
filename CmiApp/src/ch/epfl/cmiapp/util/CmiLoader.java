@@ -11,11 +11,8 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import ch.epfl.cmiapp.R;
-import ch.epfl.cmiapp.R.string;
-import ch.epfl.cmiapp.core.CmiEquipment;
 import ch.epfl.cmiapp.core.Configuration;
 
-import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.util.Log;
 import android.widget.Toast;

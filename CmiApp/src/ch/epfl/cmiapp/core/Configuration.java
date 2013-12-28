@@ -140,7 +140,9 @@ public class Configuration implements Serializable, Iterable<Setting>
 		protected final List<Option> options = new ArrayList<Option>();
 		
 		public String getName() { return name; }
+		public String getValue() { return currentValue; }
 		public Group getGroup() { return group; }
+		public boolean getsDisplayed() { return display == 0; }
 		
 		public void change(String newValue)
 		{
