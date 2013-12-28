@@ -1,86 +1,75 @@
 package ch.epfl.cmiapp.core;
 
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.Node;
-
-import ch.epfl.cmiapp.core.Configuration;
-
-import android.util.Log;
+import ch.epfl.cmiapp.core.Configuration.*;
 
 public class XmlLoadedConfiguration extends Configuration
 {
-	public XmlLoadedConfiguration(org.w3c.dom.Node xmlNode)
-	{
+	Builder configBuilder;
+	
+	public XmlLoadedConfiguration(org.w3c.dom.Node xmlNode, Equipment equipment)
+	{		
+		super(equipment);
+		
 		String nodeName = xmlNode.getNodeName();
 		
-		if (nodeName.equals("setting"))
+		if (nodeName.equals("configuration"))
 		{
-			Setting setting = parseSettingNode(xmlNode);
-			settings.add(setting);
-		}
-		else if (nodeName.equals("group"))
-		{
-			Group group = parseGroupNode(node);
-			settings.addAll(group.settings);
+			configBuilder = new Builder();
+			parseConfigNode(xmlNode);
 		}
 	}
 	
-	private Configuration.Setting parseSettingNode(final Node settingNode)
+	private void parseConfigNode(final org.w3c.dom.Node configNode)
 	{
-		CmiEquipment.Configuration.Setting setting = new CmiEquipment.Configuration.Setting();
-		setting.currentValue 	= getStringAttr(settingNode, "default", "0");
-		setting.id 				= getStringAttr(settingNode, "id");
-		setting.title 			= getStringAttr(settingNode, "title");
-		setting.name 			= getStringAttr(settingNode, "name");
-		setting.display			= getIntAttr(settingNode, "display", 1);
+		XmlExtractor configExtractor = new XmlExtractor(configNode);
 		
-		String required   		= getStringAttr(settingNode, "required");
-		setting.required 		= Required.valueOf(required);
-		setting.type  			= Type.MULTIPLE;
-		
-		NodeList optionNodes = settingNode.getChildNodes();
-		
-		for(int index = 0; index < optionNodes.getLength(); index++)
+		for (org.w3c.dom.Node childNode : configExtractor.childNodes())
 		{
-			Node optionNode = optionNodes.item(index);
-			if (optionNode.getNodeName().equals("option"))	
-			{
-				Option option = new Option();
-				option.value = 		getStringAttr(optionNode, "value");
-				option.title =  	getStringAttr(optionNode, "title");
-				option.name  =  	getStringAttr(optionNode, "name");
-				option.description = option.title;
-				setting.options.add(option);
-			}
+			String nodeName = childNode.getNodeName();	
+			if (nodeName.equals("setting"))		parseSettingNode(childNode);
+			else if (nodeName.equals("group"))	parseGroupNode(childNode);
 		}
-
+	}
+	
+	private Configuration.Setting parseSettingNode(final org.w3c.dom.Node settingNode)
+	{
+		XmlExtractor settingExtractor = new XmlExtractor(settingNode);
+		Setting setting = configBuilder.createSetting();
+		
+		setting.currentValue = settingExtractor.getStringAttr("default", "0");
+		setting.id 			 = settingExtractor.getStringAttr("id");
+		setting.title 		 = settingExtractor.getStringAttr("title");
+		setting.name 		 = settingExtractor.getStringAttr("name");
+		setting.display		 = settingExtractor.getIntAttr("display", 1);
+		setting.required 	 = settingExtractor.getEnumAttr(Node.Relevance.class, "required");
+		
+		for (org.w3c.dom.Node optionNode : settingExtractor.childNodes("option"))
+		{
+			XmlExtractor optionExtractor = new XmlExtractor(optionNode);
+			
+			Option option = new Option();
+			option.value = 	optionExtractor.getStringAttr("value");
+			option.title =  optionExtractor.getStringAttr("title");
+			option.name  =  optionExtractor.getStringAttr("name");
+			option.description = option.title;
+			setting.options.add(option);
+		}
 		return setting;
 	}
 	
-	private CmiEquipment.Configuration.Group parseGroupNode(final Node groupNode)
+	private Configuration.Group parseGroupNode(final org.w3c.dom.Node groupNode)
 	{
-		CmiEquipment.Configuration.Group group = new Group();
+		XmlExtractor groupExtractor = new XmlExtractor(groupNode);
 		
-		group.id 		= getStringAttr(groupNode, "id");
-		group.title 	= getStringAttr(groupNode, "title");
-		String required = getStringAttr(groupNode, "required");
-		group.required 	= Configuration.Node.Relevance.valueOf(required);
+		Configuration.Group group = configBuilder.startGroup();
+		group.id 		= groupExtractor.getStringAttr("id");
+		group.title 	= groupExtractor.getStringAttr("title");
+		group.required  = groupExtractor.getEnumAttr(Node.Relevance.class, "required");
 		
-		NodeList settingNodes = groupNode.getChildNodes();
+		for(org.w3c.dom.Node settingNode : groupExtractor.childNodes("setting"))
+			parseSettingNode(settingNode);
 		
-		for(int index = 0; index < settingNodes.getLength(); index++)
-		{
-			Node settingNode = settingNodes.item(index);
-			String nodeName = settingNode.getNodeName();
-			
-			if (nodeName.equals("setting"))
-			{
-				Setting setting = parseSettingNode(settingNode);
-				setting.group = group.id;
-				group.settings.add(setting);
-			}
-		}
+		configBuilder.endGroup();
 		return group;
 	}
 	

@@ -6,6 +6,8 @@ import java.util.*;
 import org.joda.time.LocalDateTime;
 import org.jsoup.*;
 
+import ch.epfl.cmiapp.core.CmiSlot.BookingAction;
+
 import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -46,7 +48,7 @@ public class CmiReservation
 		this.password = password;
 	}
 	
-	public void setConfiguration(CmiEquipment.Configuration config)
+	public void setConfiguration(Configuration config)
 	{
 		this.config = config;
 	}
@@ -267,7 +269,7 @@ public class CmiReservation
 						connection.data("myresdat", slot.getTimeStamp());
 						
 						if (config != null)
-							for (Configuration.Setting setting : config.settings)
+							for (Configuration.Setting setting : config)
 								connection.data(setting.id, setting.currentValue);		
 					}
 					connection.post();
@@ -278,7 +280,7 @@ public class CmiReservation
 				e.printStackTrace();
 			}			
 			
-			if (config != null) if (config.settings.size() > 0) try
+			if (config != null) if (config.getSettingsCount() > 0) try
 			{
 				/* if a configurable machine is reserved 
 				 * login=cnyffeler
@@ -305,7 +307,7 @@ public class CmiReservation
 				String emailText = generateEmailText();
 				connection.data("request", emailText);
 				
-				for (Configuration.Setting setting : config.settings)
+				for (Configuration.Setting setting : config)
 					connection.data(setting.id, setting.currentValue);
 				
 				int requestSlotCount = 0;
@@ -375,7 +377,7 @@ public class CmiReservation
 		text += "Equipment : </b>" +  eqptString + "\r\n";
 		text += "<b>Requested configuration : </b>\r\n";
 		
-		for (Configuration.Setting setting : config.settings)
+		for (Configuration.Setting setting : config)
 		{
 			if (setting.getCurrent().value != "0" )
 			text += setting.name + " : " + setting.getCurrent().name + "\r\n";

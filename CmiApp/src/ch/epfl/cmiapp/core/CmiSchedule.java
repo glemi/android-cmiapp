@@ -13,8 +13,8 @@ import org.jsoup.select.Elements;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import ch.epfl.cmiapp.CmiLoader;
-import ch.epfl.cmiapp.CmiLoader.PageType;
+import ch.epfl.cmiapp.util.CmiLoader;
+import ch.epfl.cmiapp.util.CmiLoader.PageType;
 
 import android.util.Log;
 

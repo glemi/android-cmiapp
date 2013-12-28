@@ -4,10 +4,10 @@ public class Equipment
 {
 	protected String machId;
 	protected String name;
-	protected int zone;
+	protected int    zone;
 	protected String category;
 	protected String supplement;
-	protected int slotLength;
+	protected int    slotLength;
 	protected String fullString;
 	protected Configuration config;
 	protected boolean isConfigurable;
