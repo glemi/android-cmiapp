@@ -3,9 +3,9 @@ package ch.epfl.cmiapp.fragments;
 import org.joda.time.*;
 
 import ch.epfl.cmiapp.R;
-import ch.epfl.cmiapp.ScheduleManager;
 import ch.epfl.cmiapp.R.id;
 import ch.epfl.cmiapp.R.layout;
+import ch.epfl.cmiapp.util.ScheduleManager;
 
 import android.support.v4.app.*;
 import android.content.res.Configuration;

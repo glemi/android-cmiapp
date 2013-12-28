@@ -1,9 +1,9 @@
 package ch.epfl.cmiapp.fragments;
 
-import ch.epfl.cmiapp.CompositeListManager;
-import ch.epfl.cmiapp.NewsListManager;
 import ch.epfl.cmiapp.R;
-import ch.epfl.cmiapp.ReservationsListManager;
+import ch.epfl.cmiapp.util.CompositeListManager;
+import ch.epfl.cmiapp.util.NewsListManager;
+import ch.epfl.cmiapp.util.ReservationsListManager;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

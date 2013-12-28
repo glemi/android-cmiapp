@@ -1,17 +1,17 @@
 package ch.epfl.cmiapp.fragments;
 
-import ch.epfl.cmiapp.ListScrollSyncer;
 import ch.epfl.cmiapp.R;
-import ch.epfl.cmiapp.ScheduleManager;
 import ch.epfl.cmiapp.R.id;
 import ch.epfl.cmiapp.R.layout;
 import ch.epfl.cmiapp.R.menu;
-import ch.epfl.cmiapp.ScheduleManager.State;
-import ch.epfl.cmiapp.ScheduleManager.onStateChangedListener;
 import ch.epfl.cmiapp.adapters.SchedulePagerAdapter;
 import ch.epfl.cmiapp.core.CmiEquipment;
 import ch.epfl.cmiapp.core.CmiEquipment.Configuration;
 import ch.epfl.cmiapp.core.CmiEquipment.Configuration.*;
+import ch.epfl.cmiapp.util.ListScrollSyncer;
+import ch.epfl.cmiapp.util.ScheduleManager;
+import ch.epfl.cmiapp.util.ScheduleManager.State;
+import ch.epfl.cmiapp.util.ScheduleManager.onStateChangedListener;
 
 import android.support.v4.app.*;
 import android.content.DialogInterface;

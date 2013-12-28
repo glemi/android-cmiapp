@@ -1,4 +1,4 @@
-package ch.epfl.cmiapp;
+package ch.epfl.cmiapp.util;
 
 import java.util.ArrayList;
 import java.util.List;

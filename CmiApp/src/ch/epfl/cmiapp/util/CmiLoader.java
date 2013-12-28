@@ -1,4 +1,4 @@
-package ch.epfl.cmiapp;
+package ch.epfl.cmiapp.util;
 
 import java.lang.Exception;
 import java.util.Timer;
@@ -10,6 +10,8 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import ch.epfl.cmiapp.R;
+import ch.epfl.cmiapp.R.string;
 import ch.epfl.cmiapp.core.CmiEquipment;
 
 import android.support.v4.app.LoaderManager;

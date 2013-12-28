@@ -2,14 +2,14 @@ package ch.epfl.cmiapp.fragments;
 
 import org.jsoup.nodes.Document;
 
-import ch.epfl.cmiapp.CmiLoader;
 import ch.epfl.cmiapp.R;
-import ch.epfl.cmiapp.CmiLoader.PageType;
 import ch.epfl.cmiapp.R.anim;
 import ch.epfl.cmiapp.R.layout;
 import ch.epfl.cmiapp.activities.CmiFragmentActivity;
 import ch.epfl.cmiapp.adapters.EqptListAdapter;
 import ch.epfl.cmiapp.core.CmiEquipment;
+import ch.epfl.cmiapp.util.CmiLoader;
+import ch.epfl.cmiapp.util.CmiLoader.PageType;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;

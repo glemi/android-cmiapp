@@ -12,11 +12,11 @@ import android.support.v4.content.Loader;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
-import ch.epfl.cmiapp.CmiLoader;
 import ch.epfl.cmiapp.R;
-import ch.epfl.cmiapp.CmiLoader.PageType;
 import ch.epfl.cmiapp.R.id;
 import ch.epfl.cmiapp.R.layout;
+import ch.epfl.cmiapp.util.CmiLoader;
+import ch.epfl.cmiapp.util.CmiLoader.PageType;
 
 /*
  * http://stackoverflow.com/questions/10057859/android-theme-holo-dialog-changing-blue-lines-to-orange

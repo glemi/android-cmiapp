@@ -5,14 +5,14 @@ import java.net.URLEncoder;
 
 import org.jsoup.nodes.Document;
 
-import ch.epfl.cmiapp.CmiLoader;
-import ch.epfl.cmiapp.ListAnimator;
 import ch.epfl.cmiapp.R;
-import ch.epfl.cmiapp.CmiLoader.PageType;
 import ch.epfl.cmiapp.R.array;
 import ch.epfl.cmiapp.R.layout;
 import ch.epfl.cmiapp.adapters.UserListAdapter;
 import ch.epfl.cmiapp.core.CmiUser;
+import ch.epfl.cmiapp.util.CmiLoader;
+import ch.epfl.cmiapp.util.ListAnimator;
+import ch.epfl.cmiapp.util.CmiLoader.PageType;
 
 import android.app.*;
 import android.util.Log;

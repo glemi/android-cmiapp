@@ -1,4 +1,4 @@
-package ch.epfl.cmiapp;
+package ch.epfl.cmiapp.util;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -7,7 +7,9 @@ import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 import org.jsoup.nodes.Document;
 
-import ch.epfl.cmiapp.CmiLoader.PageType;
+import ch.epfl.cmiapp.R;
+import ch.epfl.cmiapp.R.id;
+import ch.epfl.cmiapp.R.menu;
 import ch.epfl.cmiapp.adapters.SlotListAdapter;
 import ch.epfl.cmiapp.core.CmiEquipment;
 import ch.epfl.cmiapp.core.CmiReservation;

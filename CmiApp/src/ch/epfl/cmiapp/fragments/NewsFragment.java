@@ -4,9 +4,9 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import ch.epfl.cmiapp.CmiLoader;
 import ch.epfl.cmiapp.R;
 import ch.epfl.cmiapp.adapters.NewsAdapter;
+import ch.epfl.cmiapp.util.CmiLoader;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
