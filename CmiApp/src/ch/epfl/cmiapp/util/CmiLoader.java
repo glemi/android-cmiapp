@@ -13,6 +13,7 @@ import org.jsoup.select.Elements;
 import ch.epfl.cmiapp.R;
 import ch.epfl.cmiapp.R.string;
 import ch.epfl.cmiapp.core.CmiEquipment;
+import ch.epfl.cmiapp.core.Configuration;
 
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
@@ -73,7 +74,7 @@ public class CmiLoader extends AsyncTaskLoader<Document>
 	
 	private String newsId;
 	private String machId;
-	private CmiEquipment.Configuration config;
+	private Configuration config;
 	
 	private int newsCap = 5;
 	
@@ -104,7 +105,7 @@ public class CmiLoader extends AsyncTaskLoader<Document>
 		setDateRange(date, date);
 	}
 	
-	public void setConfig(CmiEquipment.Configuration config)
+	public void setConfig(Configuration config)
 	{
 		this.config = config;
 	}
@@ -327,8 +328,8 @@ public class CmiLoader extends AsyncTaskLoader<Document>
 				connection.data("mode", "calendar"); // triggers configuration view
 				connection.data("privilege", "simple");
 				
-				for (CmiEquipment.Configuration.Setting setting : config.settings)
-					connection.data(setting.id, setting.currentValue);
+				for (Configuration.Setting setting : config)
+					connection.data(setting.getId(), setting.getCurrent().value);
 				
 				document = connection.post();
 				break;

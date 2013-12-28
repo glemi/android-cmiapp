@@ -2,63 +2,163 @@ package ch.epfl.cmiapp.core;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
-import ch.epfl.cmiapp.core.CmiEquipment.Configuration.Setting;
-
+import ch.epfl.cmiapp.core.Configuration.Node.Relevance;
+import ch.epfl.cmiapp.core.Configuration.Setting;
 import android.util.Log;
 
 public class Configuration implements Serializable, Iterable<Setting>
 {
-	protected List<Setting> settings = new ArrayList<Setting>();
+	final Equipment equipment; 
+	private List<Setting> settings = new ArrayList<Setting>();
+	private Node root;
 	
-	public static class Group extends Node
+	protected Configuration(Equipment equipment)
 	{
-		public final List<Setting> settings = new ArrayList<Setting>();
+		this.equipment = equipment;
+		this.root = new Group(null);
+		root.id = "0";
+		root.title = "Root Configuration Node of " + equipment.machId;
+		root.required = Relevance.IMPERATIVE;
+	}
+	
+	public boolean isValid()
+	{
+		return root.isValid();
+	}
+	
+	protected class Builder
+	{
+		private Group currentGroup = null;
 		
-		@Override
+		protected Setting createSetting()
+		{
+			Setting setting;
+			if (currentGroup != null)
+				setting = new Setting(currentGroup);
+			else
+				setting = new Setting(root);
+			
+			settings.add(setting);
+			return setting;
+		}
+		
+		protected Setting createSetting(Group group)
+		{
+			Setting setting = new Setting(group);
+			settings.add(setting);
+			return setting;
+		}
+		
+		protected Group startGroup()
+		{
+			currentGroup = new Group(root);
+			return currentGroup;
+		}
+		
+		protected void endGroup()
+		{
+			currentGroup = null;
+		}
+	}
+
+	public static abstract class Node
+	{
+		// imperative: for this setting a valid option (non-0) must be selected
+		// disjunct: (c.f. "logical disjunction") out of all settings that have 
+		//  the DISJUNCT requirement at least one must be set to a valid option
+		public enum Relevance {IMPERATIVE, DISJUNCT}
+		
+		protected String title;
+		protected String id;
+		protected Relevance required;
+		
+		private final List<Node> children = new ArrayList<Node>();
+		
+		public String    getTitle()    { return title; }
+		public String    getId()       { return id; }
+		public Relevance getRequired() { return required; }
+		
+		private Node(Node parent)
+		{
+			parent.children.add(this);
+		}
+		
 		public boolean isValid()
 		{
-			if (settings.isEmpty()) 
-				return true;
-			
 			boolean imperativeCondition = true;
 			boolean disjunctCondition = false;
 			boolean noneDisjunct = true;
 			
-			for (Setting setting : settings)
+			for (Node node : children)
 			{	
-				if (setting.required == Required.DISJUNCT)
+				if (node.required == Relevance.DISJUNCT)
 				{
-					disjunctCondition |= setting.isValid();
+					disjunctCondition |= node.isValid();
 					noneDisjunct = false;
 				}
-				else if (setting.required == Required.IMPERATIVE)
+				else if (node.required == Relevance.IMPERATIVE)
 				{
-					imperativeCondition &= setting.isValid();
+					imperativeCondition &= node.isValid();
 				}
 			}
-				
 			disjunctCondition |= noneDisjunct;
 			return imperativeCondition && disjunctCondition;
 		}
 	}
 	
-	public static class Setting extends Node
+	public static class Group extends Node implements Iterable<Setting>
 	{
-		public String name;   // how cmi web system refers to it
-		public String currentValue;
-		public String group;
-		public int display;
+		private Group(Node parent) { super(parent); }
+
+		private final List<Setting> settings = new ArrayList<Setting>();
+
+		public Iterator<Setting> iterator()
+		{
+			return settings.iterator();
+		}
+	}
+	
+	public static class Setting extends Node implements Iterable<Option>
+	{
+		private Setting(Node parent) { super(parent); }
+		private Setting(Group group) 
+		{
+			super(group); 
+			group.settings.add(this);
+			this.group = group;
+		}
+
+		protected String name;   // how cmi web system refers to it
+		protected String currentValue;
+		protected Group group;
+		protected int display;
 		
-		public Type type;
-		public enum Type {YESNO, MULTIPLE}
-		// imperative: for this setting a valid option (non-0) must be selected
-		// disjunct: (c.f. "logical disjunction") out of all settings that have 
-		//  the DISJUNCT requirement at least one must be set to a valid option
-		public enum Required {IMPERATIVE, DISJUNCT}
+		protected final List<Option> options = new ArrayList<Option>();
 		
-		public List<Option> options = new ArrayList<Option>();
+		public String getName() { return name; }
+		public Group getGroup() { return group; }
+		
+		public void change(String newValue)
+		{
+			assert(this.hasOption(newValue));
+			currentValue = newValue;
+		}
+
+		public void change(Option newOption)
+		{
+			assert(this.hasOption(newOption.value));
+			currentValue = newOption.value;
+		}
+		
+		public boolean hasOption(String optionValue)
+		{
+			for (Option opt : options) if (opt.value == optionValue) return true;
+			return false;
+		}
 		
 		public Option getCurrent()
 		{
@@ -79,17 +179,88 @@ public class Configuration implements Serializable, Iterable<Setting>
 			// find a better name for this method:
 			// something that better reflects that a non-null selection has been made
 			// instead of the setting as a whole being "valid" or "invalid"
-			return currentValue.equals("0");
+			if (!this.hasOption(currentValue)) return false;				
+			return !currentValue.equals("0");
+		}
+
+		public Iterator<Option> iterator()
+		{
+			return options.iterator();
 		}
 		
 	}
 	
 	public static class Option
 	{
+		public String name; // how cmi web system refers to it
+		public String title; // what should be displayed to the user
 		public String value; // the id code of this option 219
 		public String description; 
-		public String title; // what should be displayed to the user
-		public String name; // how cmi web system refers to it
+		
 		public String toString() { return title; }
 	}
+	
+	public Iterator<Setting> iterator()
+	{
+		return settings.iterator();
+	}
+	
+	public Setting getSetting(int index)
+	{
+		return settings.get(index);
+	}
+	
+	public int getSettingsCount()
+	{
+		return settings.size();
+	}
 }
+
+
+
+
+/*//http://en.wikipedia.org/wiki/Logical_connective
+
+
+class Validator
+{
+	public interface Validatable
+	{
+		boolean check();
+		Relevance getRelevance();
+	}
+
+	void register(Validatable)
+	{
+	
+	}
+	
+	void group(Relevance)
+	{
+		
+	}
+	
+	boolean check()
+	{
+	
+		for (Item item : list)
+		{
+			if (Item)	
+			
+		}
+	}
+	
+	
+	private static class Item
+	{
+		
+	}
+}
+
+String currentGroup;
+for (Setting setting : settings)
+{
+	if (setting.group != currentGroup)
+	validator.register(setting);
+}
+*/

@@ -17,7 +17,7 @@ public class CmiSlot
 	private String timeStamp = "";
 	
 	private String machId = "";
-	private CmiEquipment equipment = null;
+	private Equipment equipment = null;
 	
 	public String user   = "";
 	public String email  = "";

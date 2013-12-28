@@ -285,7 +285,7 @@
 		name="Desaules"
 		description="Wet Bench for Electroplating Cu, Ni">
 		<configuration>
-		<setting title="Bath type" id="list0" name="Bath"   required="imperative">
+		<setting title="Bath type" id="list0" name="Bath" required="imperative">
 			<option title="Not Used" 	name="N/A" 		value="0" 		description=""/>
 			<option title="Cu TSV" 		name="Cu TSV" 	value="423" 	description="Copper For Via Filling"/>
 			<option title="Cu HL" 		name="Cu HL" 	value="424" 	description="Copper for Step Covering – High Lever Effect"/>
