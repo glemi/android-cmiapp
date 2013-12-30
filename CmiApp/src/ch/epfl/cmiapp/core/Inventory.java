@@ -30,6 +30,5 @@ public class Inventory implements Iterable<Equipment>
 	public Iterator<Equipment> iterator()
 	{
 		return inventory.values().iterator();
-	}
-
+	}	
 }

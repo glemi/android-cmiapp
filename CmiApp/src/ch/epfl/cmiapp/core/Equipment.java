@@ -22,4 +22,9 @@ public class Equipment
 	public Configuration getConfig() { return config; } 	
 	public boolean isConfigurable() { return isConfigurable; }
 
+	public String getZoneString()
+	{
+		return String.format("Zone %02d", zone);
+	}
+	
 }

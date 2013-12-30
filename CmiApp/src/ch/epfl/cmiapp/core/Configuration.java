@@ -1,16 +1,13 @@
 package ch.epfl.cmiapp.core;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-
 import ch.epfl.cmiapp.core.Configuration.Node.Relevance;
 import ch.epfl.cmiapp.core.Configuration.Setting;
 import android.util.Log;
 
-public class Configuration implements Serializable, Iterable<Setting>
+public class Configuration implements Iterable<Setting>
 {
 	final Equipment equipment; 
 	private List<Setting> settings = new ArrayList<Setting>();
@@ -190,6 +187,13 @@ public class Configuration implements Serializable, Iterable<Setting>
 			return options.iterator();
 		}
 		
+		public List<Option> getOptions()
+		{
+			List<Option> copy = new ArrayList<Option>();
+			for (Option option : options) copy.add(option.clone());
+			return copy;
+		}
+		
 	}
 	
 	public static class Option
@@ -200,6 +204,15 @@ public class Configuration implements Serializable, Iterable<Setting>
 		public String description; 
 		
 		public String toString() { return title; }
+		protected Option clone()
+		{
+			Option option = new Option();
+			option.name = name;
+			option.title = title;
+			option.value = value;
+			option.description = description;
+			return option;
+		}
 	}
 	
 	public Iterator<Setting> iterator()

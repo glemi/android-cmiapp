@@ -1,6 +1,5 @@
 package ch.epfl.cmiapp.core;
 
-
 import java.util.*;
 
 import org.joda.time.*;
@@ -13,6 +12,7 @@ import org.jsoup.select.Elements;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import ch.epfl.cmiapp.core.CmiSlot.BookingStatus;
 import ch.epfl.cmiapp.util.CmiLoader;
 import ch.epfl.cmiapp.util.CmiLoader.PageType;
 
@@ -36,18 +36,18 @@ public class CmiSchedule
 	
 	private String machId;
 	private String userName;
-	//private CmiEquipment eqpt;
+	private Equipment equipment;
 	
 	boolean noSlotsAvailable = false;
 	
 	private static final int LAST_COLUMN_INDEX = 12;
 	
 	
-	public CmiSchedule(String machId, String userName)
+	public CmiSchedule(Equipment equipment, String userName)
 	{
-		this.machId = machId;
+		this.equipment = equipment;
+		this.machId = equipment.getMachId();
 		this.userName = userName;
-		//eqpt = CmiEquipment.getEquipmentByMachId(machId);
 	}
 	
 	private CmiSchedule(){} 
@@ -269,8 +269,7 @@ public class CmiSchedule
 		String statusStr = td.text(); // combined text of all children
 		String dateTimeString = td.id().substring(0, 18);
 		
-		//Log.d("CmiSchedule.parseSlot", "machId: " + machId + " timeStamp: " + dateTimeString);
-		CmiSlot slot = CmiSlot.instantiate(machId, dateTimeString);
+		CmiSlot slot = new CmiSlot(equipment, dateTimeString);
 		
 		if (slot == null) return null;
 		

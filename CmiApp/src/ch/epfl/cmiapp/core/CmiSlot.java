@@ -32,22 +32,18 @@ public class CmiSlot
 	private static final LocalTime afternoon = LocalTime.parse("12:59");
 	private static final LocalTime evening   = LocalTime.parse("17:00");
 	
-	public static CmiSlot instantiate(String machId, String timeStamp)
+	public static CmiSlot create(Equipment equipment, String timeStamp)
 	{
+		CmiSlot slot = null;
 		try
 		{
-			CmiSlot slot = new CmiSlot();
-			slot.setTimeString(timeStamp);
-			slot.setMachId(machId);
-
-			int duration = slot.equipment.slotLength;
-			slot.end = slot.start.plusMinutes(duration);
-			return slot;
+			slot = new CmiSlot(equipment, timeStamp);
 		}
 		catch (Exception e)
 		{
-			return null;
+			Log.d("CmiSlot.create", "Cannot instantiate CmiSlot - time stamp format not recognized");
 		}
+		return slot;
 	}
 	
 	public static CmiSlot createDummy(int duration_minutes)
@@ -62,11 +58,12 @@ public class CmiSlot
 	
 	private CmiSlot() {} // prevent use of default constructor
 	
-	private CmiSlot(String machId, String timeStamp)
+	public CmiSlot(Equipment equipment, String timeStamp)
 	{
-		setTimeString(timeStamp);
-		setMachId(machId);
+		if(!setTimeString(timeStamp))
+			throw new RuntimeException("Cannot instantiate CmiSlot - time stamp format not recognized");
 		
+		this.machId = equipment.getMachId();
 		int duration = equipment.slotLength;
 		this.end = this.start.plusMinutes(duration);
 	}
@@ -81,13 +78,8 @@ public class CmiSlot
 		return true;
 	}
 	
-	private void setMachId(String machId)
-	{
-		this.machId = machId;
-		equipment = CmiEquipment.getEquipmentByMachId(machId);	
-	}
-	
 	public String getMachId() 			{ return equipment.machId; }
+	public Equipment getEquipment()		{ return equipment; }
 	public String getTimeString() 		{ return start.toString("HH:mm"); }	
 	public LocalDateTime getStartTime() { return start; }
 	public LocalDateTime getEndTime()	{ return end; }

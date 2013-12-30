@@ -28,9 +28,16 @@ public class CmiReservation
 	private String username;
 	private String password;
 	
+	private Equipment equipment;
 	private Configuration config;
 	
 	BookingCallback callback;
+	
+	public class NonMatchingSlotsException extends RuntimeException 
+	{
+	    public NonMatchingSlotsException(String message) { super(message); }
+	}
+	
 	
 	public CmiReservation()
 	{
@@ -48,25 +55,31 @@ public class CmiReservation
 		this.password = password;
 	}
 	
-	public void setConfiguration(Configuration config)
-	{
-		this.config = config;
-	}
-	
 	public void setBookingCallback(BookingCallback callback)
 	{
 		this.callback = callback;
 	}
 	
-	public void insertSlot(CmiSlot slot)
+	private void setEquipment(Equipment equipment)
 	{
+		this.equipment = equipment;
+		this.config = equipment.getConfig();
+	}
+	
+	public void insertSlot(CmiSlot slot) throws NonMatchingSlotsException
+	{
+		Equipment equipment = slot.getEquipment();
+		if (equipment == null)
+			this.setEquipment(equipment);
+		else if (this.equipment != slot.getEquipment())
+			throw new NonMatchingSlotsException("Reservation cannot take slots for different types of Equipment");
 		slots.add(slot);
 	}
 	
-	public void insertSlot(CmiSlot slot, CmiSlot.BookingAction action)
+	public void insertSlot(CmiSlot slot, CmiSlot.BookingAction action) throws NonMatchingSlotsException
 	{
 		slot.action = action;
-		slots.add(slot);
+		insertSlot(slot);
 	}
 	
 	public CmiSlot.BookingAction toogleBooking(CmiSlot slot)
@@ -365,16 +378,16 @@ public class CmiReservation
 		*/
 		
 		String eqptString;
-		CmiEquipment eqpt = CmiEquipment.getEquipmentByMachId(this.getMachId());
-		if (eqpt != null)
-			eqptString = "Z" + eqpt.zone + " " + eqpt.fullString;
+
+		if (equipment != null)
+			eqptString = "Z" + equipment.zone + " " + equipment.fullString;
 		else
 			throw new RuntimeException();
 		
 		String text = "\r\n<b>Configuration request</b>\r\n";
 		text += "<b>User : </b>" + this.username + "\r\n";
 		text += "<b>Email : </b> " + "\r\n";  
-		text += "Equipment : </b>" +  eqptString + "\r\n";
+		text += "<b>Equipment : </b>" +  eqptString + "\r\n";
 		text += "<b>Requested configuration : </b>\r\n";
 		
 		for (Configuration.Setting setting : config)
