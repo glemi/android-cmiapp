@@ -10,7 +10,9 @@ import ch.epfl.cmiapp.R;
 import ch.epfl.cmiapp.R.id;
 import ch.epfl.cmiapp.R.layout;
 import ch.epfl.cmiapp.activities.CmiFragmentActivity;
-import ch.epfl.cmiapp.core.CmiEquipment;
+import ch.epfl.cmiapp.core.Equipment;
+import ch.epfl.cmiapp.core.WebLoadedEquipment;
+import ch.epfl.cmiapp.util.EquipmentManager;
 
 import android.content.Context;
 import android.content.Intent;
@@ -29,18 +31,20 @@ import android.widget.TextView;
 
 public class EqptListAdapter extends CmiPageAdapter
 {
-	List<CmiEquipment> eqptList;
+	EquipmentManager equipmentManager;
+	List<Equipment> eqptList;
 	LayoutInflater inflater;
 	
 	public EqptListAdapter(Context context) 
 	{
 		super();
+		equipmentManager = new EquipmentManager(context);
 		Object service = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		inflater = (LayoutInflater) service;
-		eqptList = new ArrayList<CmiEquipment>();  
+		eqptList = new ArrayList<Equipment>();  
 	}
 	
-	public CmiEquipment getItem(int position)
+	public Equipment getItem(int position)
 	{
 		int innerPosition = translatePosition(position);
 		return eqptList.get(innerPosition);
@@ -72,23 +76,28 @@ public class EqptListAdapter extends CmiPageAdapter
 	
 			for(Element element : elements)
 			{
+				Equipment equipment;
 				String machId = element.attr("Value");
-				CmiEquipment equipment = CmiEquipment.getEquipmentByMachId(machId);
+				
+				
+				equipment = equipmentManager.getInventory().get(machId);
 				
 				if (equipment != null)
-					eqptList.add(equipment);
-				else
 				{
-					Log.d("EqptListAdapter.onParseData", "Equipment lookup failed. Using the old-fashioned parsing method.");
-					
-					equipment = new CmiEquipment();
-					if (equipment.parseString(element.text()))
-				    {
-				    	equipment.machId = machId;
-				    	eqptList.add(equipment);
-				    	Log.d("EqptListAdapter.onParseData", equipment.name);
-				    }
+					eqptList.add(equipment);
+					continue;
 				}
+				
+				Log.d("EqptListAdapter.onParseData", "Equipment lookup failed. Using the old-fashioned parsing method.");
+				equipment = WebLoadedEquipment.create(element);
+				
+				if (equipment != null)
+				{
+					eqptList.add(equipment);
+					continue;
+				}
+				
+				Log.d("EqptListAdapter.onParseData", "Equipment lookup failed. Old-fashioned parsing method failed too!");
 			}
 			return true;
 			
@@ -108,11 +117,11 @@ public class EqptListAdapter extends CmiPageAdapter
 		
 		int innerPosition = translatePosition(position);
 		
-		CmiEquipment equipment = eqptList.get(innerPosition); 
+		Equipment equipment = eqptList.get(innerPosition); 
 		
 		intent.putExtra("CONTENT_TYPE", "SCHEDULE");
-		intent.putExtra("EQUIPMENT_NAME", equipment.name);
-    	intent.putExtra("MACHINE_ID", equipment.machId);
+		intent.putExtra("EQUIPMENT_NAME", equipment.getName());
+    	intent.putExtra("MACHINE_ID", equipment.getMachId());
     	context.startActivity(intent);
     	//context.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
 	}
@@ -126,18 +135,18 @@ public class EqptListAdapter extends CmiPageAdapter
 		if (row == null)
 			row = inflater.inflate(R.layout.equipment_listitem, parent, false);
 
-		CmiEquipment eqpt = eqptList.get(position);
+		Equipment eqpt = eqptList.get(position);
 		
 		TextView nameView = (TextView) row.findViewById(R.id.eqpt_name);
 		TextView zoneView = (TextView) row.findViewById(R.id.zone);
 		TextView suppView = (TextView) row.findViewById(R.id.supplement);
 
-		nameView.setText(eqpt.name);
+		nameView.setText(eqpt.getName());
 		//zoneView.setText(String.format("Zone %02d", eqpt.zone));
-		suppView.setText(eqpt.supplement);
+		suppView.setText(eqpt.getSupplement());
 		
 		//row.setOnClickListener(this);
-		row.setTag(eqpt.machId);
+		row.setTag(eqpt.getMachId());
 		
 		return row;
 	}
@@ -151,7 +160,7 @@ public class EqptListAdapter extends CmiPageAdapter
 	@Override
 	public String getSection(int position) 
 	{
-		String zoneString = String.format("Zone %02d",  eqptList.get(position).zone);
+		String zoneString = eqptList.get(position).getZoneString();
 		return zoneString;
 	}
 

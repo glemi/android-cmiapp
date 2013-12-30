@@ -16,6 +16,7 @@ import ch.epfl.cmiapp.core.CmiSchedule;
 import ch.epfl.cmiapp.core.CmiSlot;
 import ch.epfl.cmiapp.core.Configuration;
 import ch.epfl.cmiapp.core.Equipment;
+import ch.epfl.cmiapp.util.CmiLoader.PageType;
 
 import android.support.v4.app.LoaderManager;
 import android.content.Context;
@@ -77,14 +78,13 @@ public class ScheduleManager
 		public abstract void onScheduleLoaded();
 	}
 	
-	public ScheduleManager(Context context, LoaderManager loaderManager, String machId)
+	public ScheduleManager(Context context, LoaderManager loaderManager, Equipment equipment)
 	{
-		this.machId = machId;
+		this.machId = equipment.getMachId();
 		this.context = context;
 		this.loaderManager = loaderManager;
 		
-		this.eqpt = CmiEquipment.getEquipmentByMachId(machId);
-		this.eqpt.reloadLastConfig(context);
+		this.eqpt = equipment;
 		
 		Bundle arguments = new Bundle();
 		arguments.putInt("DATE_OFFSET", 0);
@@ -94,7 +94,7 @@ public class ScheduleManager
 		SharedPreferences preferences = context.getSharedPreferences("CMI_CREDENTIALS", Context.MODE_PRIVATE);
 		String userName = preferences.getString("CMI_USERNAME", null);
 		
-		this.schedule = new CmiSchedule(machId, userName);
+		this.schedule = new CmiSchedule(equipment, userName);
 	}
 	
 	public SlotListAdapter getAdapter(LocalDateTime start, LocalDateTime end)
@@ -119,8 +119,6 @@ public class ScheduleManager
 	public void changeConfiguration(Configuration newConfig)
 	{
 		Log.d("ScheduleManager.changeConfiguration", "new Configuration: " + newConfig.toString());
-		eqpt.config = newConfig;
-		eqpt.storeConfig(context);
 		
 		changeState(State.WAITING_FOR_RELOAD);
 		loaderManager.restartLoader(0, null, this);
@@ -235,7 +233,7 @@ public class ScheduleManager
 		
 		if (state == State.IDLE)
 		{
-			if (!eqpt.config.isValid())
+			if (!eqpt.getConfig().isValid())
 			{
 				String message = "You need to configure this tool before you can make a reservation.";
 				Toast toast = Toast.makeText(context, message, Toast.LENGTH_LONG);
@@ -252,8 +250,6 @@ public class ScheduleManager
 			
 			reservation = new CmiReservation(this);
 			reservation.setCredentials(username, password);
-			if (eqpt.isConfigurable)
-				reservation.setConfiguration(eqpt.config);
 			
 			CmiSlot slot = adapter.getSlot(position);
 			CmiSlot.BookingAction action = reservation.toogleBooking(slot);
@@ -322,12 +318,12 @@ public class ScheduleManager
 		switch (id)
 		{
 		case LOADER_ID_TABLE:
-			if (eqpt.isConfigurable)			
+			if (eqpt.isConfigurable())			
 			{
 				cmiLoader = new CmiLoader(context, PageType.MAIN_PAGE_CONFIG_RES);
 				cmiLoader.setDate(startDate);
 				cmiLoader.setMachId(machId);
-				cmiLoader.setConfig(eqpt.config);
+				cmiLoader.setConfig(eqpt.getConfig());
 			}
 			else
 			{

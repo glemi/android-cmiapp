@@ -13,22 +13,22 @@ import android.view.View;
 import android.widget.*;
 import android.widget.LinearLayout.*;
 
-import ch.epfl.cmiapp.core.CmiEquipment;
-import ch.epfl.cmiapp.core.CmiEquipment.Configuration;
-import ch.epfl.cmiapp.core.CmiEquipment.Configuration.Option;
-import ch.epfl.cmiapp.core.CmiEquipment.Configuration.Setting;
+import ch.epfl.cmiapp.core.Equipment;
+import ch.epfl.cmiapp.core.Configuration;
+import ch.epfl.cmiapp.core.Configuration.Option;
+import ch.epfl.cmiapp.core.Configuration.Setting;
 
 public class ConfigDialogFragment extends DialogFragment
 	implements DialogInterface.OnClickListener
 {
-	private CmiEquipment equipment;
+	private Equipment equipment;
 	private Map<Setting, Spinner> map;
 	
 	private Callbacks listener;
 	
 	public interface Callbacks
 	{
-		public void onConfigChange(CmiEquipment.Configuration newConfig);
+		public void onConfigChange(Configuration newConfig);
 		public void onConfigCancel();
 	}
 	
@@ -37,7 +37,7 @@ public class ConfigDialogFragment extends DialogFragment
 		this.listener = listener;
 	}
 	
-	public void setEquipment(CmiEquipment equipment)
+	public void setEquipment(Equipment equipment)
 	{
 		this.equipment = equipment;
 	}
@@ -69,18 +69,18 @@ public class ConfigDialogFragment extends DialogFragment
 		layout.setLayoutParams(params);
 		layout.setGravity(Gravity.RIGHT);
 		
-		for (Setting setting : equipment.config.settings)
+		for (Setting setting : equipment.getConfig())
 		{
-			if (setting.display == 0) continue;
+			if (!setting.getsDisplayed()) continue;
 			
 			TextView textView = new TextView(context);
-			textView.setText(setting.title);
+			textView.setText(setting.getTitle());
 			textView.setGravity(Gravity.CENTER_HORIZONTAL);
 			layout.addView(textView, LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 			
 			Spinner spinner = new Spinner(context);
 			final int layoutId = android.R.layout.simple_spinner_dropdown_item;
-			ArrayAdapter<Option> adapter = new ArrayAdapter<Option>(context, layoutId, setting.options); 
+			ArrayAdapter<Option> adapter = new ArrayAdapter<Option>(context, layoutId, setting.getOptions()); 
 			spinner.setAdapter(adapter);
 			
 			int position = adapter.getPosition(setting.getCurrent());
@@ -97,14 +97,14 @@ public class ConfigDialogFragment extends DialogFragment
 	
 	public void readSelection()
 	{
-		for (Setting setting : equipment.config.settings)
+		for (Setting setting : equipment.getConfig())
 		{
 			// echt schöner code! 
 			Spinner spinner = map.get(setting);
 			if (spinner == null) continue;
 			int optionIndex = spinner.getSelectedItemPosition();
-			Option selected = setting.options.get(optionIndex);
-			setting.currentValue = selected.value;
+			Option selected = setting.getOptions().get(optionIndex);
+			setting.change(selected);
 		}
 	}
 	
@@ -114,7 +114,7 @@ public class ConfigDialogFragment extends DialogFragment
 		{
 		case DialogInterface.BUTTON_POSITIVE:
 			readSelection();
-			listener.onConfigChange(equipment.config);
+			listener.onConfigChange(equipment.getConfig());
 			break;
 		case DialogInterface.BUTTON_NEGATIVE:
 			this.getDialog().cancel();

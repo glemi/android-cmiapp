@@ -11,10 +11,12 @@ import org.jsoup.select.Elements;
 import ch.epfl.cmiapp.R;
 import ch.epfl.cmiapp.R.id;
 import ch.epfl.cmiapp.R.layout;
-import ch.epfl.cmiapp.core.CmiEquipment;
 import ch.epfl.cmiapp.core.CmiReservation;
+import ch.epfl.cmiapp.core.CmiReservation.NonMatchingSlotsException;
 import ch.epfl.cmiapp.core.CmiSlot;
 import ch.epfl.cmiapp.core.CmiSlot.BookingStatus;
+import ch.epfl.cmiapp.core.Equipment;
+import ch.epfl.cmiapp.util.EquipmentManager;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -27,12 +29,19 @@ import android.widget.*;
 
 public class ReservationListAdapter extends CmiPageAdapter
 {
-	
+	Context context;
+	EquipmentManager equipmentManager;
 	List<CmiSlot> 				slots = new ArrayList<CmiSlot>();
 	List<CmiReservation> reservations = new ArrayList<CmiReservation>();
 	
 	boolean noReservations = false;
 
+	public ReservationListAdapter(Context context)
+	{
+		this.context = context;
+		this.equipmentManager = new EquipmentManager(context);
+	}
+	
 	public boolean isWaitingForData()
 	{
 		return slots.isEmpty() && !noReservations;
@@ -49,13 +58,13 @@ public class ReservationListAdapter extends CmiPageAdapter
 	{
 		boolean success = parseSlots(page);
 		
-		if (!slots.isEmpty())
+		if (!slots.isEmpty()) 
 			buildReservations();
 		
 		return success;
 	}
 	
-	private void buildReservations()
+	private void buildReservations() throws NonMatchingSlotsException
 	{
 		Iterator<CmiSlot> iterator = slots.iterator();
 		CmiSlot slot = iterator.next();
@@ -103,18 +112,12 @@ public class ReservationListAdapter extends CmiPageAdapter
 				
 				String userString = tdUser.text();
 				String dateTimeString = tdDate.text().substring(0, 19);
-				String machId = CmiEquipment.findMachId(tdEqpt.text());
-				if (machId.isEmpty())
-					continue;
 				
-				Log.d("ReservationListAdapter.onParseData", tdEqpt.text());
-	
-				CmiSlot slot = CmiSlot.instantiate(machId, dateTimeString);
-				if (slot == null)
-					continue;
 				
+				Equipment equipment = equipmentManager.getInventory().find(tdEqpt.text());
+				if (equipment == null) continue;
+				CmiSlot slot = new CmiSlot(equipment, dateTimeString);
 				slot.status = CmiSlot.BookingStatus.BOOKED_SELF;
-				
 				if (!slot.isPast() && slot.getDateOffset() < 10)
 					slots.add(slot);
 			}
@@ -202,12 +205,12 @@ public class ReservationListAdapter extends CmiPageAdapter
 		String timeEnd   = reservation.getEndTime().toString("HH:mm");
 		String numSlots  = reservation.getSlotCount() + " slots";
 		
-		CmiEquipment eqpt = CmiEquipment.getEquipmentByMachId(machId);
+		Equipment eqpt = equipmentManager.getInventory().get(machId);
 		
 		startView.setText(timeStart);
 		endView.setText(timeEnd + " (" + numSlots + ")");
-		eqptView.setText(eqpt.name);
-		zoneView.setText("Zone " + eqpt.zone);
+		eqptView.setText(eqpt.getName());
+		zoneView.setText(eqpt.getZoneString());
 		
 		if (reservation.isNow())
 		{
@@ -215,7 +218,7 @@ public class ReservationListAdapter extends CmiPageAdapter
 			Drawable background = res.getDrawable(R.drawable.nowslot_default);
 			row.setBackgroundDrawable(background);
 		}
-		Log.d("ReservationListAdapter.getItemView", "\t\t\t\tView Text = " + eqpt.name);
+		Log.d("ReservationListAdapter.getItemView", "\t\t\t\tView Text = " + eqpt.getName());
 		
 		return row;
 	}

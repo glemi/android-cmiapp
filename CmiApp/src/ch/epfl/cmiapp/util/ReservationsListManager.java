@@ -6,7 +6,7 @@ import ch.epfl.cmiapp.activities.CmiFragmentActivity;
 import ch.epfl.cmiapp.adapters.ReservationListAdapter;
 import ch.epfl.cmiapp.adapters.TransientAdapter;
 import ch.epfl.cmiapp.adapters.TransientAdapter.TransientMode;
-import ch.epfl.cmiapp.core.CmiEquipment;
+import ch.epfl.cmiapp.core.Equipment;
 import ch.epfl.cmiapp.core.CmiReservation;
 import ch.epfl.cmiapp.core.CmiReservation.BookingCallback;
 import android.content.Context;
@@ -40,13 +40,6 @@ public class ReservationsListManager extends ListManager
 	
 	public ReservationsListManager()
 	{
-		adapter = new ReservationListAdapter();
-		wrapper = new TransientAdapter(adapter);
-		
-		wrapper.setEmptyMessage("no reservations.");
-		wrapper.setLoadingMessage("loading...");
-		wrapper.setFailedMessage("Unable to fetch data from CMi server.");
-		wrapper.setMode(TransientAdapter.TransientMode.EMPTY);
 	}
 
 	public ReservationsListManager(AbsListView list)
@@ -65,7 +58,16 @@ public class ReservationsListManager extends ListManager
 	public void onAttachList(AbsListView list)
 	{
 		context = list.getContext();
+		adapter = new ReservationListAdapter(context);
+		wrapper = new TransientAdapter(adapter);
+		
+		wrapper.setEmptyMessage("no reservations.");
+		wrapper.setLoadingMessage("loading...");
+		wrapper.setFailedMessage("Unable to fetch data from CMi server.");
+		wrapper.setMode(TransientAdapter.TransientMode.EMPTY);
 		//list.setOnCreateContextMenuListener(this);
+		
+		EquipmentManager.load(context);
 	}
 	
 	@Override
@@ -158,8 +160,6 @@ public class ReservationsListManager extends ListManager
 	@Override
 	public void onLoadFinished(Loader<Document> loader, Document page)
 	{
-		if (!CmiEquipment.isEquipmentListLoaded())
-			CmiEquipment.loadEquipmentList(context);
 		Log.d("ReservationsListManager.onLoadFinished", "Reservations Finished Loading.");
 		
 		if (adapter.setPage(page))

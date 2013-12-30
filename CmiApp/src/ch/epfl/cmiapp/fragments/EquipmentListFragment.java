@@ -7,9 +7,10 @@ import ch.epfl.cmiapp.R.anim;
 import ch.epfl.cmiapp.R.layout;
 import ch.epfl.cmiapp.activities.CmiFragmentActivity;
 import ch.epfl.cmiapp.adapters.EqptListAdapter;
-import ch.epfl.cmiapp.core.CmiEquipment;
+import ch.epfl.cmiapp.core.Equipment;
 import ch.epfl.cmiapp.util.CmiLoader;
 import ch.epfl.cmiapp.util.CmiLoader.PageType;
+import ch.epfl.cmiapp.util.EquipmentManager;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -37,10 +38,7 @@ public class EquipmentListFragment extends Fragment
 	public void onAttach(Activity activity)
 	{
 		adapter = new EqptListAdapter(activity);
-		
-		if (!CmiEquipment.isEquipmentListLoaded())
-        	CmiEquipment.loadEquipmentList(activity);
-		
+		EquipmentManager.load(activity);
 		super.onAttach(activity);
 	}
 	
@@ -108,11 +106,11 @@ public class EquipmentListFragment extends Fragment
 		
 		Intent intent = new Intent(activity, CmiFragmentActivity.class);
 
-		CmiEquipment equipment = adapter.getItem(position);
+		Equipment equipment = adapter.getItem(position);
 		
 		intent.putExtra("CONTENT_TYPE", "SCHEDULE");
-		intent.putExtra("EQUIPMENT_NAME", equipment.name);
-    	intent.putExtra("MACHINE_ID", equipment.machId);
+		intent.putExtra("EQUIPMENT_NAME", equipment.getName());
+    	intent.putExtra("MACHINE_ID", equipment.getMachId());
     	
     	activity.startActivity(intent);
     	activity.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);

@@ -5,10 +5,11 @@ import org.jsoup.nodes.Document;
 import ch.epfl.cmiapp.R;
 import ch.epfl.cmiapp.activities.CmiFragmentActivity;
 import ch.epfl.cmiapp.adapters.ReservationListAdapter;
-import ch.epfl.cmiapp.core.CmiEquipment;
+import ch.epfl.cmiapp.core.Equipment;
 import ch.epfl.cmiapp.core.CmiReservation;
 import ch.epfl.cmiapp.core.CmiReservation.BookingCallback;
 import ch.epfl.cmiapp.util.CmiLoader;
+import ch.epfl.cmiapp.util.EquipmentManager;
 
 import android.app.*;
 import android.util.Log;
@@ -42,7 +43,9 @@ public class ReservationsFragment extends Fragment
 	public void onCreate (Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		adapter = new ReservationListAdapter();
+		Context context = this.getActivity();
+		adapter = new ReservationListAdapter(context);
+		EquipmentManager.load(context);
 	}
 	
 	@Override
@@ -131,10 +134,7 @@ public class ReservationsFragment extends Fragment
 	}
 
 	public void onLoadFinished(Loader<Document> loader, Document document)
-	{
-		if (!CmiEquipment.isEquipmentListLoaded())
-			CmiEquipment.loadEquipmentList(getActivity());
-		
+	{	
 		adapter.setPage(document);
 		updateEmptyView();
 		

@@ -5,15 +5,17 @@ import ch.epfl.cmiapp.R.id;
 import ch.epfl.cmiapp.R.layout;
 import ch.epfl.cmiapp.R.menu;
 import ch.epfl.cmiapp.adapters.SchedulePagerAdapter;
-import ch.epfl.cmiapp.core.CmiEquipment;
-import ch.epfl.cmiapp.core.CmiEquipment.Configuration;
-import ch.epfl.cmiapp.core.CmiEquipment.Configuration.*;
+import ch.epfl.cmiapp.core.Equipment;
+import ch.epfl.cmiapp.core.Configuration;
+import ch.epfl.cmiapp.core.Configuration.*;
+import ch.epfl.cmiapp.util.EquipmentManager;
 import ch.epfl.cmiapp.util.ListScrollSyncer;
 import ch.epfl.cmiapp.util.ScheduleManager;
 import ch.epfl.cmiapp.util.ScheduleManager.State;
 import ch.epfl.cmiapp.util.ScheduleManager.onStateChangedListener;
 
 import android.support.v4.app.*;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnDismissListener;
 import android.os.Bundle;
@@ -31,7 +33,11 @@ public class ScheduleMasterFragment extends Fragment
 	private enum Status {LOADING, FAILED_LOADING, NORMAL, RELOADING}
 	
 	private ListScrollSyncer listScrollSyncer = new ListScrollSyncer();
+	
 	private ScheduleManager scheduleManager = null;
+	private EquipmentManager equipmentManager = null;
+	private FragmentManager fragmentManager = null;
+	
 	private SchedulePagerAdapter adapter = null;
 	private ViewPager pager = null;
 	private ActionMode actionMode;
@@ -40,7 +46,7 @@ public class ScheduleMasterFragment extends Fragment
 	
 	private String machId;
 	private String eqptName;
-	private CmiEquipment equipment;
+	private Equipment equipment;
 	
 	@Override
 	public void onStart()
@@ -59,18 +65,21 @@ public class ScheduleMasterFragment extends Fragment
 		else
 			arguments = this.getArguments();
 		
-		this.machId = arguments.getString("MACHINE_ID");
-		this.eqptName = arguments.getString("EQUIPMENT_NAME");
-		this.equipment = CmiEquipment.getEquipmentByMachId(machId);
+		Context context = getActivity();
+		LoaderManager loaderManager = this.getLoaderManager();
+		
+		machId = arguments.getString("MACHINE_ID");
+		eqptName = arguments.getString("EQUIPMENT_NAME");
+		
+		equipmentManager	= new EquipmentManager(context);
+		equipment 			= equipmentManager.getInventory().get(machId);		
+		scheduleManager 	= new ScheduleManager(context, loaderManager, equipment);
+		scheduleManager.registerOnStateChangedListener(this);
+		fragmentManager 	= this.getFragmentManager();
+		adapter 			= new SchedulePagerAdapter(fragmentManager, scheduleManager);
+		
 		this.getActivity().setTitle(eqptName);
 		this.setHasOptionsMenu(true);
-		
-		LoaderManager loaderManager = this.getLoaderManager();
-		scheduleManager = new ScheduleManager(getActivity(), loaderManager, machId);
-		scheduleManager.registerOnStateChangedListener(this);
-		
-		FragmentManager fragmentManager = this.getFragmentManager();
-		adapter = new SchedulePagerAdapter(fragmentManager, scheduleManager);
 		
 		super.onCreate(savedInstanceState);
 		Log.d("ScheduleMasterFragment", "**********************END onCreate");
@@ -192,7 +201,7 @@ public class ScheduleMasterFragment extends Fragment
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
 	{	
-		if (equipment.isConfigurable)
+		if (equipment.isConfigurable())
 			inflater.inflate(R.menu.eqpt_config_menu, menu);
 	}
 	
@@ -243,6 +252,7 @@ public class ScheduleMasterFragment extends Fragment
 
 	public void onConfigChange(Configuration newConfig)
 	{
+		equipmentManager.saveConfig(machId);
 		scheduleManager.changeConfiguration(newConfig);		
 	}
 

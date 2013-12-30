@@ -1,6 +1,5 @@
 package ch.epfl.cmiapp.util;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -28,17 +27,29 @@ public class EquipmentManager
 		return inventory;
 	}
 	
+	public static boolean load(Context context)
+	{
+		EquipmentManager equipmentManager = new EquipmentManager(context);
+		return equipmentManager.load();
+	}
+	
 	public EquipmentManager(Context context)
 	{
 		this.context = context;
-		
+	}
+	
+	public boolean load()
+	{
 		if (inventory.isEmpty()) try
 		{
 			xmlLoad();
+			return true;
 		}
 		catch (ParserConfigurationException e)	{ e.printStackTrace(); }
 		catch (SAXException e) { e.printStackTrace(); }
 		catch (IOException e) {	e.printStackTrace(); }
+		
+		return false;
 	}
 	
 	private void xmlLoad() throws ParserConfigurationException, SAXException, IOException
