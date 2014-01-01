@@ -81,7 +81,7 @@ public class Configuration implements Iterable<Setting>
 		
 		private Node(Node parent)
 		{
-			parent.children.add(this);
+			if (parent != null) parent.children.add(this);
 		}
 		
 		public boolean isValid()
