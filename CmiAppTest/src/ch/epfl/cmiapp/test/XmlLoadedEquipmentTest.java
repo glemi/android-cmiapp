@@ -38,6 +38,7 @@ public class XmlLoadedEquipmentTest extends AndroidTestCase
 		
 		NodeList nodes = rootElement.getChildNodes();
 		
+		String keys = "";
 		for(int index = 0; index < nodes.getLength(); index++)
 		{
 			Node xmlNode = nodes.item(index); 
@@ -47,9 +48,13 @@ public class XmlLoadedEquipmentTest extends AndroidTestCase
 			{
 				Equipment equipment = new XmlLoadedEquipment(xmlNode);
 				String key = equipment.getMachId();
+				
+				keys += "\"" + key + "\", ";
 				displayEquipment(equipment);
 			}
 		}
+		
+		out.println(keys);
 	}
 	
 	
