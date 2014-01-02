@@ -2,10 +2,13 @@ package ch.epfl.cmiapp.core;
 
 import org.w3c.dom.Node;
 
+import ch.epfl.cmiapp.core.XmlExtractor.ItemNotFoundException;
+
+
 public class XmlLoadedEquipment extends Equipment
 {
 
-	public XmlLoadedEquipment(org.w3c.dom.Node xmlNode)
+	public XmlLoadedEquipment(org.w3c.dom.Node xmlNode) throws ItemNotFoundException
 	{
 		assert(xmlNode.getNodeName().equals("cmitool"));
 		XmlExtractor extractor = new XmlExtractor(xmlNode);

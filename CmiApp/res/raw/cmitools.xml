@@ -232,27 +232,27 @@
 		name="Alcatel EVA600"
 		description="Evaporator">
 		<configuration>
-			<setting title="e-Beam Crucible 1" id="list0" name="E-beam #1"   required="disjunct">
+			<setting title="e-Beam Crucible 1" id="list0" name="E-beam #1"  required="disjunct">
 				<option title="Not Used" name="N/A" value="0"/>
 				<option title="Aluminum" name="Al" value="219"/>
 			</setting>
-			<setting title="e-Beam Crucible 2" id="list1" name="E-beam #2"  required="disjunct">
+			<setting title="e-Beam Crucible 2" id="list1" name="E-beam #2" required="disjunct">
 				<option title="Not Used" name="N/A" value="0"/>
 				<option title="Chromium" name="Cr" value="220"/>
 			</setting>
-			<setting title="e-Beam Crucible 3" id="list2" name="E-beam #3"  required="disjunct">
+			<setting title="e-Beam Crucible 3" id="list2" name="E-beam #3" required="disjunct">
 				<option title="Not Used" name="N/A" value="0"/>
 				<option title="Titanium" name="Ti"  value="223"/>
 				<option title="Cobalt"   name="Co"  value="570"/>
 			</setting>
-			<setting title="e-Beam Crucible 4" id="list3" name="E-beam #4"  required="disjunct">
+			<setting title="e-Beam Crucible 4" id="list3" name="E-beam #4" required="disjunct">
 				<option title="Not Used" name="N/A" value="0"/>
 				<option title="Cobalt"   name="Co"  value="228"/>
 				<option title="Nickel"   name="Ni"  value="226"/>
 				<option title="Nickel-Iron (81:19)" name="Ni-Fe 19"  value="227"/>
 				<option title="Nickel-Chromium-Iron (75:20:4)" name="Ni-Cr 19" value="471"/>
 			</setting>
-			<setting title="Joule Crucible 1" id="list4" name="Th. Evap #1"  required="disjunct">
+			<setting title="Joule Crucible 1" id="list4" name="Th. Evap #1" required="disjunct">
 				<option title="Not Used" name="N/A" value="0" />
 				<option title="Silver"   name="Ag"  value="232" />
 				<option title="Copper"   name="Cu"  value="233" />
@@ -261,10 +261,11 @@
 				<option title="Tin"      name="Sn"  value="479" />
 				<option title="Yttrium"  name="Y"   value="480" />
 			</setting>
-			<setting title="Joule Crucible 2" id="list5" name="Th. Evap #1"  required="disjunct">
+			<setting title="Joule Crucible 2" id="list5" name="Th. Evap #1" required="disjunct">
 				<option title="Not Used" name="N/A" value="0" />
 				<option title="Gold"     name="Au"  value="231" />
 			</setting>
+			<message>Please define at least one crucible</message>
 		</configuration>
 	</cmitool>
 	<cmitool
