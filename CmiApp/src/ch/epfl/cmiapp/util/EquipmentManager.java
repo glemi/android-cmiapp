@@ -50,7 +50,7 @@ public class EquipmentManager
 	
 	public boolean load()
 	{
-		if (inventory.isEmpty()) try
+		if (inventory == null || inventory.isEmpty()) try
 		{
 			xmlLoad();
 			return true;
@@ -58,12 +58,13 @@ public class EquipmentManager
 		catch (InventoryLoadException e)
 		{
 			e.printStackTrace();
+			return false;
 		}
-		
-		return false;
+		else
+			return true;
 	}
 	
-	private void xmlLoad() throws InventoryLoadException
+	public void xmlLoad() throws InventoryLoadException
 	{
 		try 
 		{

@@ -1,11 +1,12 @@
 package ch.epfl.cmiapp.core;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
 public class Inventory implements Iterable<Equipment>
 {
-	protected Map<String, Equipment> inventory;
+	protected Map<String, Equipment> inventory = new HashMap<String, Equipment>();
 	
 	public boolean isEmpty()
 	{
