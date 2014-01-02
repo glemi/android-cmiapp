@@ -3,14 +3,17 @@ package ch.epfl.cmiapp.core;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import ch.epfl.cmiapp.core.XmlExtractor.ItemNotFoundException;
+
+
 public class XmlLoadedInventory extends Inventory
 {
-	public XmlLoadedInventory(Node xmlRootNode)
+	public XmlLoadedInventory(Node xmlRootNode) throws ItemNotFoundException
 	{
 		xmlLoad(xmlRootNode);
 	}
 	
-	public void xmlLoad(Node xmlRootNode)
+	public void xmlLoad(Node xmlRootNode) throws ItemNotFoundException
 	{
 		NodeList nodes = xmlRootNode.getChildNodes();
 		

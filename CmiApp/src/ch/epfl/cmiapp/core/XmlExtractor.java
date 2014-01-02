@@ -7,10 +7,28 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
 
+import android.util.Log;
+
 public class XmlExtractor
 {
 	private Node node;
 	private NamedNodeMap attributes;
+	
+	public class ItemNotFoundException extends XmlReadoutException
+	{
+		public ItemNotFoundException(String item) 
+		{
+			super("Could not find item " + item + " within " + node.getNodeName()); 
+		}
+	}
+	
+	public class InvalidDataException extends XmlReadoutException
+	{
+		public InvalidDataException(String item, String data, String datatype) 
+		{
+			super("Invalid value of node " + item + "; Cannot convert '" + data + "' to " + datatype);
+		} 
+	}
 	
 	public XmlExtractor(Node node)
 	{
@@ -44,7 +62,7 @@ public class XmlExtractor
 		};
 	}
 	
-	public int getIntAttr(String attrName)
+	public int getIntAttr(String attrName) throws ItemNotFoundException
 	{
 		String string = getStringAttr(attrName);
 		return Integer.parseInt(string);
@@ -52,11 +70,20 @@ public class XmlExtractor
 	
 	public int getIntAttr(String attrName, int defaultValue)
 	{
-		String string = getStringAttr(attrName);
-		if (string.isEmpty())
-			return defaultValue;
-		else
+		try 
+		{
+			String string = getStringAttr(attrName);
 			return Integer.parseInt(string);
+		}
+		catch (ItemNotFoundException e)
+		{
+			return defaultValue;
+		}
+		catch (NumberFormatException e)
+		{
+			Log.d("XmlExtractor.getIntAttr", "Invalid Attribute Format: using default Value! Please investigate!", e);
+			return defaultValue;
+		}
 	}
 
 	public String getStringAttr(String attrName, String defaultValue)
@@ -64,18 +91,34 @@ public class XmlExtractor
 		return getNodeValue(attributes, attrName, defaultValue);
 	}
 	
-	public String getStringAttr(String attrName)
+	public String getStringAttr(String attrName) throws ItemNotFoundException
 	{
-		return getNodeValue(attributes, attrName, "");
+		return getNodeValue(attributes, attrName);
 	}
 	
-	public <T extends Enum<T>> T getEnumAttr(Class<T> enumType, String attrName)
+	public <T extends Enum<T>> T getEnumAttr(Class<T> enumType, String attrName) throws InvalidDataException, ItemNotFoundException 
 	{
 		String string = getStringAttr(attrName);
-		return Enum.valueOf(enumType, string);
+		try { return Enum.valueOf(enumType, string); }
+		catch (Exception e)
+		{
+			throw new InvalidDataException(attrName, string, enumType.getName());
+		}
 	}
 	
-	
+	public <T extends Enum<T>> T getEnumAttr(Class<T> enumType, String attrName, T defaultValue)
+	{
+		try 
+		{
+			String string = getStringAttr(attrName);
+			return Enum.valueOf(enumType, string);
+		}
+		catch (Exception e)
+		{
+			return defaultValue;
+		}
+	}
+
 	private String getNodeValue(NamedNodeMap map, String key, String defaultValue) 
 	{
 		Node node = map.getNamedItem(key);	
@@ -85,9 +128,13 @@ public class XmlExtractor
 			return defaultValue;
 	}
 	
-	private String getNodeValue(NamedNodeMap map, String key) 
+	private String getNodeValue(NamedNodeMap map, String key) throws ItemNotFoundException 
 	{
-		return getNodeValue(map, key, "");
+		Node node = map.getNamedItem(key);	
+		if (node != null) 
+			return node.getNodeValue();
+		else
+			throw new ItemNotFoundException(key);
 	}
 	
 

@@ -8,10 +8,12 @@ import javax.xml.parsers.*;
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 
+
 import ch.epfl.cmiapp.R;
 import ch.epfl.cmiapp.core.Configuration.Setting;
 import ch.epfl.cmiapp.core.Equipment;
 import ch.epfl.cmiapp.core.Inventory;
+import ch.epfl.cmiapp.core.XmlExtractor.ItemNotFoundException;
 import ch.epfl.cmiapp.core.XmlLoadedInventory;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -21,6 +23,14 @@ public class EquipmentManager
 {
 	private static Inventory inventory;
 	private Context context;
+	
+	public static class InventoryLoadException extends Exception
+	{
+		public InventoryLoadException(Exception cause)
+		{
+			super("Failed to load Inventory!", cause);
+		}
+	}
 	
 	public Inventory getInventory()
 	{
@@ -45,25 +55,30 @@ public class EquipmentManager
 			xmlLoad();
 			return true;
 		}
-		catch (ParserConfigurationException e)	{ e.printStackTrace(); }
-		catch (SAXException e) { e.printStackTrace(); }
-		catch (IOException e) {	e.printStackTrace(); }
+		catch (InventoryLoadException e)
+		{
+			e.printStackTrace();
+		}
 		
 		return false;
 	}
 	
-	private void xmlLoad() throws ParserConfigurationException, SAXException, IOException
+	private void xmlLoad() throws InventoryLoadException
 	{
-		InputStream inStream = context.getResources().openRawResource(R.raw.cmitools);
-
-		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder builder = factory.newDocumentBuilder();
-
-		Document doc = builder.parse(inStream, null);
-		Element rootElement = doc.getDocumentElement();
-		rootElement.normalize();
-		
-		inventory = new XmlLoadedInventory(rootElement);
+		try 
+		{
+			InputStream inStream = context.getResources().openRawResource(R.raw.cmitools);
+	
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder builder = factory.newDocumentBuilder();
+	
+			Document doc = builder.parse(inStream, null);
+			Element rootElement = doc.getDocumentElement();
+			rootElement.normalize();
+			
+			inventory = new XmlLoadedInventory(rootElement);
+		}
+		catch (Exception e) { throw new InventoryLoadException(e); }
 	}
 	
 	public void saveConfig(String machId)

@@ -31,7 +31,10 @@ public class Configuration implements Iterable<Setting>
 	{
 		private Group currentGroup = null;
 		
-		protected Setting createSetting()
+		// if not explicitely specified, the generated default constructor is protected, same as the class
+		public Builder() { } 
+
+		public Setting createSetting()
 		{
 			Setting setting;
 			if (currentGroup != null)
@@ -43,20 +46,20 @@ public class Configuration implements Iterable<Setting>
 			return setting;
 		}
 		
-		protected Setting createSetting(Group group)
+		public Setting createSetting(Group group)
 		{
 			Setting setting = new Setting(group);
 			settings.add(setting);
 			return setting;
 		}
 		
-		protected Group startGroup()
+		public Group startGroup()
 		{
 			currentGroup = new Group(root);
 			return currentGroup;
 		}
 		
-		protected void endGroup()
+		public void endGroup()
 		{
 			currentGroup = null;
 		}
@@ -67,7 +70,8 @@ public class Configuration implements Iterable<Setting>
 		// imperative: for this setting a valid option (non-0) must be selected
 		// disjunct: (c.f. "logical disjunction") out of all settings that have 
 		//  the DISJUNCT requirement at least one must be set to a valid option
-		public enum Relevance {IMPERATIVE, DISJUNCT}
+		// optional: this setting is completely optional 
+		public enum Relevance {IMPERATIVE, DISJUNCT, OPTIONAL}
 		
 		protected String title;
 		protected String id;

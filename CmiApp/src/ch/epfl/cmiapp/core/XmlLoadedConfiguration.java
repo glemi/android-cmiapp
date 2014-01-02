@@ -1,12 +1,13 @@
 package ch.epfl.cmiapp.core;
 
-import ch.epfl.cmiapp.core.Configuration.*;
+import ch.epfl.cmiapp.core.Configuration.Node.Relevance;
+import ch.epfl.cmiapp.core.XmlExtractor.ItemNotFoundException;
 
 public class XmlLoadedConfiguration extends Configuration
 {
 	Builder configBuilder;
 	
-	public XmlLoadedConfiguration(org.w3c.dom.Node xmlNode, Equipment equipment)
+	public XmlLoadedConfiguration(org.w3c.dom.Node xmlNode, Equipment equipment) throws ItemNotFoundException
 	{		
 		super(equipment);
 		
@@ -19,7 +20,7 @@ public class XmlLoadedConfiguration extends Configuration
 		}
 	}
 	
-	private void parseConfigNode(final org.w3c.dom.Node configNode)
+	private void parseConfigNode(final org.w3c.dom.Node configNode) throws ItemNotFoundException
 	{
 		XmlExtractor configExtractor = new XmlExtractor(configNode);
 		
@@ -31,7 +32,7 @@ public class XmlLoadedConfiguration extends Configuration
 		}
 	}
 	
-	private Configuration.Setting parseSettingNode(final org.w3c.dom.Node settingNode)
+	private Configuration.Setting parseSettingNode(final org.w3c.dom.Node settingNode) throws ItemNotFoundException
 	{
 		XmlExtractor settingExtractor = new XmlExtractor(settingNode);
 		Setting setting = configBuilder.createSetting();
@@ -41,7 +42,7 @@ public class XmlLoadedConfiguration extends Configuration
 		setting.title 		 = settingExtractor.getStringAttr("title");
 		setting.name 		 = settingExtractor.getStringAttr("name");
 		setting.display		 = settingExtractor.getIntAttr("display", 1);
-		setting.required 	 = settingExtractor.getEnumAttr(Node.Relevance.class, "required");
+		setting.required 	 = settingExtractor.getEnumAttr(Relevance.class, "required", Relevance.OPTIONAL);
 		
 		for (org.w3c.dom.Node optionNode : settingExtractor.childNodes("option"))
 		{
@@ -57,14 +58,14 @@ public class XmlLoadedConfiguration extends Configuration
 		return setting;
 	}
 	
-	private Configuration.Group parseGroupNode(final org.w3c.dom.Node groupNode)
+	private Configuration.Group parseGroupNode(final org.w3c.dom.Node groupNode) throws ItemNotFoundException
 	{
 		XmlExtractor groupExtractor = new XmlExtractor(groupNode);
 		
 		Configuration.Group group = configBuilder.startGroup();
 		group.id 		= groupExtractor.getStringAttr("id");
 		group.title 	= groupExtractor.getStringAttr("title");
-		group.required  = groupExtractor.getEnumAttr(Node.Relevance.class, "required");
+		group.required  = groupExtractor.getEnumAttr(Relevance.class, "required", Relevance.OPTIONAL);
 		
 		for(org.w3c.dom.Node settingNode : groupExtractor.childNodes("setting"))
 			parseSettingNode(settingNode);
