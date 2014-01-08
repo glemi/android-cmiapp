@@ -165,7 +165,7 @@ public class Configuration implements Iterable<Setting>
 		
 		public Option getCurrent()
 		{
-			for (Option opt : options) if (opt.value == currentValue) return opt;
+			for (Option opt : options) if (opt.value.equals(currentValue)) return opt;
 			Log.d("CmiEquipment.Setting.getCurrent", "value not found " + currentValue);
 			return null;				
 		}
