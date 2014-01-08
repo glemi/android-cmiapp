@@ -69,9 +69,12 @@ public class CmiReservation
 	public void insertSlot(CmiSlot slot) throws NonMatchingSlotsException
 	{
 		Equipment equipment = slot.getEquipment();
-		if (equipment == null)
+		
+		if (equipment == null) 
+			throw new RuntimeException("Slot with 'null'-equipment");
+		if (this.equipment == null)
 			this.setEquipment(equipment);
-		else if (this.equipment != slot.getEquipment())
+		else if (this.equipment != equipment)
 			throw new NonMatchingSlotsException("Reservation cannot take slots for different types of Equipment");
 		slots.add(slot);
 	}
