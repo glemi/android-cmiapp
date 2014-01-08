@@ -60,20 +60,24 @@ public class CmiSlot
 	
 	public CmiSlot(Equipment equipment, String timeStamp)
 	{
+		this.equipment = equipment;
+		this.machId = equipment.getMachId();
+		
 		if(!setTimeString(timeStamp))
 			throw new RuntimeException("Cannot instantiate CmiSlot - time stamp format not recognized");
 		
-		this.machId = equipment.getMachId();
-		int duration = equipment.slotLength;
-		this.end = this.start.plusMinutes(duration);
+
 	}
 	
 	private boolean setTimeString(String timeString)
 	{
-		start = new LocalDateTime();
-		//Log.d("CmiSlot.setTimeString", timeString);
+		int duration = equipment.slotLength;
+
 		DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
+		start = new LocalDateTime();
 		start = formatter.parseLocalDateTime(timeString.trim());
+		end   = start.plusMinutes(duration);
+		
 		this.timeStamp = timeString;
 		return true;
 	}
