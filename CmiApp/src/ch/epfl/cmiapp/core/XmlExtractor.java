@@ -18,7 +18,7 @@ public class XmlExtractor
 	{
 		public ItemNotFoundException(String item) 
 		{
-			super("Could not find item " + item + " within " + node.getNodeName()); 
+			super("Could not find item '" + item + "' within " + node.getNodeName()); 
 		}
 	}
 	
@@ -26,7 +26,7 @@ public class XmlExtractor
 	{
 		public InvalidDataException(String item, String data, String datatype) 
 		{
-			super("Invalid value of node " + item + "; Cannot convert '" + data + "' to " + datatype);
+			super("Invalid value of node '" + item + "'; Cannot convert '" + data + "' to " + datatype);
 		} 
 	}
 	
@@ -106,15 +106,20 @@ public class XmlExtractor
 		}
 	}
 	
-	public <T extends Enum<T>> T getEnumAttr(Class<T> enumType, String attrName, T defaultValue)
+	public <T extends Enum<T>> T getEnumAttr(Class<T> enumType, String attrName, T defaultValue) throws ItemNotFoundException
 	{
 		try 
 		{
-			String string = getStringAttr(attrName);
-			return Enum.valueOf(enumType, string);
+			String string = getStringAttr(attrName).toUpperCase();
+			T enumvalue = Enum.valueOf(enumType, string);
+			if (enumvalue == null)
+				return defaultValue;
+			else
+				return enumvalue;
 		}
-		catch (Exception e)
+		catch (ItemNotFoundException e)
 		{
+			Log.d("XmlExtractor.getEnumAttr", e.getMessage());
 			return defaultValue;
 		}
 	}
@@ -151,7 +156,7 @@ public class XmlExtractor
 		public boolean hasNext()
 		{
 			if (list != null)
-				return list.getLength() > currentIndex + 1;
+				return list.getLength() > currentIndex;
 			else
 				return false;
 		}
