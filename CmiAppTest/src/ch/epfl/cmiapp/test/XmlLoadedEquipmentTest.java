@@ -50,11 +50,11 @@ public class XmlLoadedEquipmentTest extends AndroidTestCase
 				String key = equipment.getMachId();
 				
 				keys += "\"" + key + "\", ";
-				displayEquipment(equipment);
+				//displayEquipment(equipment);
 			}
 		}
 		
-		out.println(keys);
+		//out.println(keys);
 	}
 	
 	
