@@ -135,7 +135,7 @@ public class Configuration implements Iterable<Setting>
 
 		protected String name;   // how cmi web system refers to it
 		protected String currentValue;
-		protected Group group;
+		protected Group group = null;
 		protected int display;
 		
 		protected final List<Option> options = new ArrayList<Option>();
@@ -227,6 +227,13 @@ public class Configuration implements Iterable<Setting>
 	public Setting getSetting(int index)
 	{
 		return settings.get(index);
+	}
+	
+	public Setting getSetting(String id)
+	{
+		for (Setting setting : settings)
+			if (setting.id.equals(id)) return setting;
+		return null;
 	}
 	
 	public int getSettingsCount()
