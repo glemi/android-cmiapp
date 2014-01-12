@@ -79,28 +79,57 @@ public class EquipmentManagerTest extends AndroidTestCase
 				ConfigGenerator gen = new ConfigGenerator(config);
 				ConfigValidator val = new ConfigValidator(eq);
 				
+				/* print out table
 				String header = "";
 				for (Setting setting : config)
 					header += String.format("%10s", setting.getName());
 				header += String.format("%10s", "Reference");
 				header += String.format("%10s", "Actual");
-				
 				System.out.println(header);
+				*/
 				
 				String row;
 				
 				while (gen.hasNext())
 				{
 					gen.increment();
-					Assert.assertTrue(val.check());
+					//Assert.assertTrue(val.check());
 				}
 				
 				System.out.println("Configurable tool " + eq.getName() + " - validation test successful!");
 			}
 			
-			Assert.assertEquals(machid, eq.getMachId());
-			if (machid.equals(eq.getMachId())) System.out.println(machid + " OK");
-			else System.out.println(machid + " FAIL (returned " + eq.getMachId() + ")");
+		}
+	}
+	
+	public void testSpider()
+	{
+		Equipment eq = em.getInventory().get("mach118");
+		
+		if (eq.isConfigurable())
+		{
+			Configuration config = eq.getConfig();
+			ConfigGenerator gen = new ConfigGenerator(config);
+			ConfigValidator val = new ConfigValidator(eq);
+			
+			/* print out table
+			String header = "";
+			for (Setting setting : config)
+				header += String.format("%10s", setting.getName());
+			header += String.format("%10s", "Reference");
+			header += String.format("%10s", "Actual");
+			System.out.println(header);
+			*/
+			
+			String row;
+			
+			while (gen.hasNext())
+			{
+				gen.increment();
+				Assert.assertTrue(val.check());
+			}
+			
+			System.out.println("Configurable tool " + eq.getName() + " - validation test successful!");
 		}
 	}
 	
@@ -159,14 +188,14 @@ public class EquipmentManagerTest extends AndroidTestCase
 			boolean ref  = referenceValidation();
 			boolean result = (test == ref);
 			
+			/* print out table
 			String row = "";
 			for (Setting setting : config)
 				row += String.format("%10s", setting.getValue());
-			
 			row += String.format("%10s", ref ? "OK" : " -");
 			row += String.format("%10s", test ? "OK" : " -");
 			System.out.println(row);
-			
+			*/
 			
 			if (!result)
 			{
