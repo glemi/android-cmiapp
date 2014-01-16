@@ -18,6 +18,7 @@ public class XmlLoadedEquipment extends Equipment
 		this.zone   	= extractor.getIntAttr("zone");
 		this.slotLength = extractor.getIntAttr("slotLength");
 		this.fullString = extractor.getStringAttr("fullString");
+		this.supplement = extractor.getStringAttr("description");
 		
 		if (xmlNode.hasChildNodes())
 		{

@@ -32,10 +32,7 @@ public class EquipmentManager
 		}
 	}
 	
-	public Inventory getInventory()
-	{
-		return inventory;
-	}
+	public static Inventory getInventory() { return inventory; }
 	
 	public static boolean load(Context context)
 	{

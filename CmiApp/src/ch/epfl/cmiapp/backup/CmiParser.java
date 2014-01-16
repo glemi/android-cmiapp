@@ -45,7 +45,7 @@ public class CmiParser
 	
 	public boolean logon() throws IOException
 	{
-		String url = "http://cmisrv1.epfl.ch/reservation/reserv.php";
+		String url = "http://cmisrvm1.epfl.ch/reservation/reserv.php";
 		url += "?login=" + username + "&password=" + password;
 		Document doc;
 		
@@ -69,7 +69,7 @@ public class CmiParser
 	
 	public List<CmiUser> getUsers() throws IOException
 	{
-		String url = "http://cmisrv1.epfl.ch/spc/utilSB/include/tabUtilLimit.php?hauteur=800";
+		String url = "http://cmisrvm1.epfl.ch/spc/utilSB/include/tabUtilLimit.php?hauteur=800";
 		Connection connection = Jsoup.connect(url);
 		connection.cookie("droit", "0"); // pas necessaire?
 		connection.cookie("CMI_user", "1");
@@ -144,7 +144,7 @@ public class CmiParser
 	
 	public List<CmiEquipment> getEquipment() throws IOException
 	{
-		String url = "http://cmisrv1.epfl.ch/reservation/reserv.php?login=%s&password=%s";
+		String url = "http://cmisrvm1.epfl.ch/reservation/reserv.php?login=%s&password=%s";
 		url = String.format(url, username, password);
 		Connection connection = Jsoup.connect(url);
 		

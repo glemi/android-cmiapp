@@ -8,8 +8,6 @@ import org.joda.time.LocalDateTime;
 import org.jsoup.nodes.Document;
 
 import ch.epfl.cmiapp.R;
-import ch.epfl.cmiapp.R.id;
-import ch.epfl.cmiapp.R.menu;
 import ch.epfl.cmiapp.adapters.SlotListAdapter;
 import ch.epfl.cmiapp.core.CmiReservation;
 import ch.epfl.cmiapp.core.CmiSchedule;
@@ -61,6 +59,10 @@ public class ScheduleManager
 	// Set<onStateChangedListener> onStateChangedListeners = new
 	// HashSet<onStateChangedListener>();
 	ListenerSet<onStateChangedListener>	onStateChangedListeners	= new ListenerSet<onStateChangedListener>();
+	
+	private final static boolean disallowReservations = false;
+	
+	
 	
 	public enum State
 	{
@@ -134,7 +136,7 @@ public class ScheduleManager
 			
 			for (Configuration.Setting setting : eqpt.getConfig())
 			{
-				if (setting.getsDisplayed()) continue;
+				if (!setting.getsDisplayed()) continue;
 				text += setting.getTitle() + ":";
 				text += setting.getTitle().length() > 20 ? "\n\t" : "\t";
 				text += setting.getCurrent().title + "\n";			
@@ -228,12 +230,13 @@ public class ScheduleManager
 	
 	public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id)
 	{
+		if (disallowReservations) return false;		
 		if (!parent.isClickable()) return false;
 		//Log.d("ScheduleManager.onItemLongClick", "ScheduleManager.onItemLongClick State=" + state.toString());
 		
 		if (state == State.IDLE)
 		{
-			if (!eqpt.getConfig().isValid())
+			if (eqpt.isConfigurable() && !eqpt.getConfig().isValid())
 			{
 				String message = "You need to configure this tool before you can make a reservation.";
 				Toast toast = Toast.makeText(context, message, Toast.LENGTH_LONG);

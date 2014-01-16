@@ -2,6 +2,7 @@ package ch.epfl.cmiapp.fragments;
 
 import java.util.*;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.support.v4.app.DialogFragment;
@@ -17,6 +18,7 @@ import ch.epfl.cmiapp.core.Equipment;
 import ch.epfl.cmiapp.core.Configuration;
 import ch.epfl.cmiapp.core.Configuration.Option;
 import ch.epfl.cmiapp.core.Configuration.Setting;
+import ch.epfl.cmiapp.util.EquipmentManager;
 
 public class ConfigDialogFragment extends DialogFragment
 	implements DialogInterface.OnClickListener
@@ -43,13 +45,23 @@ public class ConfigDialogFragment extends DialogFragment
 	}
 	
 	@Override
+	public void onAttach(Activity activity)
+	{
+		listener = (Callbacks) activity;
+		super.onAttach(activity);
+	}
+	
+	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState)
 	{
 		Context context = this.getActivity();
-		AlertDialog.Builder builder = new AlertDialog.Builder(context);
-
+		
+		if (savedInstanceState != null)
+			restoreInstanceState(savedInstanceState);
+		
 		View content = generateViewContent(context);
-	    
+		
+		AlertDialog.Builder builder = new AlertDialog.Builder(context);
 	    builder.setView(content);
 	    builder.setPositiveButton("OK", this);
 	    builder.setNegativeButton("Cancel", this);
@@ -121,4 +133,40 @@ public class ConfigDialogFragment extends DialogFragment
 			listener.onConfigCancel();
 		}
 	}	
+	
+	@Override
+	public void onSaveInstanceState(Bundle instanceState)
+	{
+		instanceState.putString("machId", equipment.getMachId());
+
+		int index = 0; 
+		String[] settingIds = new String[map.keySet().size()];
+		for(Setting setting : map.keySet() )
+		{
+			instanceState.putString(setting.getId(), setting.getValue());
+			settingIds[index++] = setting.getId();
+		}
+		
+		instanceState.putStringArray("settingIds", settingIds);
+		
+		super.onSaveInstanceState(instanceState);
+	}
+	
+	// Doesn't override anything! gets called by onCreateDialog
+	public void restoreInstanceState(Bundle instanceState)
+	{
+		String machId = instanceState.getString("machId");
+		equipment = EquipmentManager.getInventory().get(machId);
+		Configuration config = equipment.getConfig();
+		
+		String[] settingIds = instanceState.getStringArray("settingIds");
+		for (String id : settingIds)
+		{
+			Setting setting = config.getSetting(id);
+			String value = instanceState.getString(id);
+			setting.change(value);
+		}
+	}
+	
+	
 }

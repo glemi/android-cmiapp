@@ -92,22 +92,17 @@ public class CmiReservation
 		// supplied slot may have been reset to NONE and may be out
 		// of sync. This is a potential problem.
 		
-		if (slot.action == BookingAction.NONE)
-			switch (slot.status)
-			{
-				case AVAILABLE:		slot.action = BookingAction.BOOK;    break;
-				case REQUEST: 		slot.action = BookingAction.REQUEST; break;
-				case BOOKED_SELF:	slot.action = BookingAction.UNBOOK;  break;
-			}
-		else 
+		if (slot.action != BookingAction.NONE)
 		{
 			slot.action = BookingAction.NONE;
-		}
-		
-		if (!slots.contains(slot))
-			slots.add(slot);
-		else if (slot.action == BookingAction.NONE)
 			slots.remove(slot);
+		}
+		else switch (slot.status)
+		{
+			case AVAILABLE:	  insertSlot(slot, BookingAction.BOOK);    break;
+			case REQUEST: 	  insertSlot(slot, BookingAction.REQUEST); break;
+			case BOOKED_SELF: insertSlot(slot, BookingAction.UNBOOK);  break;
+		}
 		
 		return slot.action;
 	}
@@ -248,6 +243,8 @@ public class CmiReservation
 		if (username == null || password == null)
 			throw new RuntimeException("User Credentials were not specified");
 		
+		this.config = this.equipment.getConfig();
+		
 		if (slots.size() > 0)
 		{
 			JsoupBookingTask bookingTask = new JsoupBookingTask();
@@ -263,7 +260,7 @@ public class CmiReservation
 		{
 			Connection connection;
 
-			String url = "http://cmisrv1.epfl.ch/reservation/reserv.php";
+			String url = "http://cmisrvm1.epfl.ch/reservation/reserv.php";
 
 			try
 			{
@@ -285,10 +282,17 @@ public class CmiReservation
 						connection.data("myresdat", slot.getTimeStamp());
 						
 						if (config != null)
+						{
 							for (Configuration.Setting setting : config)
-								connection.data(setting.id, setting.currentValue);		
+							{
+								Log.d("CmiReservatoin.JsoupBookingTask.doInBackground", "Setting: " + setting.id + "=" + setting.currentValue);
+								connection.data(setting.id, setting.currentValue);
+							}
+						}
 					}
-					connection.post();
+					try { connection.post(); } catch (IllegalArgumentException e) {}
+					// malformed response header; WTF?? 
+					// not really a problem though, we don't care about the response of this one
 				}
 			}
 			catch (IOException e)
@@ -335,7 +339,7 @@ public class CmiReservation
 				
 				Log.d("CmiReservation.JsoupBookingTask", connection.toString());
 				if (requestSlotCount > 0)
-					connection.post();
+					try { connection.post(); } catch (IllegalArgumentException e) {}
 
 				return true;
 			}
