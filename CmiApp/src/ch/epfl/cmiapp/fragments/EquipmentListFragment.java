@@ -24,6 +24,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class EquipmentListFragment extends Fragment
 	implements LoaderManager.LoaderCallbacks<Document>, AdapterView.OnItemClickListener
@@ -31,14 +32,17 @@ public class EquipmentListFragment extends Fragment
 	private ListView listView;
 	private TextView emptyView;
 	private EqptListAdapter adapter;
+	private EquipmentManager manager;
 	
 	private enum Status {LOADING, FAILED_LOADING, NORMAL}
 	
 	@Override
 	public void onAttach(Activity activity)
 	{
+		// important: instantiate EquipmentManager before the adapter!
+		manager = new EquipmentManager(activity);
+		manager.load(); 
 		adapter = new EqptListAdapter(activity);
-		EquipmentManager.load(activity);
 		super.onAttach(activity);
 	}
 	
@@ -49,7 +53,7 @@ public class EquipmentListFragment extends Fragment
 		
 		listView  = (ListView) view.findViewById(android.R.id.list);
         emptyView = (TextView) view.findViewById(android.R.id.empty);
-        listView.setEmptyView(emptyView);;
+        listView.setEmptyView(emptyView);
 		
 		
         listView.setOnItemClickListener(this);
@@ -72,7 +76,13 @@ public class EquipmentListFragment extends Fragment
 		if (adapter.setPage(document))
 			changeStatus(Status.NORMAL);	
 		else
+		{
 			changeStatus(Status.FAILED_LOADING);
+			
+			String text = "Loading failed: list may not be up to date.";
+			Toast toast = Toast.makeText(this.getActivity(), text, Toast.LENGTH_LONG);
+			toast.show();
+		}
 	}
 
 	public void onLoaderReset(Loader<Document> loader)

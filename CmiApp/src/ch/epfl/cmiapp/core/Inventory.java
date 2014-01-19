@@ -18,6 +18,16 @@ public class Inventory implements Iterable<Equipment>
 		return inventory.get(machId);
 	}
 	
+	public boolean contains(Equipment equipment)
+	{
+		return inventory.containsValue(equipment);
+	}
+	
+	public boolean contains(String machId)
+	{
+		return (inventory.get(machId) != null);
+	}
+	
 	public Equipment find(String string)
 	{	
 		for(Equipment eqpt : inventory.values())

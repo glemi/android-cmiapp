@@ -1,6 +1,7 @@
 package ch.epfl.cmiapp.adapters;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -38,10 +39,18 @@ public class EqptListAdapter extends CmiPageAdapter
 	public EqptListAdapter(Context context) 
 	{
 		super();
+		eqptList = new ArrayList<Equipment>();
 		equipmentManager = new EquipmentManager(context);
+		if (equipmentManager.getAccessible().isEmpty())
+		{
+			Log.d("EqptListAdapter", "Access list is empty - reloading from file.");
+			equipmentManager.readAccessList();
+			Log.d("EqptListAdapter", "Access list now " + (equipmentManager.getAccessible().isEmpty() ? "still empty" : "populated") );
+		}
+		update();
+				
 		Object service = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		inflater = (LayoutInflater) service;
-		eqptList = new ArrayList<Equipment>();  
 	}
 	
 	public Equipment getItem(int position)
@@ -62,11 +71,24 @@ public class EqptListAdapter extends CmiPageAdapter
 		return new String("No rights for any equipment.");
 	}
 	
+	
+	protected void update()
+	{
+		eqptList.clear();
+		for (Equipment equipment : equipmentManager.getAccessible())
+			eqptList.add(equipment);
+		
+		Collections.sort(eqptList);
+	}
+	
+	
 	@Override
 	protected boolean onParseData(Document page)
 	{
 		try 
 		{
+			boolean dirty = false;
+			
 			// to do: first check if page is what we expected...
 			Log.d("EqptListAdapter", "onParseData");
 			Elements elements = page.select("option[value^=mach]");
@@ -79,26 +101,42 @@ public class EqptListAdapter extends CmiPageAdapter
 				Equipment equipment;
 				String machId = element.attr("Value");
 				
-				
-				equipment = equipmentManager.getInventory().get(machId);
-				
-				if (equipment != null)
-				{
-					eqptList.add(equipment);
+				if (equipmentManager.getAccessible().contains(machId))
 					continue;
-				}
+				else
+					dirty = true;
 				
-				Log.d("EqptListAdapter.onParseData", "Equipment lookup failed. Using the old-fashioned parsing method.");
-				equipment = WebLoadedEquipment.create(element);
+				equipmentManager.setAccessible(machId);
+				Log.d("EqptListAdapter.onParseData", "Adding " + machId + " to accessible equipment list.");
 				
-				if (equipment != null)
-				{
-					eqptList.add(equipment);
-					continue;
-				}
 				
-				Log.d("EqptListAdapter.onParseData", "Equipment lookup failed. Old-fashioned parsing method failed too!");
+//				equipment = EquipmentManager.getInventory().get(machId);
+//				
+//				if (equipment != null)
+//				{
+//					eqptList.add(equipment);
+//					continue;
+//				}
+//				
+//				Log.d("EqptListAdapter.onParseData", "Equipment lookup failed. Using the old-fashioned parsing method.");
+//				equipment = WebLoadedEquipment.create(element);
+//				
+//				if (equipment != null)
+//				{
+//					eqptList.add(equipment);
+//					continue;
+//				}
+//				
+//				Log.d("EqptListAdapter.onParseData", "Equipment lookup failed. Old-fashioned parsing method failed too!");
 			}
+			
+			if (dirty)
+			{
+				Log.d("EqptListAdapter.onParseData", "At least one item was added to accessible list - updating.");
+				equipmentManager.saveAccessList();
+				update();
+			}
+			
 			return true;
 			
 		} catch (RuntimeException exception)
