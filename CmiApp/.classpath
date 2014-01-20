@@ -17,5 +17,10 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="libs/acra-4.5.0.jar"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
+	<classpathentry kind="lib" path="/home/glemi/Workspaces/Java/libraries/jsch-0.1.50.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="http://epaul.github.io/jsch-documentation/simple.javadoc/"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
