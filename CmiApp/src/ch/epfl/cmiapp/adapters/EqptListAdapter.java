@@ -12,6 +12,7 @@ import ch.epfl.cmiapp.R.id;
 import ch.epfl.cmiapp.R.layout;
 import ch.epfl.cmiapp.activities.CmiFragmentActivity;
 import ch.epfl.cmiapp.core.Equipment;
+import ch.epfl.cmiapp.core.Inventory;
 import ch.epfl.cmiapp.core.WebLoadedEquipment;
 import ch.epfl.cmiapp.util.EquipmentManager;
 
@@ -23,6 +24,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /*
  * Check this out on how to create section headers!
@@ -87,59 +89,30 @@ public class EqptListAdapter extends CmiPageAdapter
 	{
 		try 
 		{
-			boolean dirty = false;
-			
-			// to do: first check if page is what we expected...
-			Log.d("EqptListAdapter", "onParseData");
+			Inventory accessibles = equipmentManager.getAccessible();
+			boolean newEquipmentAdded = false;
 			Elements elements = page.select("option[value^=mach]");
 			
-			if (elements.size() > 0)
-				eqptList.clear();
-	
 			for(Element element : elements)
 			{
-				Equipment equipment;
 				String machId = element.attr("Value");
 				
-				if (equipmentManager.getAccessible().contains(machId))
-					continue;
-				else
-					dirty = true;
-				
-				equipmentManager.setAccessible(machId);
-				Log.d("EqptListAdapter.onParseData", "Adding " + machId + " to accessible equipment list.");
-				
-				
-//				equipment = EquipmentManager.getInventory().get(machId);
-//				
-//				if (equipment != null)
-//				{
-//					eqptList.add(equipment);
-//					continue;
-//				}
-//				
-//				Log.d("EqptListAdapter.onParseData", "Equipment lookup failed. Using the old-fashioned parsing method.");
-//				equipment = WebLoadedEquipment.create(element);
-//				
-//				if (equipment != null)
-//				{
-//					eqptList.add(equipment);
-//					continue;
-//				}
-//				
-//				Log.d("EqptListAdapter.onParseData", "Equipment lookup failed. Old-fashioned parsing method failed too!");
+				if (!accessibles.contains(machId))
+				{
+					Log.d("EqptListAdapter.onParseData", "Adding " + machId + " to accessible equipment list.");
+					equipmentManager.setAccessible(machId);
+					newEquipmentAdded = true;
+				}
 			}
-			
-			if (dirty)
+			if (newEquipmentAdded)
 			{
 				Log.d("EqptListAdapter.onParseData", "At least one item was added to accessible list - updating.");
 				equipmentManager.saveAccessList();
 				update();
 			}
-			
 			return true;
-			
-		} catch (RuntimeException exception)
+		} 
+		catch (RuntimeException exception)
 		{
 			Log.d("EqptListAdapter.onParseData", "ERROR CAUGHT: MALFORMED CMI PAGE?");
 			Log.d("EqptListAdapter.onParseData", exception.getStackTrace().toString());
