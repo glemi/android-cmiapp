@@ -1162,8 +1162,59 @@
 		fullString="Alliance-Concept DP650 - Sputter single chamber multi-target"
 		category="Thin Films"
 		name="Alliance-Concept DP650 "
-		description="Single-Chamber Multi-Target Sputterer"
-	/>
+		description="Single-Chamber Multi-Target Sputterer">
+	    <configuration>
+	        <group title="Posts" id="group_posts" required="imperative" >
+	            <setting title="Cold Post" id="list0" name="ColdPost"  required="disjunct">
+					<option title="Not Used" name="N/A" value="0"/>
+					<option title="Room Temperature" name="RT"  value="598"/>
+				</setting>
+				<setting title="Hot Post" id="list1" name="HotPost" display="OnOff" required="disjunct">
+					<option title="Not Used" name="N/A" value="0"/>
+					<option title="50°C - 400°C" name="HT"  value="604"/>
+				</setting>
+	        </group>
+	        <setting title="Cleaning / Activation" id="list2" name="RfBias" required="optional">
+				<option title="Not Used" name="N/A" value="0"/>
+				<option title="Use RF-Bias" name="RF-Bias"  value="604"/>
+	        </setting>
+	        <group title="Cathode" id="cathodes" required="imperative" >
+	          	<setting title="Cathode 1" id="list3" name="Cath1"  required="disjunct">
+					<option title="Not Used" name="N/A"     value="0"/>
+					<option title="Al"      name="Al"       value="583"/>
+					<option title="AlSi 1%" name="AlSi 1%"  value="584"/>
+					<option title="Mo"      name="Mo"       value="585"/>
+					<option title="W"       name="W"        value="586"/>
+					<option title="IGZO"    name="IGZO"     value="618"/>
+					<option title="Ni"      name="Ni"       value="622"/>
+					<option title="TaN"     name="TaN"      value="624"/>
+					<option title="TiN"     name="TiN"      value="615"/>
+					<option title="TiO2"	name="TiO2"	    value="588"/>
+				</setting>
+				<setting title="Cathode 2" id="list4" name="Cath2"  required="disjunct">
+					<option title="Not Used" name="N/A"     value="0"/>
+					<option title="Ag"      name="Ag"       value="590"/>
+					<option title="Cu"      name="Cu"       value="591"/>
+					<option title="Pd"      name="Pd"       value="620"/>
+					<option title="Si"      name="Si"       value="625"/>
+					<option title="WTi 10%" name="WTi 10%"  value="589"/>
+				</setting>
+	            <setting title="Cathode 3" id="list5" name="Cath3" required="disjunct">
+	                <option title="Not Used" name="N/A"     value="0"/>
+					<option title="Cr"       name="Cr"      value="592"/>
+	            </setting>
+	            <setting title="Cathode 4" id="list6" name="Cath3" required="disjunct">
+	                <option title="Not Used" name="N/A"     value="0"/>
+					<option title="Ta"       name="Ta"      value="619"/>
+					<option title="Ti"       name="Ti"      value="593"/>
+	            </setting>
+	            <setting title="Cathode 5" id="list7" name="Cath5" required="disjunct">
+	                <option title="Not Used" name="N/A"     value="0"/>
+					<option title="Pt"       name="Pt"      value="595"/>
+	            </setting>
+			</group>
+		</configuration>
+    </cmitool>
 	<cmitool
 		machId="mach170"
 		zone="11"
