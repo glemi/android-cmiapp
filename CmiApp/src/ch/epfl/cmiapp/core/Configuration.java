@@ -17,6 +17,7 @@ public class Configuration implements Iterable<Setting>
 	{
 		this.equipment = equipment;
 		this.root = new Group(null);
+		if(equipment == null) return; // defeats the purpose?
 		root.id = "0";
 		root.title = "Root Configuration Node of " + equipment.machId;
 		root.required = Relevance.IMPERATIVE;
@@ -174,6 +175,12 @@ public class Configuration implements Iterable<Setting>
 		{
 			for (Option option : options) if (option.name  == name) return option;
 			for (Option option : options) if (option.title == name) return option;
+			return null;
+		}
+		
+		public Option getOption(String value)
+		{
+			for (Option option : options) if (option.value  == value) return option;
 			return null;
 		}
 		
