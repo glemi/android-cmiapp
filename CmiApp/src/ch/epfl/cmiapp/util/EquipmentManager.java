@@ -2,6 +2,9 @@ package ch.epfl.cmiapp.util;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.xml.parsers.*;
 
@@ -21,7 +24,10 @@ import android.content.SharedPreferences.Editor;
 
 public class EquipmentManager
 {
+	
 	private static Inventory inventory;
+	private AccessibleInventory accessible;
+	private Set<String> accessList;
 	private Context context;
 	
 	public static class InventoryLoadException extends Exception
@@ -32,10 +38,7 @@ public class EquipmentManager
 		}
 	}
 	
-	public Inventory getInventory()
-	{
-		return inventory;
-	}
+	public static Inventory getInventory() { return inventory; }
 	
 	public static boolean load(Context context)
 	{
@@ -46,7 +49,44 @@ public class EquipmentManager
 	public EquipmentManager(Context context)
 	{
 		this.context = context;
+		this.accessList = new HashSet<String>();
+		this.accessible = new AccessibleInventory();
 	}
+	
+	public Inventory getAccessible()
+	{
+		return accessible;
+	}
+	
+	public void setAccessible(String machId)
+	{
+		if (inventory.contains(machId))
+		{
+			accessList.add(machId);
+			accessible.add(machId);
+		}
+	}
+	
+	private class AccessibleInventory extends Inventory
+	{
+		AccessibleInventory()
+		{
+			
+		}
+		
+		void add(String machId)
+		{
+			Equipment equipment = EquipmentManager.inventory.get(machId);
+			assert(equipment != null);
+			super.inventory.put(machId, equipment);
+		}
+		
+		void clear()
+		{
+			super.inventory.clear();
+		}
+	}
+	
 	
 	public boolean load()
 	{
@@ -107,4 +147,29 @@ public class EquipmentManager
 			setting.change(value);
 		}
 	}
+	
+	public void saveAccessList()
+	{
+		Editor data = context.getSharedPreferences("CMI_EQPT_ACCESS", Context.MODE_PRIVATE).edit();
+		
+		data.putStringSet("accessList", accessList);
+		data.commit();
+	}
+	
+	public void clearAccessList()
+	{
+		accessList.clear();
+		accessible.clear();
+	}
+	
+	public void readAccessList()
+	{
+		SharedPreferences data = context.getSharedPreferences("CMI_EQPT_ACCESS", Context.MODE_PRIVATE);
+		
+		accessList = data.getStringSet("accessList", new HashSet<String>());
+		
+		for (String machId : accessList)
+			accessible.add(machId);
+	}
+	
 }

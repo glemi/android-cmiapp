@@ -17,7 +17,7 @@ public class WebLoadedConfiguration extends Configuration
 		htmlExtract(document);
 	}
 	
-	
+	// Expected document is the cmi main reservation page with a (configurable) tool selected
 	private void htmlExtract(Document document)
 	{
 		Element divElement = document.select("div[style=margin:3;background-color:#FFFFCC]").first();

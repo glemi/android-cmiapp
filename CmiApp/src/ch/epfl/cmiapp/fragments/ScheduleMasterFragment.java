@@ -72,7 +72,8 @@ public class ScheduleMasterFragment extends Fragment
 		eqptName = arguments.getString("EQUIPMENT_NAME");
 		
 		equipmentManager	= new EquipmentManager(context);
-		equipment 			= equipmentManager.getInventory().get(machId);		
+		equipmentManager.readConfig(machId);
+		equipment 			= equipmentManager.getInventory().get(machId);
 		scheduleManager 	= new ScheduleManager(context, loaderManager, equipment);
 		scheduleManager.registerOnStateChangedListener(this);
 		fragmentManager 	= this.getFragmentManager();
@@ -259,7 +260,6 @@ public class ScheduleMasterFragment extends Fragment
 	public void onConfigCancel()
 	{
 		// TODO Auto-generated method stub
-		
 	}
 
 	public void onDismiss(DialogInterface dialog)

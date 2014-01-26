@@ -1,6 +1,7 @@
 package ch.epfl.cmiapp.adapters;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -11,6 +12,7 @@ import ch.epfl.cmiapp.R.id;
 import ch.epfl.cmiapp.R.layout;
 import ch.epfl.cmiapp.activities.CmiFragmentActivity;
 import ch.epfl.cmiapp.core.Equipment;
+import ch.epfl.cmiapp.core.Inventory;
 import ch.epfl.cmiapp.core.WebLoadedEquipment;
 import ch.epfl.cmiapp.util.EquipmentManager;
 
@@ -22,6 +24,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /*
  * Check this out on how to create section headers!
@@ -38,10 +41,18 @@ public class EqptListAdapter extends CmiPageAdapter
 	public EqptListAdapter(Context context) 
 	{
 		super();
+		eqptList = new ArrayList<Equipment>();
 		equipmentManager = new EquipmentManager(context);
+		if (equipmentManager.getAccessible().isEmpty())
+		{
+			Log.d("EqptListAdapter", "Access list is empty - reloading from file.");
+			equipmentManager.readAccessList();
+			Log.d("EqptListAdapter", "Access list now " + (equipmentManager.getAccessible().isEmpty() ? "still empty" : "populated") );
+		}
+		update();
+				
 		Object service = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		inflater = (LayoutInflater) service;
-		eqptList = new ArrayList<Equipment>();  
 	}
 	
 	public Equipment getItem(int position)
@@ -62,46 +73,46 @@ public class EqptListAdapter extends CmiPageAdapter
 		return new String("No rights for any equipment.");
 	}
 	
+	
+	protected void update()
+	{
+		eqptList.clear();
+		for (Equipment equipment : equipmentManager.getAccessible())
+			eqptList.add(equipment);
+		
+		Collections.sort(eqptList);
+	}
+	
+	
 	@Override
 	protected boolean onParseData(Document page)
 	{
 		try 
 		{
-			// to do: first check if page is what we expected...
-			Log.d("EqptListAdapter", "onParseData");
+			Inventory accessibles = equipmentManager.getAccessible();
+			boolean newEquipmentAdded = false;
 			Elements elements = page.select("option[value^=mach]");
 			
-			if (elements.size() > 0)
-				eqptList.clear();
-	
 			for(Element element : elements)
 			{
-				Equipment equipment;
 				String machId = element.attr("Value");
 				
-				
-				equipment = equipmentManager.getInventory().get(machId);
-				
-				if (equipment != null)
+				if (!accessibles.contains(machId))
 				{
-					eqptList.add(equipment);
-					continue;
+					Log.d("EqptListAdapter.onParseData", "Adding " + machId + " to accessible equipment list.");
+					equipmentManager.setAccessible(machId);
+					newEquipmentAdded = true;
 				}
-				
-				Log.d("EqptListAdapter.onParseData", "Equipment lookup failed. Using the old-fashioned parsing method.");
-				equipment = WebLoadedEquipment.create(element);
-				
-				if (equipment != null)
-				{
-					eqptList.add(equipment);
-					continue;
-				}
-				
-				Log.d("EqptListAdapter.onParseData", "Equipment lookup failed. Old-fashioned parsing method failed too!");
+			}
+			if (newEquipmentAdded)
+			{
+				Log.d("EqptListAdapter.onParseData", "At least one item was added to accessible list - updating.");
+				equipmentManager.saveAccessList();
+				update();
 			}
 			return true;
-			
-		} catch (RuntimeException exception)
+		} 
+		catch (RuntimeException exception)
 		{
 			Log.d("EqptListAdapter.onParseData", "ERROR CAUGHT: MALFORMED CMI PAGE?");
 			Log.d("EqptListAdapter.onParseData", exception.getStackTrace().toString());

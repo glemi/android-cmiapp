@@ -145,7 +145,7 @@ public class CmiReservation
 			URL url;
 			try
 			{
-				url = new URL("http://cmisrv1.epfl.ch/reservation/reserv.php");
+				url = new URL("http://cmisrvm1.epfl.ch/reservation/reserv.php");
 			
 				HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 				
@@ -229,7 +229,7 @@ public class CmiReservation
 			Document document = null; // empty document
 			Connection connection;
 
-			String url = "http://cmisrv1.epfl.ch/reservation/reserv.php";
+			String url = "http://cmisrvm1.epfl.ch/reservation/reserv.php";
 
 			try
 			{

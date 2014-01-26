@@ -540,7 +540,7 @@
 				<option title="V2O5" 			name="V2O5" 	value="470" 	description="V2O5 [99.9%]"/>
 				<option title="O2-plasma" 		name="O2-plasma" 	value="526" 	description="Process module is only used for an surface activation with O2"/>
 			</setting>
-			<setting title="Substrate Holder Temperature (PM1)" id="list2" name="PM1 T" >
+			<setting title="Substrate Holder Temperature (PM1)" id="list2" name="PM1 T"  required="imperative" >
 				<option title="Not Used" 					 	name="N/A" 			value="0" 		description=""/>
 				<option title="Room Temperature (20°C-60°C)" 	name="Room T�" 		value="12" 		description="Substrate holder at room temperature (20°C - 60°C). No substrate holder heating"/>
 				<option title="Intermediate (60°C - 130°C)"		name="Interm. T�" 	value="13" 		description="Substrate holder at intermediate temperature (60°C � 130°C) ; 90 min for temperature stabilization"/>
@@ -549,13 +549,13 @@
 			</setting>
 		</group>
 		<group title="Process Module 2" id="group_pm2" required="disjunct" >
-			<setting title="DC - source (PM2)" id="list3" name="PM2 Target" >
+			<setting title="DC - source (PM2)" id="list3" name="PM2 Target"  required="imperative" >
 				<option title="Not Used" 		name="N/A" 				value="0" 		description=""/>
 				<option title="Al(N)" 			name="Al(N)" 			value="53" 		description="AlN by reactive sputtering (N2) - Target :  Al [99.9995%]"/>
 				<option title="AlSc 6.4%(N)" 	name="AlSc  6.4%(N)" 	value="488" 	description="AlN-ScN by reactive sputtering (N2) - Target :  Al-Sc 6.4 at% (10.2%wt)  [99.9%]"/>
 				<option title="AlSc 17.5%(N)" 	name="AlSc17.5%(N)" 	value="566" 	description="AlN-ScN by reactive sputtering (N2) - Target :  Al-Sc17.5 at% (26.1wt%) [99.99%]"/>
 			</setting>
-			<setting title="Substrate Holder Temperature (PM2)" id="list4" name="PM2 T�" >
+			<setting title="Substrate Holder Temperature (PM2)" id="list4" name="PM2 T�"  required="imperative" >
 				<option title="Not Used" 					 	name="N/A" 			value="0" 		description=""/>
 				<option title="Room Temperature (20°C-60°C)" 	name="Room T�" 		value="12" 		description="Substrate holder at room temperature (20°C - 60°C). No substrate holder heating"/>
 				<option title="Intermediate (60°C - 130°C)"		name="Interm. T�" 	value="13" 		description="Substrate holder at intermediate temperature (60°C � 130°C) ; 90 min for temperature stabilization"/>
@@ -563,8 +563,8 @@
 				<option title="Cooling down" 					name="Cooling down" value="139" 	description="Available but substrate holder heating is not allowed. Process temperature is not controlled"/>
 			</setting>
 		</group>
-		<group title="Process Module 3" id="group_pm3" required="disjunct" >	
-			<setting title="DC - source (PM3)" id="list5" name="PM3 Target" >
+		<group title="Process Module 3" id="group_pm3" required="disjunct"  >	
+			<setting title="DC - source (PM3)" id="list5" name="PM3 Target" required="imperative" >
 				<option title="Not Used" 		name="N/A" 				value="0" 		description=""/>
 				<option title="Pt" 				name="Pt" 				value="104" 	description="Pt [99.95%]"/>
 				<option title="Si" 				name="Si" 				value="56" 		description="Amorphous silicon - Target : Si [99.9999%] ; Boron doped ; 5 - 30 mOhm.cm ; 2.e19 - 1.e18 at/cm3"/>
@@ -576,7 +576,7 @@
 				<option title="Nb" 				name="Nb" 				value="464" 	description="Nb [99.9%]"/>
 				<option title="RF-etch" 		name="RF-etch" 			value="442" 	description="Process module is used for a wafer cleaning (RF-etch)"/>
 			</setting>
-			<setting title="Substrate Holder Temperature (PM3)" id="list6" name="PM3 T�" >
+			<setting title="Substrate Holder Temperature (PM3)" id="list6" name="PM3 T�" required="imperative">
 				<option title="Not Used" 					 	name="N/A" 			value="0" 		description=""/>
 				<option title="Room Temperature (20°C-60°C)" 	name="Room T�" 		value="12" 		description="Substrate holder at room temperature (20°C - 60°C). No substrate holder heating"/>
 				<option title="Intermediate (60°C - 130°C)"		name="Interm. T�" 	value="13" 		description="Substrate holder at intermediate temperature (60°C � 130°C) ; 90 min for temperature stabilization"/>
@@ -585,7 +585,7 @@
 			</setting>
 		</group>
 		<group title="Process Module 4" id="group_pm4" required="disjunct" >
-			<setting title="DC - source (PM4)" id="list7" name="PM4 Target" >
+			<setting title="DC - source (PM4)" id="list7" name="PM4 Target" required="imperative" >
 				<option title="Not Used" 		name="N/A" 		value="0" 		description=""/>
 				<option title="Ti" 				name="Ti" 		value="55" 		description="Ti [99.995%]"/>
 				<option title="Ta" 				name="Ta" 		value="111" 	description="Ta [99.98%]"/>
@@ -594,7 +594,7 @@
 				<option title="AlSi 2%" 		name="AlSi 2%" 	value="113" 	description="AlSi 2% [99.9995%] ; Si 1.95 wt% photometry"/>
 				<option title="AlSi 4%" 		name="AlSi 4%" 	value="114" 	description="AlSi 4% [99.9995%] ; Si  3.82 wt% photometry"/>
 			</setting>
-			<setting title="Substrate Holder Temperature (PM4)" id="list8" name="PM4 T�" >
+			<setting title="Substrate Holder Temperature (PM4)" id="list8" name="PM4 T�" required="imperative" >
 				<option title="Not Used" 					 	name="N/A" 			value="0" 		description="null"/>
 				<option title="Room Temperature (20°C-60°C)" 	name="Room T�" 		value="12" 		description="Substrate holder at room temperature (20°C - 60°C). No substrate holder heating"/>
 				<option title="Intermediate (60°C - 130°C)"		name="Interm. T�" 	value="13" 		description="Substrate holder at intermediate temperature (60°C � 130°C) ; 90 min for temperature stabilization"/>
@@ -1162,8 +1162,59 @@
 		fullString="Alliance-Concept DP650 - Sputter single chamber multi-target"
 		category="Thin Films"
 		name="Alliance-Concept DP650 "
-		description="Single-Chamber Multi-Target Sputterer"
-	/>
+		description="Single-Chamber Multi-Target Sputterer">
+	    <configuration>
+	        <group title="Posts" id="group_posts" required="imperative" >
+	            <setting title="Cold Post" id="list0" name="ColdPost"  required="disjunct">
+					<option title="Not Used" name="N/A" value="0"/>
+					<option title="Room Temperature" name="RT"  value="598"/>
+				</setting>
+				<setting title="Hot Post" id="list1" name="HotPost" display="OnOff" required="disjunct">
+					<option title="Not Used" name="N/A" value="0"/>
+					<option title="50°C - 400°C" name="HT"  value="604"/>
+				</setting>
+	        </group>
+	        <setting title="Cleaning / Activation" id="list2" name="RfBias" required="optional">
+				<option title="Not Used" name="N/A" value="0"/>
+				<option title="Use RF-Bias" name="RF-Bias"  value="604"/>
+	        </setting>
+	        <group title="Cathode" id="cathodes" required="imperative" >
+	          	<setting title="Cathode 1" id="list3" name="Cath1"  required="disjunct">
+					<option title="Not Used" name="N/A"     value="0"/>
+					<option title="Al"      name="Al"       value="583"/>
+					<option title="AlSi 1%" name="AlSi 1%"  value="584"/>
+					<option title="Mo"      name="Mo"       value="585"/>
+					<option title="W"       name="W"        value="586"/>
+					<option title="IGZO"    name="IGZO"     value="618"/>
+					<option title="Ni"      name="Ni"       value="622"/>
+					<option title="TaN"     name="TaN"      value="624"/>
+					<option title="TiN"     name="TiN"      value="615"/>
+					<option title="TiO2"	name="TiO2"	    value="588"/>
+				</setting>
+				<setting title="Cathode 2" id="list4" name="Cath2"  required="disjunct">
+					<option title="Not Used" name="N/A"     value="0"/>
+					<option title="Ag"      name="Ag"       value="590"/>
+					<option title="Cu"      name="Cu"       value="591"/>
+					<option title="Pd"      name="Pd"       value="620"/>
+					<option title="Si"      name="Si"       value="625"/>
+					<option title="WTi 10%" name="WTi 10%"  value="589"/>
+				</setting>
+	            <setting title="Cathode 3" id="list5" name="Cath3" required="disjunct">
+	                <option title="Not Used" name="N/A"     value="0"/>
+					<option title="Cr"       name="Cr"      value="592"/>
+	            </setting>
+	            <setting title="Cathode 4" id="list6" name="Cath3" required="disjunct">
+	                <option title="Not Used" name="N/A"     value="0"/>
+					<option title="Ta"       name="Ta"      value="619"/>
+					<option title="Ti"       name="Ti"      value="593"/>
+	            </setting>
+	            <setting title="Cathode 5" id="list7" name="Cath5" required="disjunct">
+	                <option title="Not Used" name="N/A"     value="0"/>
+					<option title="Pt"       name="Pt"      value="595"/>
+	            </setting>
+			</group>
+		</configuration>
+    </cmitool>
 	<cmitool
 		machId="mach170"
 		zone="11"
