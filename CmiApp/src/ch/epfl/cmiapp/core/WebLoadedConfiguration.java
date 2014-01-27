@@ -14,19 +14,21 @@ public class WebLoadedConfiguration extends Configuration
 	protected WebLoadedConfiguration(Document document, Equipment equipment)
 	{
 		super(equipment);
+		builder = new Builder();
 		htmlExtract(document);
 	}
 	
-	
+	// Expected document is the cmi main reservation page with a (configurable) tool selected
 	private void htmlExtract(Document document)
 	{
-		Element divElement = document.select("div[style=margin:3;background-color:#FFFFCC]").first();
-		Elements tdElements = divElement.select("td[onmouseover]");
+		//Element divElement = document.select("div[style=margin:3;background-color:#FFFFCC]").first();\
+		Element divElement = document.select("div[id=info]").first().nextElementSibling();
+		Elements tdElements = document.select("td[width=80][onmouseover]");
 		
 		Queue<String> titles = new LinkedList<String>();
 		for (Element td : tdElements) titles.add(td.ownText());
 		
-		Elements selectElements = divElement.select("select[name]");
+		Elements selectElements = document.select("select[name^=list]");
 		
 		for (Element selectElement : selectElements) 
 		{

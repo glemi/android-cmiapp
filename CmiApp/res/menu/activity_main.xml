@@ -1,11 +1,20 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item 
-        android:id="@+id/switchUser" 
-        android:showAsAction="ifRoom|withText" 
-        android:title="switch User"></item>
-    <item 
-        android:id="@+id/reloadButton" 
-        android:showAsAction="always" 
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/switchUser"
+        android:showAsAction="ifRoom|withText"
+        android:title="switch User">
+    </item>
+    <item
+        android:id="@+id/reloadButton"
         android:icon="@drawable/navigation_refresh"
-        ></item>
+        android:showAsAction="always">
+    </item>
+    <item
+        android:id="@+id/vpn_settings"
+        android:showAsAction="collapseActionView"
+        android:title="VPN Settings..."
+        android:visible="true">
+    </item>
+
 </menu>

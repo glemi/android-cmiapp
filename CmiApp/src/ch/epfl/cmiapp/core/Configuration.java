@@ -17,6 +17,7 @@ public class Configuration implements Iterable<Setting>
 	{
 		this.equipment = equipment;
 		this.root = new Group(null);
+		if(equipment == null) return; // defeats the purpose?
 		root.id = "0";
 		root.title = "Root Configuration Node of " + equipment.machId;
 		root.required = Relevance.IMPERATIVE;
@@ -143,7 +144,7 @@ public class Configuration implements Iterable<Setting>
 		public String getName() { return name; }
 		public String getValue() { return currentValue; }
 		public Group getGroup() { return group; }
-		public boolean getsDisplayed() { return display == 0; }
+		public boolean getsDisplayed() { return display != 0; }
 		
 		public void change(String newValue)
 		{
@@ -159,7 +160,7 @@ public class Configuration implements Iterable<Setting>
 		
 		public boolean hasOption(String optionValue)
 		{
-			for (Option opt : options) if (opt.value == optionValue) return true;
+			for (Option opt : options) if (opt.value.equals(optionValue)) return true;
 			return false;
 		}
 		
@@ -172,8 +173,14 @@ public class Configuration implements Iterable<Setting>
 		
 		public Option findOption(String name)
 		{
-			for (Option option : options) if (option.name  == name) return option;
-			for (Option option : options) if (option.title == name) return option;
+			for (Option option : options) if (option.name.equals(name)) return option;
+			for (Option option : options) if (option.title.equals(name)) return option;
+			return null;
+		}
+		
+		public Option getOption(String value)
+		{
+			for (Option option : options) if (option.value.equals(value)) return option;
 			return null;
 		}
 		
@@ -193,9 +200,17 @@ public class Configuration implements Iterable<Setting>
 		
 		public List<Option> getOptions()
 		{
-			List<Option> copy = new ArrayList<Option>();
-			for (Option option : options) copy.add(option.clone());
-			return copy;
+			//List<Option> copy = new ArrayList<Option>();
+			//for (Option option : options) copy.add(option.clone());
+			/* I would prefer to return a non modifiable list here. Unfortunately this is
+			 * not possible. Returning a clone would accomplish more or less the same. 
+			 * However sometimes I need the actual references to the real objects. For
+			 * example in the ConfigDialog in order for this line in generateViewContent
+			 * to work:
+			 * adapter.getPosition(setting.getCurrent()); 
+			 */
+			
+			return options;
 		}
 		
 	}

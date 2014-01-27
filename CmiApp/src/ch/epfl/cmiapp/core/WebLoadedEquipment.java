@@ -2,36 +2,43 @@ package ch.epfl.cmiapp.core;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import android.util.Log;
 
+// WebLoadedEquipment requires a Jsoup Document 
+
 public class WebLoadedEquipment extends Equipment
 {
-	public static WebLoadedEquipment create(Element element)
+	public static WebLoadedEquipment create(Document document)
 	{
 		WebLoadedEquipment equipment = null;
 		try
 		{
-			equipment = new WebLoadedEquipment(element);
+			equipment = new WebLoadedEquipment(document);
 		}
 		catch (RuntimeException exception)
 		{
-			Log.d("WebLoadedEquipment.create", "Parsing Failed of html element : " + element.toString());
+			Log.d("WebLoadedEquipment.create", "Parsing Failed of html element : " + document.toString());
 		}
 		return equipment;
 	}
 	
-	public WebLoadedEquipment(Element element)
+	public WebLoadedEquipment(Document document)
 	{
+		Element element = document.select("option[selected]").first();
+		
 		machId = element.attr("Value");
 		if(!parseString(element.text()))
 			throw new RuntimeException("Cannot create WebLoadedEquipment - parsing failed.");
+		
+		this.config = new WebLoadedConfiguration(document, this);		
 	}
 	
-	public boolean parseString(String string)
-	{
-		Pattern pattern = Pattern.compile("Z(\\d\\d)\\s*([^-]+)(\\s-.*)?");
+	private boolean parseString(String string)
+	{ // regex doesn't work for lab 600
+		Pattern pattern = Pattern.compile("Z(\\d\\d)\\s*(.*?)(-\\s.*)?");
 		Matcher matcher = pattern.matcher(string);
 		
 		if (matcher.matches())

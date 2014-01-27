@@ -8,8 +8,6 @@ import org.joda.time.LocalDateTime;
 import org.jsoup.nodes.Document;
 
 import ch.epfl.cmiapp.R;
-import ch.epfl.cmiapp.R.id;
-import ch.epfl.cmiapp.R.menu;
 import ch.epfl.cmiapp.adapters.SlotListAdapter;
 import ch.epfl.cmiapp.core.CmiReservation;
 import ch.epfl.cmiapp.core.CmiSchedule;
@@ -61,6 +59,10 @@ public class ScheduleManager
 	// Set<onStateChangedListener> onStateChangedListeners = new
 	// HashSet<onStateChangedListener>();
 	ListenerSet<onStateChangedListener>	onStateChangedListeners	= new ListenerSet<onStateChangedListener>();
+	
+	private boolean disallowReservations = false;
+	
+	
 	
 	public enum State
 	{
@@ -134,7 +136,7 @@ public class ScheduleManager
 			
 			for (Configuration.Setting setting : eqpt.getConfig())
 			{
-				if (setting.getsDisplayed()) continue;
+				if (!setting.getsDisplayed()) continue;
 				text += setting.getTitle() + ":";
 				text += setting.getTitle().length() > 20 ? "\n\t" : "\t";
 				text += setting.getCurrent().title + "\n";			
@@ -228,12 +230,19 @@ public class ScheduleManager
 	
 	public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id)
 	{
+		if (disallowReservations) 
+		{
+			String text = "Reservations are not currently possible on this machine.";
+			Toast toast = Toast.makeText(context, text, Toast.LENGTH_LONG);
+			toast.show();
+			return false;
+		}
 		if (!parent.isClickable()) return false;
 		//Log.d("ScheduleManager.onItemLongClick", "ScheduleManager.onItemLongClick State=" + state.toString());
 		
 		if (state == State.IDLE)
 		{
-			if (!eqpt.getConfig().isValid())
+			if (eqpt.isConfigurable() && !eqpt.getConfig().isValid())
 			{
 				String message = "You need to configure this tool before you can make a reservation.";
 				Toast toast = Toast.makeText(context, message, Toast.LENGTH_LONG);
@@ -304,6 +313,20 @@ public class ScheduleManager
 			listener.onStateChanged(newState);
 	}
 	
+	private void checkReservationsOk()
+	{
+		if (!disallowReservations && this.eqpt.isLocked())
+		{
+			disallowReservations = true;
+			
+			String text = "This tool's configuration parameters are out of date.";
+			text += "No reservations can be made. Please request an update with ";
+			text += "the developer.";
+			Toast toast = Toast.makeText(context, text, Toast.LENGTH_LONG);
+			toast.show();
+		}
+	}
+	
 	public Loader<Document> onCreateLoader(int id, Bundle args)
 	{
 		LocalDate startDate = new LocalDate();
@@ -350,11 +373,12 @@ public class ScheduleManager
 			{
 			case LOADER_ID_TABLE: // the standard page with reservations table
 				schedule.parseDocument(document, PageType.MAIN_PAGE_RES);
+				checkReservationsOk();
 				changeState(State.IDLE);
 				// huh ? the following line seems to have worked up to now, 
 				// suddenly starts giving illegalstateexceptions
 				// TODO find out why IllegalStateException thrown here
-				//loaderManager.getLoader(LOADER_ID_TODAYRES).onContentChanged();
+				// loaderManager.getLoader(LOADER_ID_TODAYRES).onContentChanged();
 				break;
 			case LOADER_ID_TODAYRES: // today's reservations -- to complete the data
 				schedule.parseDocument(document, PageType.ALL_RESERVATIONS_PAGE);

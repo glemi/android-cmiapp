@@ -186,6 +186,11 @@ public class MainActivity extends FragmentActivity
         	 multiFragment.forceDataReload();
         	 Toast toast = Toast.makeText(this, "reloading...", Toast.LENGTH_LONG);
      		 toast.show();
+     		 
+         case R.id.vpn_settings:
+        	 Intent intent = new Intent("android.net.vpn.SETTINGS");
+             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+             startActivity(intent);
         	 
          default:
              return super.onOptionsItemSelected(item);

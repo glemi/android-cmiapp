@@ -49,7 +49,7 @@ public class CmiLoader extends AsyncTaskLoader<Document>
 	
 	static private String baseUrl = "http://cmisrvm1.epfl.ch";
 	static private String mainPageUrl = baseUrl + "/reservation/reserv.php";
-	static private String userListUrl = "http://cmisrv1.epfl.ch/spc/utilSB/include/tabUtilLimit.php?hauteur=800";
+	static private String userListUrl = "http://cmisrvm1.epfl.ch/spc/utilSB/include/tabUtilLimit.php?hauteur=800";
 	static private String allReservPageUrl = baseUrl + "/reservation/allreserv.php";
 	static private String userReservPageUrl = baseUrl + "/reservation/myreserv.php";
 	static private String newsPageUrl = baseUrl + "/reservation/news/displayNews.php";
@@ -208,7 +208,7 @@ public class CmiLoader extends AsyncTaskLoader<Document>
 		if (html.length() > 0)
 		{
 			// baseUri is a dummy - shouldn't cause any trouble... hopefully.
-			this.cmiPage = new Document("http://cmisrv1.epfl.ch/reservation/");
+			this.cmiPage = new Document("http://cmisrvm1.epfl.ch/reservation/");
 			this.cmiPage.append(html);
 			Log.d("CmiLoader.onStartLoading", "SUCCESSFULLY RELOADED CACHED DATA");
 			deliverResult(this.cmiPage); // deliver cached data. 
@@ -287,6 +287,7 @@ public class CmiLoader extends AsyncTaskLoader<Document>
 			{
 			case MAIN_PAGE:
 				connection = Jsoup.connect(mainPageUrl);
+				connection.header("HTTP-version", "HTTP/1.1");
 				connection.data("login", username);
 				connection.data("password", password);
 				document = connection.post();
@@ -295,7 +296,11 @@ public class CmiLoader extends AsyncTaskLoader<Document>
 				
 			case USER_LIST:
 				connection = Jsoup.connect(userListUrl);
+				connection.header("Accept", "text/html");
 				connection.cookie("CMI_user", "1");
+				connection.cookie("droit", "0");
+				connection.header("DNT", "1");
+				connection.header("Referer", "http://cmisrvm1.epfl.ch/spc/utilSB/index.php");
 				document = connection.get();
 				break;
 				

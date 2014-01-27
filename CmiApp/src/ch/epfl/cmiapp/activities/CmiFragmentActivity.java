@@ -2,9 +2,11 @@ package ch.epfl.cmiapp.activities;
 
 import ch.epfl.cmiapp.R;
 import ch.epfl.cmiapp.R.menu;
+import ch.epfl.cmiapp.core.Configuration;
 import ch.epfl.cmiapp.fragments.EquipmentListFragment;
 import ch.epfl.cmiapp.fragments.ScheduleMasterFragment;
 import ch.epfl.cmiapp.fragments.UserListFragment;
+import ch.epfl.cmiapp.fragments.ConfigDialogFragment;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.*;
@@ -16,7 +18,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
-public class CmiFragmentActivity extends FragmentActivity
+public class CmiFragmentActivity extends FragmentActivity implements ConfigDialogFragment.Callbacks
 {
 	public enum ContentType
 	{
@@ -154,6 +156,22 @@ public class CmiFragmentActivity extends FragmentActivity
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	public void onConfigChange(Configuration newConfig)
+	{
+		FragmentManager manager = this.getSupportFragmentManager();
+		ScheduleMasterFragment fragment =  (ScheduleMasterFragment) manager.findFragmentByTag("SCHEDULE");
+		if (fragment != null)
+			fragment.onConfigChange(newConfig);
+	}
+
+	public void onConfigCancel()
+	{
+		FragmentManager manager = this.getSupportFragmentManager();
+		ScheduleMasterFragment fragment =  (ScheduleMasterFragment) manager.findFragmentByTag("SCHEDULE");
+		if (fragment != null)
+			fragment.onConfigCancel();
 	}
 	
 }
