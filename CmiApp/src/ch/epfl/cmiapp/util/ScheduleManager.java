@@ -14,10 +14,13 @@ import ch.epfl.cmiapp.core.CmiSchedule;
 import ch.epfl.cmiapp.core.CmiSlot;
 import ch.epfl.cmiapp.core.Configuration;
 import ch.epfl.cmiapp.core.Equipment;
+import ch.epfl.cmiapp.core.WebLoadedEquipment;
 import ch.epfl.cmiapp.util.CmiLoader.PageType;
 
 import android.support.v4.app.LoaderManager;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.v4.content.Loader;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -373,7 +376,7 @@ public class ScheduleManager
 			{
 			case LOADER_ID_TABLE: // the standard page with reservations table
 				schedule.parseDocument(document, PageType.MAIN_PAGE_RES);
-				checkReservationsOk();
+				checkConfigParameters(document);
 				changeState(State.IDLE);
 				// huh ? the following line seems to have worked up to now, 
 				// suddenly starts giving illegalstateexceptions
@@ -392,6 +395,40 @@ public class ScheduleManager
 			// then change state only when all re finished
 		}
 	}
+	
+	public void checkConfigParameters(Document document)
+	{
+		Equipment web = new WebLoadedEquipment(document);
+		Equipment xml = eqpt;
+		
+		boolean ok = EquipmentManager.checkConfigParamsCompatible(xml, web);
+		if (!ok && !disallowReservations)
+		{
+			eqpt.lock(); 
+			disallowReservations = true;
+			
+			
+			String message = "This tool's configuration parameters are out of date. ";
+			message += "No reservations will be possible for the time being. Please ";
+			message += "request an update with the developer.";
+			
+			AlertDialog.Builder builder  = new AlertDialog.Builder(context);
+			builder.setMessage(message);
+			builder.setTitle("Configuration Parameters Out Of Date");
+			builder.setPositiveButton("OK", new DialogCallback());
+			builder.setCancelable(false);
+			builder.create().show();
+		}
+	}
+	
+	private class DialogCallback implements DialogInterface.OnClickListener
+	{
+		public void onClick(DialogInterface dialog, int which)
+		{
+			dialog.dismiss();	
+		}
+	}
+	
 	
 	public void onLoaderReset(Loader<Document> arg0)
 	{

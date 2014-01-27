@@ -16,6 +16,7 @@ import ch.epfl.cmiapp.core.CmiSlot.BookingStatus;
 import ch.epfl.cmiapp.core.Configuration.Option;
 import ch.epfl.cmiapp.core.Configuration.Setting;
 import ch.epfl.cmiapp.util.CmiLoader;
+import ch.epfl.cmiapp.util.EquipmentManager;
 import ch.epfl.cmiapp.util.CmiLoader.PageType;
 
 import android.util.Log;
@@ -187,38 +188,6 @@ public class CmiSchedule
 		return CmiSlot.createDummy(slotDurationMinutes);
 	}
 	
-	private void checkCompatibility(Document document)
-	{
-		Configuration webConfig = new WebLoadedConfiguration(document, null);
-		Configuration refConfig = this.equipment.getConfig();
-		
-		if (!checkConfigParameters(webConfig, refConfig))
-			this.equipment.lock(); // disallow reservations!
-	}
-	
-	private boolean checkConfigParameters(Configuration webConfig, Configuration refConfig)
-	{
-		for (Setting refSetting : refConfig)
-		{
-			String settingId = refSetting.getId();
-			Setting webSetting = webConfig.getSetting(settingId);
-			if (webSetting == null)
-				return false;
-			
-			for (Option refOption : refSetting)
-			{
-				String value = refOption.value;
-				Option webOption = webSetting.getOption(value);
-				if (webOption ==  null)
-					return false;
-				if (!webOption.name.equals(refOption.name))
-					return false;
-			}
-		}			
-		return true;
-	}
-	
-	
 	public boolean parseDocument(Document document, CmiLoader.PageType pageType)
 	{
 		if (document == null) return false;
@@ -226,7 +195,6 @@ public class CmiSchedule
 		{
 		case MAIN_PAGE_RES:
 			parseMainPage(document); 
-			checkCompatibility(document);
 			break;
 		case ALL_RESERVATIONS_PAGE:
 			parseResPage(document); 
