@@ -2,6 +2,8 @@ package ch.epfl.cmiapp.test;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
@@ -11,6 +13,8 @@ import org.jsoup.select.Elements;
 
 import junit.framework.Assert;
 import ch.epfl.cmiapp.core.Configuration;
+import ch.epfl.cmiapp.core.WebLoadedConfiguration;
+import ch.epfl.cmiapp.core.WebLoadedEquipment;
 import ch.epfl.cmiapp.core.Configuration.Node;
 import ch.epfl.cmiapp.core.Configuration.Node.Relevance;
 import ch.epfl.cmiapp.core.Configuration.Option;
@@ -35,9 +39,9 @@ public class EquipmentManagerTest extends AndroidTestCase
 	
 	public void testEquipmentManager() throws InventoryLoadException
 	{
+		printHeader("testEquipmentManager");
+		
 		Assert.assertTrue(em.load());
-		
-		
 		for (String machid : machids)
 		{
 			Equipment eq = em.getInventory().get(machid);
@@ -48,6 +52,7 @@ public class EquipmentManagerTest extends AndroidTestCase
 	}
 	
 	private static String[] machids = { "mach002", "mach003", "mach004", "mach005", "mach006", "mach007", "mach008", "mach009", "mach010", "mach011", "mach012", "mach013", "mach014", "mach015", "mach017", "mach018", "mach019", "mach020", "mach022", "mach023", "mach024", "mach025", "mach026", "mach027", "mach028", "mach029", "mach030", "mach031", "mach033", "mach034", "mach035", "mach036", "mach039", "mach040", "mach044", "mach045", "mach046", "mach047", "mach048", "mach053", "mach054", "mach055", "mach058", "mach116", "mach118", "mach119", "mach121", "mach124", "mach125", "mach126", "mach127", "mach128", "mach129", "mach130", "mach131", "mach132", "mach133", "mach134", "mach135", "mach136", "mach137", "mach138", "mach139", "mach140", "mach141", "mach142", "mach143", "mach144", "mach145", "mach146", "mach147", "mach148", "mach149", "mach150", "mach151", "mach152", "mach153", "mach154", "mach155", "mach156", "mach157", "mach158", "mach159", "mach160", "mach161", "mach162", "mach163", "mach164", "mach165", "mach166", "mach167", "mach168", "mach169", "mach170", "mach171", "mach172", "mach173"}; 
+	private static String[] myMachIds = { "mach116", "mach053", "mach003", "mach004", "mach048", "mach135", "mach007", "mach006", "mach163", "mach058", "mach141", "mach023", "mach155", "mach167", "mach136", "mach025", "mach034", "mach033", "mach126", "mach031", "mach030", "mach039", "mach140", "mach131", "mach169", "mach028", "mach160", "mach159", "mach161", "mach157", "mach158", "mach164", "mach132", "mach165"};
 	
 	public void testFindEquipment() throws IOException
 	{
@@ -64,6 +69,107 @@ public class EquipmentManagerTest extends AndroidTestCase
 			
 			//Assert.assertNotNull(eq);
 		}
+	}
+	
+	public void testParseMachineString() throws IOException
+	{
+		printHeader("testParseMachineString");
+		Connection connection;
+		connection = Jsoup.connect(allReservPageUrl);
+		connection.data("login", "cnyffeler");
+		connection.data("password", "clemens");
+		Document document = connection.post();
+		
+		System.out.println("done. " + document != null ? "[ok]" : "[failed]");
+		Elements elements = document.select("option[Value^=mach]");
+	
+		for (Element element : elements)
+		{
+			String string = element.ownText();
+			System.out.println(string);
+			boolean ok = parseString(string);
+			Assert.assertTrue(ok);
+		}
+		
+	}
+	
+	
+	private boolean parseString(String string)
+	{ // regex doesn't work for lab 600
+		//Pattern pattern = Pattern.compile("Z(\\d\\d)\\s*([^-]+)(\\s-.*)?");
+		Pattern pattern = Pattern.compile("Z(\\d\\d)\\s*(.*?)(-\\s.*)?");
+		Matcher matcher = pattern.matcher(string);
+		String name = "";
+		String supplement = "";
+		int zone = 0;
+		
+		boolean ok = true;
+		
+		if (matcher.matches())
+		{
+			if (matcher.group(3) != null)
+				supplement = matcher.group(3).substring(2).trim();
+			
+			if (matcher.group(1) != null && matcher.group(2) != null)
+			{
+				name = matcher.group(2);
+				zone = Integer.parseInt(matcher.group(1));
+			}
+		}
+		else 
+			ok = false;
+		
+		System.out.println("Zone: " + zone);
+		System.out.println("Name: " + name);
+		System.out.println("Supp: " + supplement);
+		System.out.println(" ");
+		System.out.println(" ");
+		return ok;
+	}
+	
+	
+	public void testConfigUpToDate() throws IOException
+	{
+		printHeader("testConfigUpToDate");
+		EquipmentManager.load(super.getContext());
+		for (String machId : myMachIds)
+		{
+			Equipment xmlEquipment = EquipmentManager.getInventory().get(machId);
+			
+			boolean ok = true;
+			if (xmlEquipment.isConfigurable())
+			{
+				System.out.println("Machine: " + machId + "     [CONFIGURABLE] (" + xmlEquipment.getName() + ")");
+				
+				Document document = loadReservationPage(machId);
+				Equipment webEquipment = new WebLoadedEquipment(document);
+				ok = EquipmentManager.checkConfigParamsCompatible(xmlEquipment, webEquipment);
+			}
+			else
+			{
+				System.out.println("Machine: " + machId + " [NOT CONFIGURABLE] (" + xmlEquipment.getName() + ")");
+			}
+			
+			Assert.assertTrue(ok);
+		}
+	}
+	
+	private Document loadReservationPage(String machId) throws IOException
+	{
+		System.out.println("Loading Cmi page for machId " + machId);
+		Connection connection;
+		connection = Jsoup.connect(mainPageUrl);
+		connection.header("User-Agent", "Mozilla/5.0");
+		connection.data("login", "cnyffeler");
+		connection.data("password", "clemens");
+		connection.data("ID_Machine", machId);
+		connection.data("mode", "preview");
+		//connection.data("privilege", "simple");
+		Document document = connection.post();
+		
+		System.out.println("done. " + document != null ? "[ok]" : "[failed]");
+		Element element = document.select("select[name=ID_Machine]").first();
+		return document;
 	}
 	
 	
@@ -337,4 +443,19 @@ public class EquipmentManagerTest extends AndroidTestCase
 		return strings;
 	}
 	
+	
+	private void printHeader(String header)
+	{
+		
+		System.out.println("***************************************************************************************************************");
+		System.out.println("***************************************************************************************************************");
+		System.out.println("****                                                                                                       ****");
+		System.out.println("**                                                                                                           **");
+		System.out.println("*                     " + String.format("%-80s", header) + "*");
+		System.out.println("**                                                                                                           **");
+		System.out.println("**                                                                                                           **");
+		System.out.println("****                                                                                                       ****");
+		System.out.println("***************************************************************************************************************");
+		System.out.println("***************************************************************************************************************");
+	}
 }
