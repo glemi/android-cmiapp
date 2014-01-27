@@ -160,7 +160,7 @@ public class Configuration implements Iterable<Setting>
 		
 		public boolean hasOption(String optionValue)
 		{
-			for (Option opt : options) if (opt.value == optionValue) return true;
+			for (Option opt : options) if (opt.value.equals(optionValue)) return true;
 			return false;
 		}
 		
@@ -173,14 +173,14 @@ public class Configuration implements Iterable<Setting>
 		
 		public Option findOption(String name)
 		{
-			for (Option option : options) if (option.name  == name) return option;
-			for (Option option : options) if (option.title == name) return option;
+			for (Option option : options) if (option.name.equals(name)) return option;
+			for (Option option : options) if (option.title.equals(name)) return option;
 			return null;
 		}
 		
 		public Option getOption(String value)
 		{
-			for (Option option : options) if (option.value  == value) return option;
+			for (Option option : options) if (option.value.equals(value)) return option;
 			return null;
 		}
 		

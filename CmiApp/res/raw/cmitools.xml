@@ -651,7 +651,7 @@
 		<configuration>
 			<setting title="Substrate Size" id="list0" name="Substrate size" default="630"  required="imperative">
 				<option title="Not Used" name="N/A" value="0"/>
-				<option title="100mm" name="100mm" value="630"/>
+				<option title="100mm" name="100mm"    value="630"/>
 				<option title="150mm" name="150mm Si" value="629" />
 			</setting>
 			<setting title="Syringe and Spray" id="list1" name="Dispense system"  required="disjunct">
@@ -669,11 +669,11 @@
 			</setting>
 			<setting title="Resist Line 1" id="list3" name="Resist 1 in line"   required="disjunct">
 			    <option title="Not Used"				name="N/A" 					value="0"		description=""/>
-			    <option title="AZ 1512"					name="AZ1512" 				value="646"		description=""/>
+			    <option title="AZ 1512"					name="AZ 1512" 				value="646"		description=""/>
 			</setting>
 			<setting title="Resist Line 2" id="list4" name="Resist 2 in line"   required="disjunct">
 			    <option title="Not Used"				name="N/A" 					value="0"		description=""/>
-			    <option title="AZ 9260"					name="AZ9260" 				value="647"		description=""/>
+			    <option title="AZ 9260"					name="AZ 9260" 				value="647"		description=""/>
 			</setting>
 		</configuration>
 	</cmitool>
@@ -1176,7 +1176,7 @@
 	        </group>
 	        <setting title="Cleaning / Activation" id="list2" name="RfBias" required="optional">
 				<option title="Not Used" name="N/A" value="0"/>
-				<option title="Use RF-Bias" name="RF-Bias"  value="604"/>
+				<option title="Use RF-Bias" name="RF-Bias"  value="658"/>
 	        </setting>
 	        <group title="Cathode" id="cathodes" required="imperative" >
 	          	<setting title="Cathode 1" id="list3" name="Cath1"  required="disjunct">
@@ -1203,12 +1203,16 @@
 	                <option title="Not Used" name="N/A"     value="0"/>
 					<option title="Cr"       name="Cr"      value="592"/>
 	            </setting>
-	            <setting title="Cathode 4" id="list6" name="Cath3" required="disjunct">
+	            <setting title="Cathode 4" id="list6" name="Cath4" required="disjunct">
 	                <option title="Not Used" name="N/A"     value="0"/>
 					<option title="Ta"       name="Ta"      value="619"/>
 					<option title="Ti"       name="Ti"      value="593"/>
 	            </setting>
 	            <setting title="Cathode 5" id="list7" name="Cath5" required="disjunct">
+	                <option title="Not Used" name="N/A"     value="0"/>
+					<option title="Au"       name="Au"      value="594"/>
+	            </setting>
+	            <setting title="Cathode 6" id="list8" name="Cath6" required="disjunct">
 	                <option title="Not Used" name="N/A"     value="0"/>
 					<option title="Pt"       name="Pt"      value="595"/>
 	            </setting>

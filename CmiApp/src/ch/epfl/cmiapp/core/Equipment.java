@@ -20,7 +20,7 @@ public class Equipment implements Comparable<Equipment>
 	public String  getSupplement() { return supplement; }	
 	public int     getSlotLength() { return slotLength; } 	
 	public String  getFullString() { return fullString; } 
-	public Configuration getConfig() { return config; } 	
+	public Configuration getConfig() { return config; } 	// will return null if isConfigurable == false;
 	public boolean isConfigurable() { return isConfigurable; }
 	
 	public void lock() { isLocked = true; }

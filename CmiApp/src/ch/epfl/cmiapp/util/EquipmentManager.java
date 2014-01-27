@@ -13,7 +13,9 @@ import org.xml.sax.SAXException;
 
 
 import ch.epfl.cmiapp.R;
+import ch.epfl.cmiapp.core.Configuration.Option;
 import ch.epfl.cmiapp.core.Configuration.Setting;
+import ch.epfl.cmiapp.core.Configuration;
 import ch.epfl.cmiapp.core.Equipment;
 import ch.epfl.cmiapp.core.Inventory;
 import ch.epfl.cmiapp.core.XmlExtractor.ItemNotFoundException;
@@ -21,6 +23,7 @@ import ch.epfl.cmiapp.core.XmlLoadedInventory;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.util.Log;
 
 public class EquipmentManager
 {
@@ -44,6 +47,50 @@ public class EquipmentManager
 	{
 		EquipmentManager equipmentManager = new EquipmentManager(context);
 		return equipmentManager.load();
+	}
+	
+	 
+	public static boolean checkConfigParamsCompatible(Equipment test, Equipment reference)
+	{
+		Configuration testConfig = test.getConfig();  // typically the xml loaded one
+		Configuration refConfig  = reference.getConfig(); // typically the web loaded one 
+		
+		if (testConfig != null && refConfig != null)
+		{
+			for (Setting testSetting : testConfig)
+			{
+				String settingId = testSetting.getId();
+				Setting refSetting = refConfig.getSetting(settingId);
+				if (refSetting == null)
+					return false;
+				
+				for (Option testOption : testSetting)
+				{
+					String value = testOption.value;
+					Option refOption = refSetting.getOption(value);
+					if (refOption ==  null)
+					{
+						Log.d("EquipmentManager.checkConfigParamsCompatible", "Option not found: " + value);
+						Log.d("EquipmentManager.checkConfigParamsCompatible", "   Reference Options are ...");
+						for (Option refOpt : refSetting)
+							Log.d("EquipmentManager.checkConfigParamsCompatible", "   " + refOpt.value + " (" + refOpt.name + ")");	
+						return false;
+					}
+					if (!refOption.name.equals(testOption.name))
+					{
+						Log.d("EquipmentManager.checkConfigParamsCompatible", "Option found but they seem to be different: ref='" + refOption.name + "' test='" + testOption.name + "'");
+						return false;
+					}
+					Log.d("EquipmentManager.checkConfigParamsCompatible", "Option : " + value + "\t [OK]");
+				}
+			}
+			Log.d("EquipmentManager.checkConfigParamsCompatible", "Everything ok");
+			return true;
+		}
+		else if (testConfig == null && refConfig == null) 
+			return true; // both are null; this is ok
+		else 
+			return false; // one is null the other isn't; not ok.
 	}
 	
 	public EquipmentManager(Context context)
@@ -108,6 +155,7 @@ public class EquipmentManager
 	{
 		try 
 		{
+			Log.d("EquipmentManager.xmlLoad", "loading XML Data.");
 			InputStream inStream = context.getResources().openRawResource(R.raw.cmitools);
 	
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
