@@ -1,5 +1,11 @@
 package ch.epfl.cmiapp.util;
 
+import java.io.IOException;
+
+import org.jsoup.Connection;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
@@ -44,5 +50,13 @@ public class CmiSshTunnel
 		public boolean promptPassword(String message)   { return true; }
 		public void showMessage(String message)         { }
 	}
+	
+	public void activateTremplin() throws IOException
+	{
+		Connection conn = Jsoup.connect("https://tremplin.epfl.ch/ssh.cgi");
+		Document doc = conn.get();
+		
+	}
+	
 	
 }
