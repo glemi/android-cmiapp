@@ -3,6 +3,7 @@ package ch.epfl.cmiapp;
 import org.acra.ACRA;
 import org.acra.annotation.*;
 import android.app.Application;
+import android.content.Context;
 
 //@ReportsCrashes(
 //    formKey = "",
@@ -17,11 +18,19 @@ import android.app.Application;
 //@ReportsCrashes(formKey = "dDJnQnZhaW1YRWZDR0VJeGpsQ3lDQnc6MQ") 
 public class CmiApplication extends Application
 {
+	
+	private static Context context;
 
+	public static Context getAppContext() 
+	{
+        return context;
+    }
+	
 	@Override
 	public void onCreate()
 	{
 		ACRA.init(this);
+		context = this.getApplicationContext();
 		super.onCreate();
 	}
 }
