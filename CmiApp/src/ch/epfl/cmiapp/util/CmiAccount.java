@@ -15,7 +15,9 @@ public class CmiAccount
 	private String gasparId;
 	private String gasparPassword;
 	
-	private static CmiAccount instance;
+	private CmiSshTunnel tunnel;
+	
+	private static CmiAccount instance = null;
 	
 	public static CmiAccount instance()
 	{
@@ -38,6 +40,15 @@ public class CmiAccount
 		return null;
 		
 	}
+	
+	public boolean setupSshTunnel()
+	{
+
+		return false;
+	}
+	
+	
+	
 	
 	public String getUsername() { return username; }
 	public String getPassword() { return password; }

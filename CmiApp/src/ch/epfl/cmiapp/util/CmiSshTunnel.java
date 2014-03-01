@@ -1,7 +1,5 @@
 package ch.epfl.cmiapp.util;
 
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -15,25 +13,17 @@ import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
-import java.util.List;
-import java.util.Map;
-
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManagerFactory;
 
-import org.jsoup.Connection;
-import org.jsoup.Connection.Response;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import android.content.Context;
-import android.util.Log;
 import ch.epfl.cmiapp.CmiApplication;
 import ch.epfl.cmiapp.R;
-import ch.epfl.tequila.client.model.ClientConfig;
-import ch.epfl.tequila.client.service.TequilaService;
 
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
