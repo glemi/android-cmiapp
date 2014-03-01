@@ -62,9 +62,9 @@ public class CmiLoader extends AsyncTaskLoader<Document>
 	private Timer reloadTimer = new Timer();
 	private long reloadInterval = 0; // interval in seconds; 0 = don't reload
 	
-	private String username;
-	private String password;
-	private String userId;
+	private String username; // e.g. cnyffeler
+	private String password; // e.g. clemens
+	private String userId;   // e.g. user01262
 	
 	private String dateStart;
 	private String dateEnd;

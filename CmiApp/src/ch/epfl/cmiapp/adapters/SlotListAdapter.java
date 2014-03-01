@@ -284,7 +284,10 @@ public class SlotListAdapter extends BaseAdapter
 			statusView.setTextColor(res.getColor(R.color.bookingAvailable));
 			break;
 		case RESTRICTED: 
-			statusView.setText("restricted");
+			if (slot.user.isEmpty())
+				statusView.setText("restricted");
+			else
+				statusView.setText(slot.user);
 			statusView.setTextColor(res.getColor(R.color.bookingRestricted));
 			//row.setBackgroundColor(0xF03030); // SOME RED
 			//statusView.setBackgroundColor(0xF03030);
