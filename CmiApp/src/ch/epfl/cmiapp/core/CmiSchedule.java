@@ -29,7 +29,7 @@ public class CmiSchedule
 	private NavigableMap<LocalDate, Day> days = new TreeMap<LocalDate, Day>();
 	private NavigableMap<LocalDateTime, CmiSlot> slotMap = new TreeMap<LocalDateTime, CmiSlot>();
 	
-	private LocalTime firstSlotTime = new LocalTime(23,59); // 23:59h  
+	private LocalTime firstSlotTime = new LocalTime(23, 59); // 23:59h  
 	private LocalTime lastSlotTime = new LocalTime(00, 00);
 	private int slotsPerDay;
 	private int slotDurationMinutes;
@@ -52,6 +52,7 @@ public class CmiSchedule
 	
 	private CmiSchedule(){} 
 	
+	// never used
 	public List<CmiSlot> getSlotsAt(int position)
 	{	
 		LocalDate date = getDateAt(position);
@@ -59,6 +60,7 @@ public class CmiSchedule
 		return days.get(date);
 	}
 	
+	// main access function, used in fragment and adapter
 	public List<CmiSlot> getSlotsBetween(LocalDateTime start, LocalDateTime end)
 	{
 		Collection<CmiSlot> slots = slotMap.subMap(start, end).values();
@@ -67,6 +69,7 @@ public class CmiSchedule
 		return slotList;
 	}
 	
+	// never used
 	public List<CmiSlot> getSlotsBetween(String startString, String endString)
 	{
 		DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
@@ -75,11 +78,13 @@ public class CmiSchedule
 		return getSlotsBetween(start, end);
 	}
 	
+	// never used
 	public List<CmiSlot> getSlotsOn(DateMidnight date)
 	{	
 		return days.get(date);
 	} 
 	
+	// never used
 	public List<CmiSlot> getSlotsOn(String dateString)
 	{	
 		DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
@@ -87,12 +92,14 @@ public class CmiSchedule
 		return days.get(date);
 	} 
 	
+	// never used
 	public CmiSlot getSlot(String datetimeStr)
 	{
 		LocalDateTime dateTime = LocalDateTime.parse(datetimeStr);
 		return slotMap.get(dateTime);
 	}
 	
+	// used by center view vertically
 	public int getSlotPosition(String timeStamp)
 	{
 		LocalTime time = null;
@@ -116,14 +123,16 @@ public class CmiSchedule
 		return -1;
 	}
 	
+	// used by method above and below
 	public int getSlotPosition(LocalTime time)
 	{
 		Period diff = new Period(this.firstSlotTime, time);
-		int diffMinutes =  diff.getHours()*60 + diff.getMinutes();
+		int diffMinutes =  diff.getHours()*60 + diff.getMinutes(); 
 		int slotPosition = diffMinutes / slotDurationMinutes; // rounds towards 0
 		return slotPosition;
 	}
 	
+	// used by center view vertically
 	public int getNowSlotPosition()
 	{
 		// returns -1 if no slots exists at this time
@@ -137,12 +146,13 @@ public class CmiSchedule
 			return getSlotPosition(now);
 	}
 	
-	
+	// never used! 
 	public String getMachId()
 	{
 		return machId;
 	}
 	
+	// important: used many times. 
 	public LocalDate getDateAt(int index)
 	{
 		if (days.size() <= index)
@@ -151,6 +161,7 @@ public class CmiSchedule
 			return dates[index];
 	}
 	
+	// used by method below
 	public int getPositionOf(LocalDate date)
 	{
 		for (int i = 0; i < dates.length; i++)
@@ -158,6 +169,7 @@ public class CmiSchedule
 		return -1;
 	}
 	
+	// used for highlight slots
 	public int getPositionOf(String timeStamp)
 	{
 		DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
@@ -165,21 +177,25 @@ public class CmiSchedule
 		return getPositionOf(date);
 	}
 	
+	// used by pager adapter
 	public int getDayCount()
 	{
 		return days.size();
 	}
 	
+	// used serveral times
 	public int getSlotsPerDay()
 	{
 		return slotsPerDay;
 	}
 	
+	// never used??
 	public int getSlotDuration()
 	{
 		return slotDurationMinutes;		
 	}
 	
+	// used by adapter
 	public CmiSlot createDummySlot()
 	{
 		return CmiSlot.createDummy(slotDurationMinutes);
