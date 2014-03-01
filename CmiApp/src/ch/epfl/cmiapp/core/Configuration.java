@@ -1,8 +1,13 @@
 package ch.epfl.cmiapp.core;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.Map.Entry;
+
 import ch.epfl.cmiapp.core.Configuration.Node.Relevance;
 import ch.epfl.cmiapp.core.Configuration.Setting;
 import android.util.Log;
@@ -22,9 +27,60 @@ public class Configuration implements Iterable<Setting>
 		root.required = Relevance.IMPERATIVE;
 	}
 	
+	protected Configuration(Configuration other)
+	{
+		this.root = other.root.clone(null);
+		this.equipment = other.equipment;
+	}
+	
 	public boolean isValid()
 	{
 		return root.isValid();
+	}
+	
+	public static class Values implements Iterable<Values.Value> 
+	{
+		private Map<String, Value> values = new HashMap<String, Value>();
+		private Configuration config;
+		
+		public static class Value
+		{
+			public String option;
+			public String setting; 
+		}
+		
+		public Values(Configuration configuration)
+		{
+			this.config = configuration;
+		}
+		
+		public Values(Equipment equipment)
+		{
+			this.config = equipment.config;
+		}
+		
+		public void set(String settingId, String optionValue)
+		{
+			Setting setting = config.findSetting(settingId);
+			if (setting != null)
+			{
+				Option option = setting.findOption(optionValue);
+				Value value = new Value();
+				value.option = option.value;
+				value.setting = setting.id;
+				values.put(setting.id, value);
+			}
+		}
+		
+		public String get(String idname)
+		{
+			return values.get(idname).option;
+		}
+
+		public Iterator<Value> iterator()
+		{
+			return values.values().iterator();
+		}
 	}
 	
 	protected class Builder
@@ -109,6 +165,8 @@ public class Configuration implements Iterable<Setting>
 			disjunctCondition |= noneDisjunct;
 			return imperativeCondition && disjunctCondition;
 		}
+		
+		protected abstract Node clone(Node parent);
 	}
 	
 	public static class Group extends Node implements Iterable<Setting>
@@ -120,6 +178,20 @@ public class Configuration implements Iterable<Setting>
 		public Iterator<Setting> iterator()
 		{
 			return settings.iterator();
+		}
+
+		@Override
+		protected Node clone(Node parent)
+		{
+			Group cloned = new Group(parent);
+			cloned.title = this.title;
+			cloned.id 	 = this.id;
+			cloned.required = this.required;
+			
+			for(Setting setting : settings)
+				setting.clone(this); // adds itself!
+			
+			return cloned;
 		}
 	}
 	
@@ -138,7 +210,7 @@ public class Configuration implements Iterable<Setting>
 		protected Group group = null;
 		protected int display;
 		
-		protected final List<Option> options = new ArrayList<Option>();
+		protected List<Option> options = new ArrayList<Option>();
 		
 		public String getName() { return name; }
 		public String getValue() { return currentValue; }
@@ -172,6 +244,7 @@ public class Configuration implements Iterable<Setting>
 		
 		public Option findOption(String name)
 		{
+			for (Option option : options) if (option.value == name) return option;
 			for (Option option : options) if (option.name  == name) return option;
 			for (Option option : options) if (option.title == name) return option;
 			return null;
@@ -204,6 +277,16 @@ public class Configuration implements Iterable<Setting>
 			 */
 			
 			return options;
+		}
+		
+		protected Node clone(Node parent)
+		{
+			Setting cloned = new Setting(parent);
+			cloned.name = this.name;
+			cloned.currentValue = this.currentValue;
+			cloned.display = this.display;
+			cloned.options = this.options; // intentionally a shallow copy!
+			return cloned;
 		}
 		
 	}
@@ -241,6 +324,16 @@ public class Configuration implements Iterable<Setting>
 	{
 		for (Setting setting : settings)
 			if (setting.id.equals(id)) return setting;
+		return null;
+	}
+	
+	public Setting findSetting(String name)
+	{
+		for (Setting setting : settings)
+			if (setting.id.equals(name)) return setting;
+		
+		for (Setting setting : settings)
+			if (setting.name.equals(name)) return setting;
 		return null;
 	}
 	

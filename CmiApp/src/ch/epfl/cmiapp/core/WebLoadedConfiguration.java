@@ -6,6 +6,7 @@ import java.util.Queue;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.jsoup.Jsoup;
 
 public class WebLoadedConfiguration extends Configuration
 {
@@ -17,6 +18,30 @@ public class WebLoadedConfiguration extends Configuration
 		htmlExtract(document);
 	}
 	
+	protected static Configuration.Values parseHoverLine(String line, Equipment equipment)
+	{
+		Configuration.Values configValues = new Values(equipment);
+		
+		int start = line.indexOf("escape('") + 8;
+		int end   = line.indexOf("');") - 3;
+		
+		String html = line.substring(start, end);
+		
+		String[] items = html.split("<br>");
+	
+		for (String item : items)
+		{
+			item = item.replace("<b>", "");
+			item = item.replace("</b>", "");
+			
+			int center = item.indexOf(":");
+			String name = item.substring(0, center-1);
+			String value = item.substring(center+2);
+			
+			configValues.set(name, value);
+		}
+		return configValues;
+	}
 	
 	private void htmlExtract(Document document)
 	{
@@ -54,7 +79,11 @@ public class WebLoadedConfiguration extends Configuration
 
 
 /*
-
+<b>Substrate size: 100mm</b>
+<br>Developer: Developer
+<br>Syringe & Spray: LOR
+<br><b>Resist 1 in line: AZ 1512</b>
+<br>Resist 2 in line: AZ 9260<br>
 
 <div style="margin:3;background-color:#FFFFCC">
 	<table border="0" cellspacing="0" cellpadding="3" style="font-size:8pt">
