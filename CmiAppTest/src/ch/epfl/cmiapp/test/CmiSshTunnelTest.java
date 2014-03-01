@@ -1,6 +1,12 @@
 package ch.epfl.cmiapp.test;
 
 
+import java.io.IOException;
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertificateException;
+
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -44,5 +50,11 @@ public class CmiSshTunnelTest extends TestCase
 		
 		boolean ok = element.ownText().contains("Welcome");
 		Assert.assertTrue(ok); 
+	}
+	
+	public void testTequilaAuthenticate() throws IOException, KeyManagementException, CertificateException, KeyStoreException, NoSuchAlgorithmException
+	{
+		boolean ok = tunnel.activateTremplin();
+		Assert.assertTrue(ok);
 	}
 }
