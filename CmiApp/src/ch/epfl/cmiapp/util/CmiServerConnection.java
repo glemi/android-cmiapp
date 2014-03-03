@@ -87,7 +87,7 @@ public class CmiServerConnection
 	
 	public InputStream getUserListPage() throws IOException
 	{
-		CmiHttpRequest request = setupConnection(PageType.MAIN_PAGE);
+		CmiHttpRequest request = setupConnection(PageType.USER_LIST);
 		request.setCookie("CMI_user", "1");
 		request.setCookie("droit", "0");
 		request.send();
@@ -96,7 +96,7 @@ public class CmiServerConnection
 	
 	public InputStream getUserReservationPage() throws IOException
 	{
-		CmiHttpRequest request = setupConnection(PageType.MAIN_PAGE);
+		CmiHttpRequest request = setupConnection(PageType.USER_RESERVATIONS_PAGE);
 		request.setData("ID_User", account.getUserId());
 		request.setData("order1", "t2.NomMachine");
 		request.setData("order2", "t3.DateRes");
@@ -118,14 +118,14 @@ public class CmiServerConnection
 	
 	public InputStream getNewsPage(String newsId) throws IOException
 	{
-		CmiHttpRequest request = setupConnection(PageType.MAIN_PAGE);
+		CmiHttpRequest request = setupConnection(PageType.NEWS_PAGE);
 		request.setData("news_id", newsId);
 		request.send();
 		return connection.getInputStream();
 	}
 	
 	
-	private CmiHttpRequest setupConnection(PageType pageType)
+	private CmiHttpRequest setupConnection(PageType pageType) throws IOException
 	{
 		String address = constructUrl(pageType);
 		createHttpConnection(address);
@@ -135,7 +135,12 @@ public class CmiServerConnection
 	private String constructUrl(PageType pageType)
 	{
 		String baseUrl;
-		if (sshTunnel.isActive())
+		/*if (sshTunnel.isActive())
+			baseUrl = sshTunnel.getBaseUrl();
+		else
+			baseUrl = defaultBaseUrl;*/
+		
+		if (account.isSshTunnelConnected())
 			baseUrl = sshTunnel.getBaseUrl();
 		else
 			baseUrl = defaultBaseUrl;
@@ -154,23 +159,24 @@ public class CmiServerConnection
 		return null;
 	}
 	
-	private void createHttpConnection(String urlAddress)
+	private void createHttpConnection(String urlAddress) throws IOException
 	{
 		try
 		{
 			URL url = new URL(urlAddress);
 			this.connection = (HttpURLConnection) url.openConnection();
 			this.connection.setDoOutput(true);
+			//this.connection.setRequestProperty("Connection", "close");
 		}
 		catch (MalformedURLException e)
 		{
 			e.printStackTrace();
+			this.connection = null;
 		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
-		this.connection = null;
+//		catch (IOException e)
+//		{
+//			e.printStackTrace();
+//		}
 	}
 }
 

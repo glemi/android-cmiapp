@@ -2,6 +2,8 @@ package ch.epfl.cmiapp.util;
 
 import java.io.InputStream;
 
+import com.jcraft.jsch.JSchException;
+
 public class CmiAccount
 {
 	private String username;
@@ -15,7 +17,9 @@ public class CmiAccount
 	private String gasparId;
 	private String gasparPassword;
 	
-	private CmiSshTunnel tunnel;
+	private TremplinAccountManager tremplin;
+	private CmiSshTunnel tunnel = new CmiSshTunnel(this);
+	private CmiServerConnection server;
 	
 	private static CmiAccount instance = null;
 	
@@ -24,32 +28,46 @@ public class CmiAccount
 		return instance;
 	}	
 	
-	public class Builder
-	{
-		
-	}
-	
 	public boolean hasGasparData()
 	{
-		return false;
-		
+		return !gasparId.isEmpty() && !gasparPassword.isEmpty();
 	}
 	
-	public InputStream getCmiPage()
+	public boolean setupSshTunnel() throws JSchException 
 	{
-		return null;
-		
+		tunnel.establish();
+		return true;
+/*		try {
+			tunnel.establish();
+			return true;
+		}
+		catch (JSchException exception)
+		{
+			return false;
+		}*/
 	}
-	
-	public boolean setupSshTunnel()
-	{
 
-		return false;
+	public CmiServerConnection getServerConnection()
+	{
+		if (server == null)
+		{
+			server = new CmiServerConnection(this);
+		}
+		
+		return server;
 	}
 	
+	public void closeSshTunnel() throws JSchException
+	{
+		tunnel.close();
+	}
 	
+	public boolean isSshTunnelConnected()
+	{
+		return tunnel.isActive();
+	}
 	
-	
+
 	public String getUsername() { return username; }
 	public String getPassword() { return password; }
 	public String getUserId()  { return userid; }

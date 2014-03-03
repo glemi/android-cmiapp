@@ -23,7 +23,7 @@ public class CmiHttpRequest
 		if (data.isEmpty())
 			data = name + "=" + value;
 		else
-			data = data + "&" + name + "=" + data;
+			data = data + "&" + name + "=" + value;
 	}
 	
 	public void setCookie(String name, String value)
@@ -31,7 +31,7 @@ public class CmiHttpRequest
 		if (cookies.isEmpty())
 			cookies = name + "=" + value;
 		else
-			cookies = ";" + name + "=" + value;
+			cookies = cookies + ";" + name + "=" + value;
 	}
 	
 	public void send() throws IOException
@@ -47,6 +47,7 @@ public class CmiHttpRequest
 		
 		writer.write(data);
 		writer.flush();
+		writer.close();
 	}
 	
 }

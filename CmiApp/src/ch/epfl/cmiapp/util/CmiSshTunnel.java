@@ -22,6 +22,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import android.content.Context;
+import android.util.Log;
 import ch.epfl.cmiapp.CmiApplication;
 import ch.epfl.cmiapp.R;
 
@@ -46,16 +47,12 @@ public class CmiSshTunnel
 
 	private String sciper;
 	
+	private Session session;
 	private CmiAccount account;
 	
 	public static final String tunnelRemoteHost = "cmisrvm1.epfl.ch";
 	public static final int tunnelLocalPort = 9080;
 	public static final int tunnelRemotePort = 80;
-	
-	public CmiSshTunnel()
-	{
-		
-	}
 	
 	public CmiSshTunnel(CmiAccount account)
 	{
@@ -64,8 +61,7 @@ public class CmiSshTunnel
 	
 	public boolean isActive()
 	{
-		
-		return false;
+		return (session == null) ? false : session.isConnected(); 
 	}
 	
 	public String getBaseUrl()
@@ -73,27 +69,52 @@ public class CmiSshTunnel
 		return "http://127.0.0.1:" + tunnelLocalPort;
 	}
 	
-	
-	public void establish() throws JSchException
+	public void establish() throws JSchException 
 	{
+		System.out.println("CmiSshTunnel.establish");
+		if (isActive()) return;
+		
 		String host = "tremplin.epfl.ch";
 		String user = account.getSciper();
 		String pass = account.getGasparPassword();
 		int port = 22;
 		
 		String tunnelRemoteHost = "cmisrvm1.epfl.ch";
-			
+		
+		
 		JSch jsch = new JSch();
 		LocalUserInfo userInfo = new LocalUserInfo();
-		Session session = jsch.getSession(user, host, port);
+		
+		System.out.println("Creating a session...");
+		session = jsch.getSession(user, host, port);
+		
 		
 		session.setPassword(pass);
 		session.setUserInfo(userInfo);
 		session.connect();
-		session.setPortForwardingL(tunnelLocalPort, tunnelRemoteHost, tunnelRemotePort);
 		
+		try {
+			session.setPortForwardingL(tunnelLocalPort, tunnelRemoteHost, tunnelRemotePort);
+		}
+		catch (JSchException exception)
+		{
+			if (!(exception.getCause() instanceof java.net.BindException))
+				throw exception;
+			System.out.println("Tunnel already connected.");
+		}
+
 		System.out.println("Connected");
 		//http://www.beanizer.org/site/index.php/en/Articles/Java-ssh-tunneling-with-jsch.html
+	}
+
+	
+	public void close() throws JSchException
+	{
+		if (session != null)
+		{
+			session.delPortForwardingL(tunnelLocalPort);
+			session.disconnect();
+		}
 	}
 	 
 	class LocalUserInfo implements UserInfo
@@ -107,8 +128,17 @@ public class CmiSshTunnel
 		public void showMessage(String message)         { }
 	}
 	
-	
-	
+	@Override
+	protected void finalize() throws Throwable
+	{
+		if (session != null)
+		{
+			close();;
+			Log.w("CmiSshTunnel.finalize", "Tunnel was left open. Closing now.");
+		}
+		
+		super.finalize();
+	}
 }
 
 
