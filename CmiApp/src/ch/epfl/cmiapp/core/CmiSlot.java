@@ -9,7 +9,7 @@ import android.util.Log;
 public class CmiSlot 
 	implements Comparable<CmiSlot>
 {
-	public enum BookingStatus { AVAILABLE, REQUEST, BOOKED, BOOKED_SELF, RESTRICTED, MAINTENANCE, NOT_BOOKABLE, DUMMY, INCOMPATIBLE }
+	public enum BookingStatus { AVAILABLE, REQUEST, BOOKED, BOOKED_SELF, RESTRICTED, MAINTENANCE, CLEANING, NOT_BOOKABLE, DUMMY, INCOMPATIBLE }
 	public enum BookingAction { NONE, BOOK, UNBOOK, REQUEST }
 	
 	protected LocalDateTime start;
@@ -22,8 +22,11 @@ public class CmiSlot
 	public String user   = "";
 	public String email  = "";
 	
-	protected BookingAction action = BookingAction.NONE;
-	protected BookingStatus status = BookingStatus.NOT_BOOKABLE;
+	public BookingAction action = BookingAction.NONE;
+	public BookingStatus status = BookingStatus.NOT_BOOKABLE;
+	
+	// unconfirmed: for configurable tools 
+	protected boolean unconfirmed = false; 
 	
 	public Configuration config;
 	public Configuration.Values configValues;
@@ -142,6 +145,14 @@ public class CmiSlot
 		return ((early || late || lunch) && getDurationMinutes() <= 60);
 	}
 	
+	public boolean isConfirmed()
+	{
+		// unconfirmed is true when a configurable tool is booked
+		// but the slots are not definitely attributed yet, displayed as 
+		// for example "cnyffeler ?"
+		return !unconfirmed;
+	}
+	
 	public boolean isAdjacent(CmiSlot other)
 	{
 		if (!this.machId.equals(other.machId))
@@ -181,13 +192,14 @@ public class CmiSlot
 		if (slot1.equipment != slot2.equipment)
 			return null;
 		
-		if (slot1.timeStamp.equals(slot2.timeStamp))
+		if (!slot1.timeStamp.equals(slot2.timeStamp))
 			return null;
 		
 		CmiSlot slot = new CmiSlot(slot1.equipment, slot1.timeStamp);
 		
 		slot.action = slot1.action;
 		slot.status = slot1.status;
+		slot.unconfirmed = slot1.unconfirmed || slot2.unconfirmed;
 		
 		if (slot1.configValues == null && slot2.configValues != null)
 			slot.configValues = slot2.configValues;
@@ -205,6 +217,26 @@ public class CmiSlot
 			slot.email = slot1.email;
 		
 		return slot;
+	}
+	
+	
+	@Override
+	public String toString()
+	{
+		switch (status)
+		{
+		case AVAILABLE: 	return "available";
+		case BOOKED:		return user + (unconfirmed ? " ?" : "");
+		case BOOKED_SELF:	return user + (unconfirmed ? " ?" : "");
+		case DUMMY:			return "xxxxxxxxx";
+		case INCOMPATIBLE:  return "incompatible";
+		case MAINTENANCE:   return "maintenance";
+		case CLEANING: 		return "cleaning";
+		case NOT_BOOKABLE: 	return "xxxxxxxxx";
+		case REQUEST:		return "request";
+		case RESTRICTED:	return user.isEmpty() ? "restricted" : user;
+		default:			return "?????????";
+		}
 	}
 //	
 //	public String user   = "";

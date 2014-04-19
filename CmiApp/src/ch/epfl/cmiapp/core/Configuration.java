@@ -45,31 +45,35 @@ public class Configuration implements Iterable<Setting>
 		
 		public static class Value
 		{
-			public String option;
-			public String setting; 
+			public Value(String setting, String option)
+			{
+				this.option = option;
+				this.setting = setting;
+			}
+			public final String option;
+			public final String setting; 
 		}
 		
 		public Values(Configuration configuration)
 		{
 			this.config = configuration;
+			for (Setting setting : config) set(setting.id, "0");
 		}
 		
 		public Values(Equipment equipment)
 		{
 			this.config = equipment.config;
+			for (Setting setting : config) set(setting.id, "0");
 		}
 		
 		public void set(String settingId, String optionValue)
 		{
 			Setting setting = config.findSetting(settingId);
-			if (setting != null)
-			{
-				Option option = setting.findOption(optionValue);
-				Value value = new Value();
-				value.option = option.value;
-				value.setting = setting.id;
-				values.put(setting.id, value);
-			}
+			if (setting == null) return;
+			Option option = setting.findOption(optionValue);
+			if (option == null) return;	
+			Value value = new Value(setting.id, option.value);
+			values.put(setting.id, value);
 		}
 		
 		public String get(String idname)
@@ -80,6 +84,20 @@ public class Configuration implements Iterable<Setting>
 		public Iterator<Value> iterator()
 		{
 			return values.values().iterator();
+		}
+		
+		@Override
+		public String toString()
+		{
+			String string = "";
+			for(Value value : values.values())
+			{
+				Setting setting = config.getSetting(value.setting);
+				Option opt = setting.findOption(value.option);
+				if (!opt.value.equals("0"))
+					string += "/" + opt.name;
+			}
+			return string.substring(1);
 		}
 	}
 	
@@ -244,9 +262,9 @@ public class Configuration implements Iterable<Setting>
 		
 		public Option findOption(String name)
 		{
-			for (Option option : options) if (option.value == name) return option;
-			for (Option option : options) if (option.name  == name) return option;
-			for (Option option : options) if (option.title == name) return option;
+			for (Option option : options) if (option.value.equals(name)) return option;
+			for (Option option : options) if (option.name.equals(name)) return option;
+			for (Option option : options) if (option.title.equals(name)) return option;
 			return null;
 		}
 		

@@ -36,6 +36,7 @@ public class Schedule
 	private LocalTime lastSlotTime = new LocalTime(00, 00); // initial value is earliest possible time
 	
 	private int slotDurationMinutes = 30; // Default value: 30min.
+	private int slotsPerDayCount = 0;
 	
 	protected class Builder
 	{
@@ -54,15 +55,14 @@ public class Schedule
 			{
 				slotList = new SlotList();
 				slotsByDate.put(date, slotList);
+				dates.add(date);
 			}
-			
 			slotList.add(slot);
 			
 			if (time.isBefore(firstSlotTime)) firstSlotTime = time;
 			if (time.isAfter(lastSlotTime)) lastSlotTime = time;
-			
-			if (!slotsByDate.containsKey(date))
-				dates.add(date);
+			if (slotsPerDayCount < slotList.size()) 
+				slotsPerDayCount = slotList.size();
 		}
 	}
 	
@@ -103,10 +103,21 @@ public class Schedule
 		return new SlotList(slots);
 	}
 	
-	public SlotList getSlotsOn(LocalDate date)
+	public SlotList getSlots(LocalDate date)
 	{	
 		return slotsByDate.get(date);
-	} 
+	}
+	
+	public SlotList getSlots(int dateIndex)
+	{
+		LocalDate date = dates.get(dateIndex);
+		return slotsByDate.get(date);
+	}
+	
+	public LocalDate getDate(int dateIndex)
+	{
+		return dates.get(dateIndex);
+	}
 	
 	public boolean isEmpty()
 	{
@@ -157,6 +168,16 @@ public class Schedule
 			return getSlotPosition(now);
 	}
 	
+	public int getSlotsPerDayCount()
+	{
+		return slotsPerDayCount;
+	}
+	
+	public int getDayCount()
+	{
+		return dates.size();
+	}
+	
 	public static Schedule merge(Schedule schedule1, Schedule schedule2) 
 	{
 		String machid1 = schedule1.equipment.getMachId();
@@ -165,8 +186,8 @@ public class Schedule
 		if (!machid1.equals(machid2))
 			throw new ScheduleMergeException("Schedule objects belong to different machines.");
 		
-		Schedule scheudule = new Schedule(schedule1.equipment);
-		Builder builder = scheudule.new Builder(); // weird syntax but it's like that!
+		Schedule schedule = new Schedule(schedule1.equipment);
+		Builder builder = schedule.new Builder(); // weird syntax but it's like that!
 		
 		NavigableMap<LocalDateTime, CmiSlot> slots1 = new TreeMap<LocalDateTime, CmiSlot>();
 		NavigableMap<LocalDateTime, CmiSlot> slots2 = new TreeMap<LocalDateTime, CmiSlot>();
@@ -195,7 +216,56 @@ public class Schedule
 		for (CmiSlot slot : slots2.values())
 			builder.addSlot(slot);
 		
-		return schedule2;
+		return schedule;
+	}
+	
+	@Override
+	public String toString()
+	{
+		return printSchedule();
+	}
+	
+	private String printSchedule()
+	{
+		String output = "";
+		int nDays = getDayCount();
+		int chunkSize = 7;
+		
+		for (int iChunk = 0; iChunk <= nDays/chunkSize; iChunk++)
+		{
+			int start = iChunk*chunkSize;
+			int end = start + chunkSize -1;
+			end = end >= nDays ? nDays-1 : end;
+			output += printScheduleChunk(start, end);
+		}
+		return output;
+	}
+	
+	private String printScheduleChunk(int start, int end)
+	{
+		int nSlots = getSlotsPerDayCount();
+		String row = "";
+		
+		for (int iDate = start; iDate <= end; iDate++)
+		{
+			LocalDate date = getDate(iDate);
+			row += String.format("%15s ", date.toString("EEE"));
+		}
+		String chunk = row + "\n"; 
+		
+		for (int iSlot = 0; iSlot < nSlots; iSlot++)
+		{
+			row = "";
+			for (int iDate = start; iDate <= end; iDate++)
+			{
+				SlotList slots = getSlots(iDate);
+				
+				CmiSlot slot = slots.get(iSlot);
+				row += String.format("%15s ", slot.toString());
+			}
+			chunk += row + "\n";
+		}
+		return chunk + "\n";
 	}
 	
 	public static class ScheduleMergeException extends RuntimeException

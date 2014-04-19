@@ -39,7 +39,7 @@ public class WebLoadedSchedule extends Schedule
 	{
 		Document document = Jsoup.parse(stream, null, "");
 		
-		if (document.title().equalsIgnoreCase("my reservations"))
+		if (document.title().equalsIgnoreCase("all reservations"))
 			parseResPage(document);
 		else
 			parseMainPage(document);
@@ -49,7 +49,7 @@ public class WebLoadedSchedule extends Schedule
 	
 	private void parseMainPage(Document document)
 	{
-		Element restable = document.select("table[id=restable]").first();
+		Element restable = document.getElementById("restable");
 		Elements rows = restable.child(0).children();
 		
 		for (int columnIndex = 1; columnIndex < LAST_COLUMN_INDEX; columnIndex++)
@@ -86,7 +86,8 @@ public class WebLoadedSchedule extends Schedule
 
 			slot.user = userString;
 			slot.status = BookingStatus.BOOKED;
+			
+			builder.addSlot(slot);
 		}
-		
 	}
 }

@@ -23,7 +23,7 @@ public class WebLoadedConfiguration extends Configuration
 		Configuration.Values configValues = new Values(equipment);
 		
 		int start = line.indexOf("escape('") + 8;
-		int end   = line.indexOf("');") - 3;
+		int end   = line.indexOf("');");
 		
 		String html = line.substring(start, end);
 		
@@ -35,7 +35,7 @@ public class WebLoadedConfiguration extends Configuration
 			item = item.replace("</b>", "");
 			
 			int center = item.indexOf(":");
-			String name = item.substring(0, center-1);
+			String name = item.substring(0, center);
 			String value = item.substring(center+2);
 			
 			configValues.set(name, value);

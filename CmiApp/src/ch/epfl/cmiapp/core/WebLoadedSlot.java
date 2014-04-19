@@ -14,10 +14,12 @@ public class WebLoadedSlot extends CmiSlot
 		
 		setTimeString(dateTimeString);
 		
-//		String hoverline = td.attr("onmouseover");
-//		if (!hoverline.isEmpty())
-//			Configuration.Values configValues = WebLoadedConfiguration.parseHoverLine(hoverline, equipment);
-		
+		String hoverline = td.attr("onmouseover");
+		if (!hoverline.isEmpty())
+		{
+			Configuration.Values configValues = WebLoadedConfiguration.parseHoverLine(hoverline, equipment);
+			super.configValues = configValues;
+		}
 		//if (td.hasAttr("onmouseover"))
 		//	slot.config = parseConfiguration(td.attr("onmouseover"));
 		
@@ -31,6 +33,8 @@ public class WebLoadedSlot extends CmiSlot
 			super.status = CmiSlot.BookingStatus.RESTRICTED;
 		else if (statusStr.contains("maintenance"))		
 			super.status = CmiSlot.BookingStatus.MAINTENANCE;
+		else if (statusStr.contains("Cleaning"))
+			super.status = CmiSlot.BookingStatus.CLEANING;
 		else if (statusStr.contains("xxxxxxxxxxxxx"))	
 			super.status = CmiSlot.BookingStatus.NOT_BOOKABLE;
 		else
@@ -48,6 +52,12 @@ public class WebLoadedSlot extends CmiSlot
 				super.user = statusStr;
 				super.email  = href.substring(7);
 			}
+		}
+		
+		if (user.contains(" ?"))
+		{
+			user = user.substring(0, user.length()-2);
+			unconfirmed = true;
 		}
 	}
 
