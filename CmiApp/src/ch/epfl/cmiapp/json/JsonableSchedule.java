@@ -1,5 +1,9 @@
 package ch.epfl.cmiapp.json;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -13,9 +17,10 @@ import android.os.Parcel;
 
 public class JsonableSchedule extends Schedule
 {	
-	public JsonableSchedule(Parcel input, Equipment equipment)
+	public JsonableSchedule(JSONObject object, Equipment equipment) throws JSONException
 	{
 		super(equipment);
+		deserialize(object);
 	}
 	
 	public JsonableSchedule(Schedule other)
@@ -23,7 +28,7 @@ public class JsonableSchedule extends Schedule
 		super(other);
 	}
 
-	public JSONObject serialize(Parcel dest, int flags) throws JSONException
+	public JSONObject serialize() throws JSONException
 	{
 		JSONObject object = new JSONObject();
 		CmiSlot[] slots = this.allSlots();		
@@ -39,10 +44,10 @@ public class JsonableSchedule extends Schedule
 		return object;
 	}
 	
-	public void deserialize(JSONObject object) throws JSONException
+	public void deserialize(JSONObject json) throws JSONException
 	{
 		Builder builder = new Schedule.Builder();
-		JSONArray array = object.getJSONArray("slots");
+		JSONArray array = json.getJSONArray("slots");
 		
 		
 		for(int index = 0; index < array.length(); index++)
