@@ -6,8 +6,12 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import org.joda.time.LocalDate;
+
 import ch.epfl.cmiapp.core.Configuration;
 
+// Android HttpUrlConnection EOFException
+// http://stackoverflow.com/questions/19258518/android-httpurlconnection-eofexception
 public class CmiServerConnection
 {
 	private HttpURLConnection connection;
@@ -53,8 +57,13 @@ public class CmiServerConnection
 		request.send();
 		return connection.getInputStream();
 	}
-	
+
 	public InputStream getMainPage(String machId) throws IOException
+	{
+		return getMainPage(machId, 0);
+	}
+	
+	public InputStream getMainPage(String machId, int dateOffset) throws IOException
 	{
 		CmiHttpRequest request = setupConnection(PageType.MAIN_PAGE_RES);
 		request.setData("login", account.getUsername());
@@ -62,11 +71,42 @@ public class CmiServerConnection
 		request.setData("ID_Machine", machId);
 		request.setData("mode", "reserve");
 		request.setData("privilege", "simple");
+		request.setData("sdays", Integer.toString(dateOffset));
 		request.send();
 		return connection.getInputStream();
 	}
 	
 	public InputStream getMainPage(String machId, Configuration config) throws IOException
+	{
+		return getMainPage(machId, config, 0);
+	}
+	
+	public InputStream getMainPage(String machId, Configuration config, int dateOffset) throws IOException
+	{
+		CmiHttpRequest request = setupConnection(PageType.MAIN_PAGE_CONFIG_RES);
+		request.setData("login", account.getUsername());
+		request.setData("password", account.getPassword());
+		request.setData("ID_Machine", machId);
+		request.setData("mode", "calendar"); // triggers configuration view
+		request.setData("privilege", "simple");
+		request.setData("sdays", Integer.toString(dateOffset));
+		
+		for (Configuration.Setting setting : config)
+		{
+			String settingId = setting.getId();
+			String value = setting.getValue();
+			request.setData(settingId, value);
+		}
+		request.send();
+		return connection.getInputStream();
+	}
+	
+	public InputStream getMainPage(String machId, Configuration.Values values) throws IOException
+	{
+		return getMainPage(machId, values, 0);
+	}
+	
+	public InputStream getMainPage(String machId, Configuration.Values values, int dateOffset) throws IOException
 	{
 		CmiHttpRequest request = setupConnection(PageType.MAIN_PAGE_CONFIG_RES);
 		request.setData("login", account.getUsername());
@@ -75,12 +115,9 @@ public class CmiServerConnection
 		request.setData("mode", "calendar"); // triggers configuration view
 		request.setData("privilege", "simple");
 		
-		for (Configuration.Setting setting : config)
-		{
-			String settingId = setting.getId();
-			String value = setting.getValue();
-			request.setData(settingId, value);
-		}
+		for (Configuration.Values.Value value : values)
+			request.setData(value.setting, value.option);
+		
 		request.send();
 		return connection.getInputStream();
 	}
@@ -114,6 +151,30 @@ public class CmiServerConnection
 		request.setData("order", "t3.DateRes,t2.NomMachine");
 		request.send();
 		return connection.getInputStream();
+	}
+	
+	public InputStream getAllReservationsPage(String machId, String date) throws IOException
+	{
+		return getAllReservationsPage(machId, date, date);
+	}
+	
+	public InputStream getAllReservationsPage(String machId, LocalDate date) throws IOException
+	{
+		return getAllReservationsPage(machId, date.toString("yyyy-MM-dd"));
+	}
+	
+	public InputStream getAllReservationsPage(String machId, LocalDate startDate, LocalDate endDate) throws IOException
+	{
+		String start = startDate.toString("yyyy-MM-dd");
+		String end = endDate.toString("yyyy-MM-dd");
+		return getAllReservationsPage(machId, start, end);
+	}
+	
+	public InputStream getAllReservationsPage(String machId) throws IOException
+	{
+		LocalDate today = new LocalDate();
+		String date = today.toString("yyyy-MM-dd");
+		return getAllReservationsPage(machId, date, date);
 	}
 	
 	public InputStream getNewsPage(String newsId) throws IOException
@@ -166,7 +227,8 @@ public class CmiServerConnection
 			URL url = new URL(urlAddress);
 			this.connection = (HttpURLConnection) url.openConnection();
 			this.connection.setDoOutput(true);
-			//this.connection.setRequestProperty("Connection", "close");
+			// Next line is necessary to prevent EOFException
+			this.connection.setRequestProperty("Connection", "close");
 		}
 		catch (MalformedURLException e)
 		{
