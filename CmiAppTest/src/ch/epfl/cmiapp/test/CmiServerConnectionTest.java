@@ -119,4 +119,11 @@ public class CmiServerConnectionTest extends TestCase
 		Assert.assertTrue(ok);
 		stream.close();
 	}
+	
+	@Override
+	protected void tearDown() throws Exception
+	{
+		account.closeSshTunnel();
+		super.tearDown();
+	}
 }
