@@ -260,7 +260,7 @@ public class CmiReservation
 		{
 			Connection connection;
 
-			String url = "http://cmisrvm1.epfl.ch/reservation/reserv.php";
+			String url = "https://cmisrvm1.epfl.ch/reservation/reserv.php";
 
 			try
 			{

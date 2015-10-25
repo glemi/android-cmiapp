@@ -126,6 +126,7 @@ public class ReservationsListManager extends ListManager
     	context.startActivity(intent);
 	}
 	
+	//FIXME: list is not refreshing after unbooking!
 	public void unbookItem(int position)
 	{
 		CmiReservation reservation = adapter.getItem(position);
