@@ -81,6 +81,6 @@ public class CmiAccount
 	public void setUserid(String userid) { this.userid = userid; }
 	public void setEmail(String email) { this.email = email; }
 	public void setSciper(String sciper) { this.sciper = sciper; }
-	public void setGasparId(String gasparId) { gasparId = gasparId; } 
-	public void setGasparPassword(String gasparPassword) { gasparPassword = gasparPassword; }
+	public void setGasparId(String gasparId) { this.gasparId = gasparId; } 
+	public void setGasparPassword(String gasparPassword) { this.gasparPassword = gasparPassword; }
 }

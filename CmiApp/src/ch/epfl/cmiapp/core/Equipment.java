@@ -11,6 +11,7 @@ public class Equipment implements Comparable<Equipment>
 	protected String fullString;
 	protected Configuration config;
 	protected boolean isConfigurable;
+	protected boolean isSupported;
 	
 	public String  getMachId() { return machId; }
 	public String  getName() { return name; } 
@@ -21,6 +22,7 @@ public class Equipment implements Comparable<Equipment>
 	public String  getFullString() { return fullString; } 
 	public Configuration getConfig() { return config; } 	
 	public boolean isConfigurable() { return isConfigurable; }
+	public boolean isSupported() { return isSupported; }
 
 	public String getZoneString()
 	{

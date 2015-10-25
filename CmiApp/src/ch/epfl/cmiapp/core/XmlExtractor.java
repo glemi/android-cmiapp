@@ -96,6 +96,32 @@ public class XmlExtractor
 		return getNodeValue(attributes, attrName);
 	}
 	
+	public boolean getBooleanAttr(String attrName, boolean defaultValue)
+	{
+		String defaultStr = defaultValue ? "true" : "false";
+		String string = getNodeValue(attributes, attrName, defaultStr);
+		string = string.toLowerCase().trim();
+		if (string == "true" || string == "yes" || string == "1")
+			return true;
+		if (string == "false" || string == "no" || string == "0")
+			return false;
+		else
+			return defaultValue;
+	}
+	
+	public boolean getBooleanAttr(String attrName) throws ItemNotFoundException
+	{
+		String string = getNodeValue(attributes, attrName);
+		string = string.toLowerCase().trim();
+		if (string == "true" || string == "yes" || string == "1")
+			return true;
+		if (string == "false" || string == "no" || string == "0")
+			return false;
+		else
+			return false;
+	}
+	
+	
 	public <T extends Enum<T>> T getEnumAttr(Class<T> enumType, String attrName) throws InvalidDataException, ItemNotFoundException 
 	{
 		String string = getStringAttr(attrName);

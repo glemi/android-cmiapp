@@ -361,7 +361,7 @@
 		machId="mach034"
 		zone="6"
 		slotLength="30"
-		fullString="Coillard Etching- Wet bench for oxide and metal etch"
+		fullString="Coillard Etching - Wet bench for oxide and metal etch"
 		category="Wet Benches"
 		name="Coillard Etching"
 		description="Wet Bench for Oxide and Metal Etch"
@@ -461,7 +461,7 @@
 		machId="mach048"
 		zone="1"
 		slotLength="30"
-		fullString="Zeiss LEO 1550 - Scaning Electron Microscope"
+		fullString="Zeiss LEO 1550 - Scanning Electron Microscope"
 		category="Metrology"
 		name="Zeiss LEO 1550"
 		description="Scanning Electron Microscope"
@@ -611,7 +611,26 @@
 		fullString="EPFL3-1 Centrotherm - LPCVD LTO"
 		category="Furnaces"
 		name="Centrotherm Tube  3-1"
-		description="Furnace for Lpcvd Lto"
+		description="Furnace for LPCVD LTO"
+	/>
+	<cmitool
+	    machId="mach201"
+	    zone="3"
+	    slotLength="30"
+	    fullString="Jipelec Jetfirst 200 - Rapid Thermal Processing"
+	    category="Furnaces"
+	    name="Jetfirst 200"
+	    description="Rapid Thermal Processing Furnace"
+	    supported="no"
+	/>
+	<cmitool
+	    machId="mach204"
+	    zone="3"
+	    slotLength="300"
+	    fullString="EPFL3-2 Centrotherm - LPCVD TEOS"
+	    category="Furnaces"
+	    name="Centrotherm Tube 3-2"
+	    description="Furnace for LPCVD TEOS"
 	/>
 	<cmitool
 		machId="mach121"
@@ -620,7 +639,7 @@
 		fullString="EPFL3-4 Centrotherm - MEMS - Oxide"
 		category="Furnaces"
 		name="Centrotherm Tube  3-4"
-		description="Furnace for Mems Oxides"
+		description="Furnace for MEMS Oxides"
 	/>
 	<cmitool
 		machId="mach124"
@@ -681,7 +700,7 @@
 		machId="mach127"
 		zone="5"
 		slotLength="60"
-		fullString="Coillard - Wet bench for HF release"
+		fullString="Coillard - Wet bench HF release - CPD"
 		category="Wet Benches"
 		name="Coillard"
 		description="Wet Bench for HF Release"
@@ -1123,7 +1142,7 @@
 		machId="mach165"
 		zone="15"
 		slotLength="30"
-		fullString="Zeiss Merlin - Scaning Electron Microscope"
+		fullString="Zeiss Merlin - Scanning Electron Microscope"
 		category=""
 		name="Zeiss Merlin"
 		description="Scanning Electron Microscope"
@@ -1209,4 +1228,39 @@
 	    name="SPTS APS"
 	    description="Dielectric Plasma Etcher"
 	/>
+	<cmitool
+	    machId="mach184"
+	    zone="5"
+	    slotLength="60"
+	    fullString="Heidelberg MLA 150 - MaskLessAligner Beta Site"
+	    category="Lithography"
+	    name="Heidelberg MLA 150"
+	    description="Maskless Aligner"
+	/>
+	<cmitool
+	    machId="mach181"
+	    zone="5"
+	    slotLength="30"
+	    fullString="Heidelberg VPG200 - Laser lithography system"
+	    category="Lithography"
+	    name="Heidelberg VPG200"
+	    description="Laser lithography system" 
+	    supported="no" >
+	     <configuration>
+			<setting title="Write Head" id="list0" name="Write Head" default="722" required="imperative">
+				<option title="Not Used"         		name="N/A"            value="0"/>
+				<option title="Standard or Fast" 		name="Std or Fast"    value="720"/>
+				<option title="Any Head (day slot)"		name="Any (day slot)" value="722"/>
+				<option title="Advanced 2mm"     		name="Advanced 2mm"   value="721"/>
+				<option title="Standard 5mm"     		name="Standard 5mm"   value="698"/>			
+			</setting>
+			<setting title="Cassette" id="list1" name="Cassette" default="723" required="imperative">
+				<option title="Not Used"          		name="N/A" 				value="0"/>
+				<option title="Any Cassette (day slot)" name="Any cassette (day slot)" value="723"/>
+				<option title="Mask 5in"				name="Mask 5inch"		value="704" />
+				<option title="Mask 7in"				name="Mask 7inch"		value="738" />
+				<!-- <option title="Wafer 100 / 150 mm"		name="Wafer 100&150"	value="720" />-->
+			</setting>
+		</configuration>
+	</cmitool>
 </resources>

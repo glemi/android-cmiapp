@@ -13,12 +13,13 @@ public class XmlLoadedEquipment extends Equipment
 		assert(xmlNode.getNodeName().equals("cmitool"));
 		XmlExtractor extractor = new XmlExtractor(xmlNode);
 		
-		this.machId 	= extractor.getStringAttr("machId");
-		this.name       = extractor.getStringAttr("name");
-		this.zone   	= extractor.getIntAttr("zone");
-		this.slotLength = extractor.getIntAttr("slotLength");
-		this.fullString = extractor.getStringAttr("fullString");
-		this.supplement = extractor.getStringAttr("description");
+		this.machId 	 = extractor.getStringAttr("machId");
+		this.name        = extractor.getStringAttr("name");
+		this.zone   	 = extractor.getIntAttr("zone");
+		this.slotLength  = extractor.getIntAttr("slotLength");
+		this.fullString  = extractor.getStringAttr("fullString");
+		this.supplement  = extractor.getStringAttr("description");
+		this.isSupported = extractor.getBooleanAttr("supported", true);
 		
 		if (xmlNode.hasChildNodes())
 		{
