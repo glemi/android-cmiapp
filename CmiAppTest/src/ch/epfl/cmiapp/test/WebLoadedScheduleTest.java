@@ -51,8 +51,8 @@ public class WebLoadedScheduleTest extends AndroidTestCase
 		account.setUsername("cnyffeler");
 		account.setPassword("clemens");
 		
-		System.out.println("Starting SSH tunnel");
-		account.setupSshTunnel();
+		//System.out.println("Starting SSH tunnel");
+		//account.setupSshTunnel();
 		
 		System.out.println("Creating a server connection");
 		server = account.getServerConnection();

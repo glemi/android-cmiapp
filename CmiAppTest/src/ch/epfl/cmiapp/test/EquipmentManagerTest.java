@@ -30,13 +30,16 @@ public class EquipmentManagerTest extends AndroidTestCase
 	protected void setUp()	throws Exception
 	{
 		em = new EquipmentManager(super.getContext());
+		em.load();
 		super.setUp();
 	}
 	
+	/* Checks if all equipment can be found from the inventory by its machid.
+	 * The list of all machid is declared below as a static String[]
+	 */
 	public void testEquipmentManager() throws InventoryLoadException
 	{
 		Assert.assertTrue(em.load());
-		
 		
 		for (String machid : machids)
 		{
@@ -49,8 +52,14 @@ public class EquipmentManagerTest extends AndroidTestCase
 	
 	private static String[] machids = { "mach002", "mach003", "mach004", "mach005", "mach006", "mach007", "mach008", "mach009", "mach010", "mach011", "mach012", "mach013", "mach014", "mach015", "mach017", "mach018", "mach019", "mach020", "mach022", "mach023", "mach024", "mach025", "mach026", "mach027", "mach028", "mach029", "mach030", "mach031", "mach033", "mach034", "mach035", "mach036", "mach039", "mach040", "mach044", "mach045", "mach046", "mach047", "mach048", "mach053", "mach054", "mach055", "mach058", "mach116", "mach118", "mach119", "mach121", "mach124", "mach125", "mach126", "mach127", "mach128", "mach129", "mach130", "mach131", "mach132", "mach133", "mach134", "mach135", "mach136", "mach137", "mach138", "mach139", "mach140", "mach141", "mach142", "mach143", "mach144", "mach145", "mach146", "mach147", "mach148", "mach149", "mach150", "mach151", "mach152", "mach153", "mach154", "mach155", "mach156", "mach157", "mach158", "mach159", "mach160", "mach161", "mach162", "mach163", "mach164", "mach165", "mach166", "mach167", "mach168", "mach169", "mach170", "mach171", "mach172", "mach173"}; 
 	
+	/* Tests if all equipment can be found in the invetory by its string 
+	 * name (like e.g. "Z01 Heidelberg DWL200 - Laser lithography system")
+	 * loadCmiToolString() retrieves those strings from the Cmi 
+	 * "All reservations" page.  
+	 */
 	public void testFindEquipment() throws IOException
 	{
+		boolean allfound = true;
 		String[] strings = loadCmiToolStrings();
 		
 		for (String string : strings)
@@ -61,12 +70,16 @@ public class EquipmentManagerTest extends AndroidTestCase
 				System.out.println(eq.getMachId() + " found : " + string);
 			else
 				System.out.println("NOT found : " + string);
-			
-			//Assert.assertNotNull(eq);
+				allfound = false;
 		}
+		
+		Assert.assertTrue(allfound);
 	}
 	
-	
+	/* Now this is truly badass. 
+	 * T
+	 * 
+	 */
 	public void testIsValid()
 	{
 		for (String machid : machids)
@@ -79,8 +92,8 @@ public class EquipmentManagerTest extends AndroidTestCase
 				ConfigGenerator gen = new ConfigGenerator(config);
 				ConfigValidator val = new ConfigValidator(eq);
 				
-				/* print out table
-				String header = "";
+				//print out table
+				/*String header = "";
 				for (Setting setting : config)
 					header += String.format("%10s", setting.getName());
 				header += String.format("%10s", "Reference");
@@ -93,7 +106,7 @@ public class EquipmentManagerTest extends AndroidTestCase
 				while (gen.hasNext())
 				{
 					gen.increment();
-					//Assert.assertTrue(val.check());
+					Assert.assertTrue(val.check());
 				}
 				
 				System.out.println("Configurable tool " + eq.getName() + " - validation test successful!");
@@ -188,8 +201,8 @@ public class EquipmentManagerTest extends AndroidTestCase
 			boolean ref  = referenceValidation();
 			boolean result = (test == ref);
 			
-			/* print out table
-			String row = "";
+			//print out table
+			/*String row = "";
 			for (Setting setting : config)
 				row += String.format("%10s", setting.getValue());
 			row += String.format("%10s", ref ? "OK" : " -");
@@ -310,7 +323,7 @@ public class EquipmentManagerTest extends AndroidTestCase
 		 
 	}
 	
-	static private String baseUrl = "http://cmisrvm1.epfl.ch";
+	static private String baseUrl = "https://cmisrvm1.epfl.ch";
 	static private String mainPageUrl = baseUrl + "/reservation/reserv.php";
 	static private String userListUrl = "http://cmisrv1.epfl.ch/spc/utilSB/include/tabUtilLimit.php?hauteur=800";
 	static private String allReservPageUrl = baseUrl + "/reservation/allreserv.php";

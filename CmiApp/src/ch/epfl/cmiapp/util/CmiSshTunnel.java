@@ -66,7 +66,7 @@ public class CmiSshTunnel
 	
 	public String getBaseUrl()
 	{
-		return "http://127.0.0.1:" + tunnelLocalPort;
+		return "https://127.0.0.1:" + tunnelLocalPort;
 	}
 	
 	public void establish() throws JSchException 

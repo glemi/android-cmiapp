@@ -6,6 +6,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import javax.net.ssl.HttpsURLConnection;
+
 import org.joda.time.LocalDate;
 
 import ch.epfl.cmiapp.core.Configuration;
@@ -18,7 +20,7 @@ public class CmiServerConnection
 	private CmiSshTunnel sshTunnel;
 	private CmiAccount account;
 	
-	private static final String defaultBaseUrl = "http://cmisrvm1.epfl.ch";
+	private static final String defaultBaseUrl = "https://cmisrvm1.epfl.ch";
 		
 	static private String mainPageUrl =       "/reservation/reserv.php";
 	static private String userListUrl =       "/spc/utilSB/include/tabUtilLimit.php?hauteur=800";
@@ -225,7 +227,11 @@ public class CmiServerConnection
 		try
 		{
 			URL url = new URL(urlAddress);
-			this.connection = (HttpURLConnection) url.openConnection();
+			if (urlAddress.startsWith("https"))
+				this.connection = (HttpsURLConnection) url.openConnection();
+			else
+				this.connection = (HttpURLConnection) url.openConnection();
+			
 			this.connection.setDoOutput(true);
 			// Next line is necessary to prevent EOFException
 			this.connection.setRequestProperty("Connection", "close");
@@ -235,11 +241,8 @@ public class CmiServerConnection
 			e.printStackTrace();
 			this.connection = null;
 		}
-//		catch (IOException e)
-//		{
-//			e.printStackTrace();
-//		}
 	}
+	
 }
 
 

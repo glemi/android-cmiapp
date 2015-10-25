@@ -28,8 +28,8 @@ public class CmiServerConnectionTest extends TestCase
 		account.setUsername("cnyffeler");
 		account.setPassword("clemens");
 		
-		System.out.println("Starting SSH tunnel");
-		account.setupSshTunnel();
+		//System.out.println("Starting SSH tunnel");
+		//account.setupSshTunnel();
 		
 		System.out.println("Creating a server connection");
 		server = account.getServerConnection();
