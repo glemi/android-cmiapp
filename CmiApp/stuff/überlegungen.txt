@@ -1,0 +1,75 @@
+Derive all adapters from CmiParser
+perhaps decouple downloading and parsing into CmiLoader and CmiParser
+
+Derive adapter from CmiLoader
+CmiLoader uses AsyncTask internally (and maybe extends Observable) It can use a 
+timer to make updates repeatedly and notify its observers about change. 
+the observable can be defined using an interface which can be publicly declared 
+within CmiLoader, which is probably more of C++ style and doesn't make sense 
+here. 
+
+If CmiLoader is observable then specific adapter can aggregate a CmiLoader and 
+observe it.
+
+Otherwise it can derive from CMIloader and receive notifications via abstract 
+methods. -- not not possible, adapter already derives from BaseAdapter or 
+ArrayAdapter and multiple inheritance is not possible in Java. 
+
+So the Adapter observes it's CMILoader object, it can also do the parsing, 
+which would make sense also conceptually - since parsing is a way of adapting. 
+
+whenever it receives a update notification it can call 
+adapter-notifyDataChanged();
+
+this is cool.
+
+
+Maybe I should also use a Loader e.g. AsyncTaskLoader
+
+http://developer.android.com/reference/android/content/AsyncTaskLoader.html
+
+which extends Loader...
+
+"Abstract Loader that provides an AsyncTask to do the work. See Loader and 
+LoaderManager for more details."
+
+lots of examples in that doc file! take a good look!
+
+Yes! Derive CmiLoader from AsyncTaskLoader. It will automatically become 
+"observable" this way. 
+edit: tha class that wants to use the AsyncTaskLoader will have to implement 
+the interface LoaderManager.LoaderCallbackSys<>. 
+
+
+
+Subclasses of Loader generally must implement at least onStartLoading(), 
+onStopLoading(), onForceLoad(), and onReset().
+
+ContentResolver / ContentProvider only needed when data is shared between 
+multiple applications. 
+
+
+
+Use the loadermanager in the ListActivity. The LoaderManager will, through the 
+LoaderCallbacks interface, trigger the onCreateLoader handler method in the 
+ListActivity or whatever other object is passed to the LoaderManager for 
+callbacks. There we use the enum declared in CmiLoader to define what data the 
+Loader shall provide. E.g. USER_LIST or EQUIPMENT_LIST etc. This will serve as 
+the id-value for the loader. The CmiLoader will then be instantiated by passing 
+that enum-value to its constructor and thus become dedicated to loading that 
+particular type of data. 
+
+once the data is loaded what to do with it? Create a UserList / EquipmentList 
+class. Have it handle the parsing. Perhaps, define UserItem and EquipmentItem 
+within as nested classes. 
+
+Alternatively just pass the entire document to the adapter and have it take 
+care of the parsing etc. Yeah I prefer that. 
+
+The advantage of the Acitivty handling the callbacks rather than the adapter is 
+that the activity can directly set the list to display progress-bar/animation 
+or empty list message if needed. 
+
+
+
+
