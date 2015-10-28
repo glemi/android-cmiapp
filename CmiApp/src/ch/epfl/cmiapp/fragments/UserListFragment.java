@@ -43,6 +43,22 @@ public class UserListFragment extends Fragment
 	private TextView emptyView;
 	private TextView lastUpdateView;
 	
+	/* FIXME: Fix inconsistent user-list background behavior
+	 * When opening the user list fragment we have 
+	 *  - a solid light-grey background
+	 *  - white list items 
+	 *  
+	 * When a long-click is performed on a list item
+	 *  - background pattern becomes visible
+	 *  - list item is shaded red
+	 *  - this reverts back when the click is released 
+	 * 
+	 * When, after long click, a menu item is pressed  
+	 *  (and the user goes back to the list): 
+	 *  - the background pattern is now permanently visible
+	 *  - the list items show transparency gradient left and right 
+	 **/
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
@@ -129,9 +145,9 @@ public class UserListFragment extends Fragment
 		try
 		{
 			CmiUser user = adapter.getItem(position);
-			String fullnameEncoded;
-			fullnameEncoded = URLEncoder.encode(user.fullName(), "utf-8");
-			String url = "http://m.epfl.ch/public/directory/search.do?q=" + fullnameEncoded;
+			String fullname = user.fullName().replace(",", "");
+			String encoded = URLEncoder.encode(fullname, "utf-8");
+			String url = "http://m.epfl.ch/search/directory/?q=" + encoded;
 			Intent intent = new Intent(Intent.ACTION_VIEW);
 			intent.setData(Uri.parse(url));
 			startActivity(intent);

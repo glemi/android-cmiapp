@@ -3,18 +3,13 @@
     <item
         android:id="@+id/switchUser"
         android:showAsAction="ifRoom|withText"
-        android:title="switch User">
+        android:title="user">
     </item>
     <item
         android:id="@+id/reloadButton"
-        android:icon="@drawable/navigation_refresh"
-        android:showAsAction="always">
-    </item>
-    <item
-        android:id="@+id/vpn_settings"
-        android:showAsAction="collapseActionView"
-        android:title="VPN Settings..."
-        android:visible="true">
+        android:icon="@drawable/ic_menu_refresh"
+        android:showAsAction="always"
+        android:title="reload">
     </item>
 
 </menu>

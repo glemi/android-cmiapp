@@ -85,7 +85,7 @@ public class NewsAdapter extends CmiPageAdapter
 				DateTimeFormatter formatter = DateTimeFormat.forPattern("dd/mm/yy");
 				LocalDate date = formatter.parseLocalDate(dateString.trim());
 				
-				String[] lines = allContent.split("<br\\s?/>");
+				String[] lines = allContent.split("<br\\s?/?>");
 				
 				for (int k = 0; k < lines.length; k++)
 					if (lines[k].length() > content.length())
