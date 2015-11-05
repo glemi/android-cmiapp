@@ -178,6 +178,9 @@ public class Schedule
 		return dates.size();
 	}
 	
+	/* Merge is asymmetric. In case of collision slots of schedule1 will be 
+	 * retained and slots of schedule2 will be discarded. See CmiSlot.merge().
+	 */
 	public static Schedule merge(Schedule schedule1, Schedule schedule2) 
 	{
 		String machid1 = schedule1.equipment.getMachId();

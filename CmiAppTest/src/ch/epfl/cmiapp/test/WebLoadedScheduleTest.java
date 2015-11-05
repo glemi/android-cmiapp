@@ -186,7 +186,6 @@ public class WebLoadedScheduleTest extends AndroidTestCase
 			for (int iDate = start; iDate <= end; iDate++)
 			{
 				SlotList slots = schedule.getSlots(iDate);
-				
 				CmiSlot slot = slots.get(iSlot);
 				
 				row += String.format("%15s ", slot.toString());

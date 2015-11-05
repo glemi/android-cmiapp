@@ -1,15 +1,29 @@
 package ch.epfl.cmiapp.util;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.NavigableMap;
+import java.util.TreeMap;
 
+import org.joda.time.Days;
 import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import ch.epfl.cmiapp.core.Configuration;
 import ch.epfl.cmiapp.core.Equipment;
+import ch.epfl.cmiapp.core.Inventory;
 import ch.epfl.cmiapp.core.Schedule;
 import ch.epfl.cmiapp.core.WebLoadedSchedule;
+import ch.epfl.cmiapp.json.JsonStreamReader;
+import ch.epfl.cmiapp.json.JsonableSchedule;
 import android.content.Context;
-import android.support.v4.content.AsyncTaskLoader;
+import android.util.Log;
+import android.content.AsyncTaskLoader;
 
 /*
  * Instances, when data has to be reloaded:
@@ -90,6 +104,10 @@ import android.support.v4.content.AsyncTaskLoader;
  * WHOA: really cool!
  * public void setUpdateThrottle (long delayMS). 
  * Can schedule automatic updates for an AsyncTaskLoader. 
+ * >> EDIT: THAT'S WRONG! updateThrottle does not "schedule" new loads. Instead 
+ *  it prevents new loads to be executed if the last load was done less 
+ *  than delayMS milliseconds ago. It is a mechanism to prevent too frequent 
+ *  reloading.  
  * 
  * When content has to be (re)loaded, the Loader has to be aware of 
  * what part of the content is still up-to date and what part needs
@@ -160,7 +178,7 @@ import android.support.v4.content.AsyncTaskLoader;
  *    
  * 
  * Note about local reference to a context: 
- * 		(1) "Loaders may be used across multiple Activitys (assuming 
+ * 		(1) "Loaders may be used across multiple Activities (assuming 
  * 			they aren't bound to the LoaderManager), so NEVER hold a
  * 			reference to the context directly. Doing so will cause you 
  * 			to leak an entire Activity's context."
@@ -215,20 +233,28 @@ public class CmiScheduleLoader extends AsyncTaskLoader<Schedule>
 	private CmiAccount account;
 	private Equipment equipment;
 	
-	private String startDate;
-	private String endDate;
+	private Schedule schedule;
 	
 	private Configuration config = null;
-		
+	
+	private NavigableMap<LocalDate, DataItemStatus> dataStatus  = new TreeMap<LocalDate, DataItemStatus>();
+	private boolean scheduleComplementaryLoad = false;
+	
+	private static final String TAG = "CmiScheduleLoader";
+	
 	public CmiScheduleLoader(Context context)
 	{
 		super(context);
-		account = CmiAccount.instance();
-		server = new CmiServerConnection(account);
+		account = CmiAccount.getActive();
+		server = account.getServerConnection();
+		EquipmentManager.load(context);
+		setDate(LocalDate.now());
 	}
 	
 	public void setMachId(String machId)
 	{
+		Inventory inventory = EquipmentManager.getInventory();
+		this.equipment = inventory.get(machId);
 		//this.machId = machId;
 	}
 	
@@ -239,8 +265,8 @@ public class CmiScheduleLoader extends AsyncTaskLoader<Schedule>
 	
 	public void setDateRange(LocalDate dateStart, LocalDate dateEnd)
 	{
-		this.startDate = dateStart.toString("yyyy-MM-dd");
-		this.endDate   = dateEnd.toString("yyyy-MM-dd");
+		for (LocalDate date = dateStart; date.isBefore(dateEnd); date = date.plusDays(1))
+		    dataStatus.put(date, new DataItemStatus(false));
 	}
 	
 	public void setConfig(Configuration config)
@@ -249,22 +275,168 @@ public class CmiScheduleLoader extends AsyncTaskLoader<Schedule>
 	}
 	
 	@Override
-	public Schedule loadInBackground()
+	public void deliverResult(Schedule newdata) 
 	{
-		int offset = 0;
-		Schedule schedule = loadMainPageSchedule(offset);
+		if (schedule != null)
+		{
+			Log.v(TAG, "deliverResult: merging new schedule data with existing data");
+			schedule = Schedule.merge(newdata, schedule);
+		}
+		else
+			schedule = newdata;
 		
-		return schedule;
+		for (int index = 0; index < newdata.getDayCount(); index++)
+		{
+			LocalDate date = newdata.getDate(index);
+			dataStatus.put(date, new DataItemStatus());
+		}
+		
+		if (moreLoadsNeeded())
+			forceLoad();
+		
+		super.deliverResult(schedule);
 	}
 	
+	private boolean moreLoadsNeeded()
+	{
+		if (scheduleComplementaryLoad)
+			return true;
+		
+		for (DataItemStatus status  : dataStatus.values())
+			if (status.needsRelaod()) return true;
+		
+		return false;
+	}
+	
+	private int getNextDateOffsetValue()
+	{
+		for (LocalDate date : dataStatus.keySet())
+		{
+			DataItemStatus status = dataStatus.get(date);
+			if (status.needsRelaod())
+				return Days.daysBetween(LocalDate.now(), date).getDays();
+		}
+		
+		return 0;
+	}
+	
+	@Override
+	public Schedule loadInBackground()
+	{
+		Schedule newData;
+		
+		if (scheduleComplementaryLoad)
+		{
+			Log.v(TAG, "loadInBackground: initiating complementary load");
+			newData = loadAllReservSchedule();
+			scheduleComplementaryLoad = false;
+		}
+		else
+		{
+			int offset = getNextDateOffsetValue();
+			Log.v(TAG, "loadInBackground: loading data at date offset = " + offset);
+			newData = loadMainPageSchedule(offset);
+			scheduleComplementaryLoad = (offset == 0);
+			if (scheduleComplementaryLoad) 
+				Log.v(TAG, "loadInBackground: scheduling complementary load"); 
+		}
+		// when this method returns while the Loader is in the started state
+		// it will trigger a call of deliverResult() but deliverResult is 
+		// is executed on the UI thread. 
+		return newData;
+	}
+
+	@Override
+	protected void onReset() 
+	{
+		onStopLoading();
+		storeJsonData();
+		schedule = null;
+		dataStatus.clear();
+	}
+
+	private boolean storeJsonData()
+	{
+		Context context = super.getContext();
+		String filename = "schedule." + equipment.getMachId() + ".json";
+		JsonableSchedule jschedule = new JsonableSchedule(schedule);
+		FileOutputStream outstream;
+		JSONObject json;
+		
+		try {
+			json = jschedule.serialize();
+			outstream = context.openFileOutput(filename, Context.MODE_PRIVATE); 
+			outstream.write(json.toString().getBytes());
+			outstream.close();
+			return true;
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return false;
+	}
+	
+	
+	private boolean loadJsonData()
+	{
+		Context context = super.getContext();
+		String filename = "schedule." + equipment.getMachId() + ".json";
+		JsonableSchedule jschedule;
+		JsonStreamReader reader;
+		FileInputStream instream;
+		JSONObject json;
+		
+		try {
+			Log.v(TAG, "loadJsonData: attempting to load from file " + filename);
+			instream = context.openFileInput(filename);
+			reader = new JsonStreamReader(instream);
+			json = reader.readJason();
+			reader.close();
+			jschedule = new JsonableSchedule(json, equipment);
+			// Never call loadJsonData if more recent data has already been
+			// lodaded. We will overwrite any existing schedule data here. 
+			schedule = jschedule;
+			Log.v(TAG, "loadJsonData: success");
+			return true;
+			
+		} catch (FileNotFoundException e) {
+			Log.v(TAG, "loadJsonData: file doesn't exist yet");
+			e.printStackTrace();
+		} catch (JSONException e) {
+			Log.e(TAG, "loadJsonData: JSONException");
+			e.printStackTrace();
+		} catch (IOException e) {
+			Log.e(TAG, "loadJsonData: IOException");
+			e.printStackTrace();
+		}	    
+		return false;
+	}
+	
+	@Override
+	public void onCanceled(Schedule data) 
+	{
+		// TODO Auto-generated method stub
+		super.onCanceled(data);
+	}
+
 	private Schedule loadMainPageSchedule(int dateOffset)
 	{
 		InputStream stream;
 		Schedule schedule;
 		
+		if (equipment == null || account == null)
+			return null;
+		
 		String machId = equipment.getMachId();
-		try
-		{
+		Log.v(TAG, "loadMainPageSchedule: loading cmi main web page");
+		try {
 			if (config != null)
 				stream = server.getMainPage(machId, config, dateOffset);
 			else
@@ -272,18 +444,110 @@ public class CmiScheduleLoader extends AsyncTaskLoader<Schedule>
 			
 			 schedule = new WebLoadedSchedule(stream, equipment);
 		}
-		catch (IOException exception)
-		{
-			return null;
-		}
+		catch (IOException exception) { return null; }
 		
 		return schedule;
 	}
 	
+	private Schedule loadAllReservSchedule()
+	{
+		InputStream stream;
+		Schedule schedule;
+		
+		if (equipment == null || account == null)
+			return null;
+		
+		String machId = equipment.getMachId();
+		try
+		{
+			stream = server.getAllReservationsPage(machId);
+			schedule = new WebLoadedSchedule(stream, equipment);
+		}
+		catch (IOException exception) { return null; }
+		
+		return schedule;
+	}
+	
+	
 	public class ScheduleObserver 
 	{
+		public void invalidate(LocalDate date)
+		{
+			DataItemStatus status = dataStatus.get(date);	
+			if (status == null)
+				status = new DataItemStatus(false);
+			dataStatus.put(date, status);
+			// onContentChanged will trigger a forceLoad if the Loader is in 
+			// the started state. We as the Observer are supposed to call 
+			// it here. 
+			CmiScheduleLoader.this.onContentChanged();
+		}
+		
+		public void invalidate()
+		{
+			invalidate(LocalDate.now());
+		}
 		
 	}
+	
+	private class DataItemStatus
+	{
+		public DataItemStatus() { this(true); }
+		public DataItemStatus(boolean valid)
+		{
+			this.valid = valid;
+			updated = LocalDateTime.now();
+			expires = updated.plusHours(12); 
+			// TODO: define duration from updated to expired 
+		}
+		public void update()
+		{
+			valid = true;
+			updated = LocalDateTime.now();
+			expires = updated.plusHours(12);
+		}
+		
+		public LocalDateTime updated;
+		public LocalDateTime expires;
+		public boolean valid;
+		
+		public boolean needsRelaod()
+		{
+			return !valid || expires.isBefore(LocalDateTime.now());
+		}
+	}
+	
+
+	@Override
+	protected void onStartLoading() 
+	{
+		if (schedule != null || loadJsonData())
+		{   // Deliver any previously loaded data immediately.
+			Log.v(TAG, "onStartLoading: delivering existing data immediately");
+			deliverResult(schedule);
+		}
+		
+		if (takeContentChanged() || schedule == null)
+			forceLoad();
+		
+		/* calling forceLoad() on Loader which calls onForceLoad(), which is 
+		 * overridden in AsyncTaskLoader and starting a new AsyncTask that will
+		 * eventually invoke our loadInBackground() method.  
+		 */
+	}
+
+	@Override
+	protected void onStopLoading() 
+	{
+		/* call cancelLoad() on loader which calls onCancelLoad(), which is 
+		 * overridden in AsynkTaskLoader and will either unschedule the loading 
+		 * task or -- if it's already running -- call onCancelLoadInBackground()
+		 * which does nothing unless we override it here. 
+		 */
+		cancelLoad(); // does nothing for now
+	}
+
+
 	
 	
 }
