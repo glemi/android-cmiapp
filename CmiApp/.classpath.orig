@@ -4,13 +4,24 @@
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/3"/>
-	<classpathentry kind="lib" path="libs/joda-time-2.1.jar" sourcepath="attach/joda-time-2.1-sources.jar">
+<<<<<<< HEAD
+	<classpathentry kind="lib" path="/home/glemi/git/android-cmiapp/CmiApp/libs/jsoup-1.7.1.jar" sourcepath="/home/glemi/Workspaces/Java/libraries/jsoup-1.7.1/src">
 		<attributes>
-			<attribute name="javadoc_location" value="jar:platform:/resource/CmiApp/attach/joda-time-2.1-javadoc.jar!/"/>
+			<attribute name="javadoc_location" value="jar:file:/home/glemi/Workspaces/Java/libraries/jsoup-1.7.1-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
+=======
+>>>>>>> refactor
+	<classpathentry kind="lib" path="libs/joda-time-2.1.jar" sourcepath="/home/glemi/Workspaces/Java/libraries/joda-time-2.1/joda-time-2.1-sources.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:file:/home/glemi/Workspaces/Java/libraries/joda-time-2.1/joda-time-2.1-javadoc.jar!/"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="libs/acra-4.5.0.jar"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
+<<<<<<< HEAD
+	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
+=======
 	<classpathentry kind="lib" path="libs/jsch-0.1.50.jar"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
 	<classpathentry kind="lib" path="libs/jsoup-1.8.3.jar" sourcepath="attach/jsoup-1.8.3-sources.jar">
@@ -18,5 +29,6 @@
 			<attribute name="javadoc_location" value="jar:platform:/resource/CmiApp/attach/jsoup-1.8.3-javadoc.jar!/"/>
 		</attributes>
 	</classpathentry>
+>>>>>>> refactor
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
