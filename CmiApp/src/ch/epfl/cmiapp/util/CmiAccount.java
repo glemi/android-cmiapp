@@ -28,6 +28,16 @@ public class CmiAccount
 		return instance;
 	}	
 	
+	public static CmiAccount getActive()
+	{
+		return instance;
+	}
+	
+	public void setActive()
+	{
+		instance = this;
+	}
+	
 	public boolean hasGasparData()
 	{
 		return !gasparId.isEmpty() && !gasparPassword.isEmpty();
